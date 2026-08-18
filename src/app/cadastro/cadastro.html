@@ -1,7 +1,20 @@
 <div class="cadastro-container">
 
     <header class="cadastro-header">
-        <h1>CADASTRO</h1>
+        <div class="logo">
+            <div class="logo-icone">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+            </div>
+            <h1 class="nome-logo">ManuTech</h1>
+        </div>
+
+        <nav class="abas">
+            <button class="botao-aba" type="button">Login</button>
+            <button class="botao-aba" type="button">Cadastro</button>
+        </nav>
+
         <p>Preencha seus dados para realizar o cadastro.</p>
     </header>
 
@@ -52,7 +65,11 @@
             <input type="text" id="estado" name="estado" readonly>
             </section>
 
+            <div class="form-acoes">
             <button type="submit">Cadastrar</button>
+            <p>Já tem uma conta?</p>
+            <a href="#">Acesse aqui</a>
+            </div>
         </form>
     </main>
 
