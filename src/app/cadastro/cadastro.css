@@ -1,0 +1,88 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icone{
+  width: 40px;
+  height: 40px;
+  border: 2px solid none;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-icone svg{
+  width: 20px;
+  height: 22px;
+  stroke: #db5b16;
+}
+
+.abas{
+  display: flex;
+  gap: 40px;
+  margin-bottom: 22px;
+}
+
+.aba{
+  background: none;
+  border: none;
+  color: rgb(211, 123, 16);
+  font-size: 25px;
+  font-weight: 700;
+  padding-bottom: 5px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+
+.aba.login{
+  color: rgb(211, 123, 16);
+  border-bottom-color: rgb(211,123,16);
+}
+
+.cadastro-container {
+  width: 100%;
+  max-width: 1200px;
+  background: rgb(252, 242, 229);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column; 
+  padding: 30px;          
+  box-shadow: 0 40px 80px rgba(245, 110, 38, 0.5);
+  min-height: 520px;  
+  margin: 30px auto;
+}
+
+form {
+  display: flex;
+  gap: 40px;          
+  flex-wrap: wrap;    
+  width: 100%;
+}
+
+.form-dados-pessoais, .form-dados-endereco {
+  flex: 1;            
+  min-width: 280px;   
+}
+
+.form-dados-endereco input, .form-dados-pessoais input {
+  background: none;
+  border: none;
+  outline: none;
+    color: rgb(24, 23, 23);
+  font-size: 15px;
+  width: 100%;
+}
+
+.form-acoes {
+  width: 100%;      
+  margin-top: 20px;
+}

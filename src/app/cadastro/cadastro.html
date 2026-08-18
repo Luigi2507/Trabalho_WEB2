@@ -10,67 +10,69 @@
             <h1 class="nome-logo">ManuTech</h1>
         </div>
 
-        <nav class="abas">
-            <button class="botao-aba" type="button">Login</button>
-            <button class="botao-aba" type="button">Cadastro</button>
-        </nav>
+        <div class="abas">
+            <button class="aba login" type="button">Login</button>
+            <button class="aba" type="button">Cadastro</button>
+        </div>
 
         <p>Preencha seus dados para realizar o cadastro.</p>
     </header>
 
-    <main>
-        <form>
-            <!--DADOS PESSOAIS-->
-            <section class="form-dados-pessoais">
-            <h2>Dados pessoais</h2>
+    <div class="area-formulario">
+        <main>
+            <form>
+                <!--DADOS PESSOAIS-->
+                <section class="form-dados-pessoais">
+                <h2>Dados pessoais</h2>
 
-            <label for="cpf">CPF</label>
-            <input type='text' id="cpf" name="cpf" placeholder="Digite seu CPF">
+                <label for="cpf" class="">CPF</label>
+                <input type='text' id="cpf" name="cpf" placeholder="Digite seu CPF">
 
-            <label for="nome">Nome Completo</label>
-            <input type="text" id="nome" name="nome" placeholder="Digite seu Nome Completo">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu Nome Completo">
 
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Digite seu Email">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu Email">
 
-            <label for="telefone">Telefone</label>
-            <input type="tel" id="telefone" name="telefone" placeholder="Digite seu Telefone">
-            </section>
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="Digite seu Telefone">
+                </section>
 
-            <!--DADOS DE ENDEREÇO-->
-            <section class="form-dados-endereco">
-            <h2>Endereço</h2>
+                <!--DADOS DE ENDEREÇO-->
+                <section class="form-dados-endereco">
+                <h2>Endereço</h2>
 
-            <label for="cep">CEP</label>
-            <input type="text" id="cep" name="cep" placeholder="Digite seu CEP">
+                <label for="cep">CEP</label>
+                <input type="text" id="cep" name="cep" placeholder="Digite seu CEP">
 
-            <button type="button">Consultar CEP</button>
+                <button type="button">Consultar CEP</button>
 
-            <label for="logradouro">Logradouro</label>
-            <input type="text" id="logradouro" name="logradouro" readonly>
-            
-            <label for="numero">Número</label>
-            <input type="text" id="numero" name="numero" placeholder="Digite o Número">
+                <label for="logradouro">Logradouro</label>
+                <input type="text" id="logradouro" name="logradouro" readonly>
+                
+                <label for="numero">Número</label>
+                <input type="text" id="numero" name="numero" placeholder="Digite o Número">
 
-            <label for="complemento">Complemento</label>
-            <input type="text" id="complemento" name="complemento" placeholder="Apartamento, Bloco, etc">
+                <label for="complemento">Complemento</label>
+                <input type="text" id="complemento" name="complemento" placeholder="Apartamento, Bloco, etc">
+                                                    
+                <label for="bairro">Bairro</label>
+                <input type="text" id="bairro" name="bairro" readonly>
 
-            <label for="bairro">Bairro</label>
-            <input type="text" id="bairro" name="bairro" readonly>
+                <label for="cidade">Cidade</label>
+                <input type="text" id="cidade" name="cidade" readonly>
 
-            <label for="cidade">Cidade</label>
-            <input type="text" id="cidade" name="cidade" readonly>
+                <label for="estado">Estado</label>
+                <input type="text" id="estado" name="estado" readonly>
+                </section>
 
-            <label for="estado">Estado</label>
-            <input type="text" id="estado" name="estado" readonly>
-            </section>
-
-            <div class="form-acoes">
-            <button type="submit">Cadastrar</button>
-            <p>Já tem uma conta?</p>
-            <a href="#">Acesse aqui</a>
-            </div>
-        </form>
-    </main>
+                <div class="form-acoes">
+                <button type="submit">Cadastrar</button>
+                <p>Já tem uma conta?</p>
+                <a href="#">Acesse aqui</a>
+                </div>
+            </form>
+        </main>
+    </div>
 
 </div>
