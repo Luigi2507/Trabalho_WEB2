@@ -67,7 +67,11 @@
                 </section>
 
                 <div class="form-acoes">
-                <button type="submit">Cadastrar</button>
+                <button type="submit"
+                        class="botao-cadastrar"
+                        [disabled]="bloqueado"
+                        [class.btnCarregando]="carregandoDados"
+                        (click)="btnCadastroAnimacao()">{{btnCadastroTexto}}</button>
                 <p>Já tem uma conta?</p>
                 <a href="#">Acesse aqui</a>
                 </div>
