@@ -43,7 +43,11 @@
 
         <div class="linha-acoes">
           <a href="#" class="esqueci-senha">Esqueceu sua senha?</a>
-          <button type="submit" class="botao-entrar">Entrar</button>
+          <button type="submit" 
+                  class="botao-entrar" 
+                  [disabled]="btnDesativado" 
+                  [class.btnCarregando]="btnCarregando"
+                  (click)="btnLoginAnimacao()">{btnTexto}</button>
         </div>
       </form>
     </div>
