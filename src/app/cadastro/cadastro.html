@@ -27,6 +27,7 @@
 
                 <label for="cpf" class="">CPF</label>
                 <input type='text' id="cpf" name="cpf" placeholder="Digite seu CPF"
+                maxlength="14"
                 [(ngModel)]="cpf" (input)="formatarCPF()">
 
                 <label for="nome">Nome Completo</label>
@@ -36,7 +37,9 @@
                 <input type="email" id="email" name="email" placeholder="Digite seu Email">
 
                 <label for="telefone">Telefone</label>
-                <input type="tel" id="telefone" name="telefone" placeholder="Digite seu Telefone">
+                <input type="tel" id="telefone" name="telefone" placeholder="Digite seu Telefone"
+                maxlength="15"
+                [(ngModel)]="telefone" (input)="formatarTelefone()">
                 </section>
 
                 <!--DADOS DE ENDEREÇO-->
@@ -44,8 +47,9 @@
                 <h2>Endereço</h2>
 
                 <label for="cep">CEP</label>
-                <input type="text" id="cep" name="cep" placeholder="Digite seu CEP" 
-                [(ngModel)]="cep"
+                <input type="text" id="cep" name="cep" placeholder="Digite seu CEP"
+                maxlength="9"
+                [(ngModel)]="cep" (input)="formatarCEP()"
                 (ngModelChange)="buscarCEP()">
 
                 <label for="logradouro">Logradouro</label>
@@ -53,7 +57,8 @@
                 [(ngModel)]="logradouro" readonly>
                 
                 <label for="numero">Número</label>
-                <input type="text" id="numero" name="numero" placeholder="Digite o Número">
+                <input type="text" id="numero" name="numero" placeholder="Digite o Número"
+                [(ngModel)]="numero" (input)="somenteNumeros()">
 
                 <label for="complemento">Complemento</label>
                 <input type="text" id="complemento" name="complemento" placeholder="Apartamento, Bloco, etc">

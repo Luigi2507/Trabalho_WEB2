@@ -35,7 +35,7 @@ export class Cadastro {
   public btnCadastroTexto: string = 'Cadastrar-se';
 
   //MÁSCARAS
-  public formatarCPF() {
+  public formatarCPF(): void {
     let cpf = this.cpf.replace(/\D/g, '');
     cpf = cpf.substring(0,11);
 
@@ -58,7 +58,42 @@ export class Cadastro {
     this.cpf = cpf;
   }
 
-  //MÉTODOS DO AUTOCOMPLETAR VIACEP
+  public formatarTelefone(): void {
+    let telefone = this.telefone.replace(/\D/g, '');
+    telefone = telefone.substring(0, 11);
+
+    if (telefone.length > 7) {
+      telefone = telefone.replace(
+                  /^(\d{2})(\d{5})(\d{1,4})$/,
+                 '($1) $2-$3'
+      );
+    } else if (telefone.length > 2) {
+        telefone = telefone.replace(
+                    /^(\d{2})(\d{1,5})$/,
+                    '($1) $2'
+        )
+    }
+    this.telefone = telefone;
+  }
+
+  public formatarCEP(): void {
+    let cep = this.cep.replace(/\D/g, '');
+    cep = cep.substring(0, 8);
+
+    if (cep.length > 5) {
+      cep = cep.replace(
+              /^(\d{5})(\d{1,3})$/,
+              '$1-$2'
+      )
+    }
+    this.cep = cep;
+  }
+
+  public somenteNumeros() {
+    this.numero = this.numero.replace(/\D/g, '');
+  }
+
+  //AUTOCOMPLETAR VIACEP
   public buscarCEP(): void {
     const cepLimpo = this.cep.replace(/\D/g, '');
 
