@@ -4,30 +4,25 @@
   padding: 0;
 }
 
+.login-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
 .card {
   width: 100%;
   max-width: 1200px;
   background: rgb(252, 242, 229);
   border-radius: 20px;
   display: flex;
+  border: none;
   box-shadow: 0 40px 80px rgba(245, 110, 38, 0.5);
-  height: 520px;
-  margin: 30px auto;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-}
-
-.area-formulario {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 400px;
+  min-height: 520px;
+  margin: 0;
 }
 
 .painel-esquerdo {
@@ -46,7 +41,6 @@
 .logo-icone{
   width: 40px;
   height: 40px;
-  border: 2px solid none;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -59,12 +53,19 @@
   stroke: #db5b16;
 }
 
+.area-formulario {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 400px;
+}
 .nome-logo {
   color: #db5b16;
   font-size: 24px;
   font-weight: 700;
-  letter-spacing: 0.3px;
-}
+  letter-spacing: 0.3px;  
+ }
 
 .abas{
   display: flex;
@@ -93,16 +94,14 @@
   align-items: center;
   gap: 14px;
   background: #c7c7c7;
-  border: 1px;
   border-radius: 30px;
   padding: 14px 20px;
-  margin-bottom: 20px;
 }
 
 .campo-icone{
   width: 28px;
   height: 28px;
-  border: 1.5px solid none;
+  flex-shrink: 0;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -116,18 +115,26 @@
   fill:none;
 }
 
-.campo input{
-  background: none;
+.campo .form-control{
+  background: transparent;
   border: none;
   outline: none;
   color: rgb(24, 23, 23);
   font-size: 15px;
   width: 100%;
+  padding: 6px 0;
+  box-shadow: none;
 }
 
-.campo input::placeholder{
+.campo .form-control:focus {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.campo .form-control::placeholder {
   color: rgb(82, 80, 80);
-  font-weight: 600;
+  font-size: 15px;
 }
 
 .linha-acoes{
@@ -135,16 +142,21 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  gap: 20px;
 }
 
 .esqueci-senha{
   color: rgb(82, 80, 80);
   font-size: 17px;
   text-decoration: none;
-   font-weight: 600;
+  font-weight: 600;
 }
 
-.botao-entrar{
+.esqueci-senha:hover{
+  color: #db5b16;
+}
+
+.botao-entrar {
   background: linear-gradient(135deg, #db5b16, #c22e08);
   color: #fff;
   border: none;
@@ -153,4 +165,15 @@
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+.botao-entrar:hover {
+  background: linear-gradient(135deg, #c22e08, #db5b16);
+  color: #fff;
+}
+
+.botao-entrar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
