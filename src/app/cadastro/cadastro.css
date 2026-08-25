@@ -1,7 +1,5 @@
 *{
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 .logo {
@@ -13,8 +11,6 @@
 .logo-icone{
   width: 40px;
   height: 40px;
-  border: 2px solid none;
-  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,6 +20,20 @@
   width: 20px;
   height: 22px;
   stroke: #db5b16;
+}
+
+.nome-logo {
+  color: #db5b16;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.cadastro-header p { 
+  color: rgb(82, 80, 80);
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 6px;
 }
 
 .abas{
@@ -43,8 +53,7 @@
   border-bottom: 3px solid transparent;
 }
 
-.aba.login{
-  color: rgb(211, 123, 16);
+.aba.cadastro{
   border-bottom-color: rgb(211,123,16);
 }
 
@@ -53,36 +62,65 @@
   max-width: 1200px;
   background: rgb(252, 242, 229);
   border-radius: 20px;
-  display: flex;
-  flex-direction: column; 
   padding: 30px;          
   box-shadow: 0 40px 80px rgba(245, 110, 38, 0.5);
-  min-height: 520px;  
   margin: 30px auto;
 }
 
-form {
-  display: flex;
-  gap: 40px;          
-  flex-wrap: wrap;    
-  width: 100%;
+.area-formulario h2 {
+  color: #db5b16;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 18px;
 }
 
-.form-dados-pessoais, .form-dados-endereco {
-  flex: 1;            
-  min-width: 280px;   
+.area-formulario .form-label {
+  color: rgb(82, 80, 80);
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.form-dados-endereco input, .form-dados-pessoais input {
-  background: none;
+.area-formulario .form-control {
+  border-radius: 30px;
+  background: #c7c7c7;
   border: none;
-  outline: none;
-    color: rgb(24, 23, 23);
-  font-size: 15px;
-  width: 100%;
+  padding: 10px 20px;
+  color: rgb(24, 23, 23);
+}
+
+.area-formulario .form-control:focus {
+  background: #d6d6d6;
+  box-shadow: 0 0 0 2px rgba(219, 91, 22, 0.4);
 }
 
 .form-acoes {
-  width: 100%;      
-  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+.botao-cadastrar {
+  background: linear-gradient(135deg, #db5b16, #c22e08);
+  color: #fff;
+  border: none;
+  padding: 14px 44px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.form-acoes p {
+  color: rgb(82, 80, 80);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.form-acoes a {
+  color: #db5b16;
+  font-weight: 700;
+  text-decoration: none;
 }
