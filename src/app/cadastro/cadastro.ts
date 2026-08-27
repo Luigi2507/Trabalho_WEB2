@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject,  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cadastro',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, CommonModule],
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.css',
 })
@@ -87,6 +88,8 @@ export class Cadastro {
       )
     }
     this.cep = cep;
+
+    this.buscarCEP();
   }
 
   public somenteNumeros() {
@@ -94,17 +97,38 @@ export class Cadastro {
   }
 
   //AUTOCOMPLETAR VIACEP
+  public mensagemCEP: string = '';
+
   public buscarCEP(): void {
     const cepLimpo = this.cep.replace(/\D/g, '');
 
     if (cepLimpo.length != 8) {
+      this.mensagemCEP = '';
       return;
     }
 
-    this.http.get(`https://viacep.com.br/ws/${cepLimpo}/json/`)
-      .subscribe(dados => { console.log(dados); });
-  }
+    this.http.get<any>(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+      .subscribe({next: dados => {
+        if (dados.erro) {
+          this.mensagemCEP = 'CEP não encontrado.';
+          this.logradouro = '';
+          this.bairro = '';
+          this.cidade = '';
+          this.estado = '';
+          return;
+        } 
 
+        this.mensagemCEP = '';
+        this.logradouro = dados.logradouro;
+        this.bairro = dados.bairro;
+        this.cidade = dados.localidade;
+        this.estado = dados.uf;
+      },
+      error: () => {
+        this.mensagemCEP = 'CEP inválido';
+      }
+    });
+  }
   //MÉTODOS DO BOTÃO CADASTRAR-SE
   public btnCadastroAnimacao(): void{
     this.carregandoDados = true;

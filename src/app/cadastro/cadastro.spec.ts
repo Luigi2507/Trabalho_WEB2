@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+wimport { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Cadastro } from './cadastro';
 

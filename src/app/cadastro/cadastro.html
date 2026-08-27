@@ -58,8 +58,8 @@
                     <label for="cep" class="form-label">CEP</label>
                     <input type="text" id="cep"  class="form-control" name="cep" placeholder="Digite seu CEP"
                     maxlength="9"
-                    [(ngModel)]="cep" (input)="formatarCEP()"
-                    (ngModelChange)="buscarCEP()">
+                    [(ngModel)]="cep" (input)="formatarCEP()">
+                    <small class="cep-mensagem" *ngIf="mensagemCEP"> {{ mensagemCEP}}</small>
                 </div>
 
                 <div class="mb-3">

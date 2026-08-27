@@ -124,3 +124,10 @@
   font-weight: 700;
   text-decoration: none;
 }
+
+.cep-mensagem {
+  display: block;
+  color: #c22e08;
+  font-size: 13px;
+  margin-top: 6px;
+}
