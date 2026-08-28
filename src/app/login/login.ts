@@ -10,24 +10,24 @@ import { RouterLink } from '@angular/router';
 
 export class Login {
   public btnCarregando: boolean = false;
-  public btnTexto: string = 'Entrar';
+  public btnLoginTexto: string = 'Entrar';
   public btnDesativado: boolean = false;
 
   public btnLoginAnimacao(): void{
     this.btnCarregando = true;
     this.btnDesativado = true;
-    this.btnTexto = 'Aguarde...';
+    this.btnLoginTexto = 'Aguarde...';
 
     setTimeout(() => {
     this.btnCarregando = false;
     this.btnDesativado = false;
-    this.btnTexto = 'Entrar';
+    this.btnLoginTexto = 'Entrar';
     },2000);
   }
   
   public resetBtnEstado (): void{
     this.btnCarregando = false;
     this.btnDesativado = false;
-    this.btnTexto = 'Entrar';
+    this.btnLoginTexto = 'Entrar';
   }
 }

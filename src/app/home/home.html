@@ -22,6 +22,10 @@
   <div class="home-conteudo">
     <h1 class="home-titulo">Manutenção de Equipamentos</h1>
     <p class="home-subtitulo">Faça seu cadastro, abra sua solicitação e acompanhe o orçamento e o conserto do início ao fim!</p>
-    <button class="botao-slt">Solicitar Orçamento</button>
+    <button type="button"
+            class="botao-slt"
+            [disabled]="acaoEmAndamento"
+            [class.btnCarregando]="acaoEmAndamento"
+            (click)="btnHomeAnimacao()">{{btnHomeTexto}}</button>
   </div>
 </section>
