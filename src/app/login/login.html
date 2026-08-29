@@ -1,4 +1,18 @@
 <div class=" login-container">
+  <div class="bolinhas-decorativas">
+    @for (bolinha of bolinhas; track $index) {
+      <span class="bolinha" 
+            [style.left.%]="bolinha.left"
+            [style.top.%]="bolinha.top"
+            [style.width.px]="bolinha.tamanho"
+            [style.height.px]="bolinha.tamanho"
+            [style.animation-delay.s]="bolinha.delay"
+            [style.animation-duration.s]="bolinha.duracao"
+            [style.background]="bolinha.cor">
+      </span>
+    }
+    </div>
+
 <div class="card">
 
   <div class="painel-esquerdo">
@@ -18,6 +32,12 @@
         <button class="aba login" type="button" routerLink="/login">Login</button>
         <button class="aba" type="button" routerLink="/cadastro">Cadastro</button>
       </div>
+
+        <div class="arcos-decorativos">
+          <span class="arco arco-1">\</span>
+          <span class="arco arco-2">\</span>
+          <span class="arco arco-3">\</span>
+        </div>
 
       <form>
         <div class="campo mb-3">

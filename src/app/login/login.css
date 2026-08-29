@@ -11,8 +11,46 @@
   justify-content: center;
   align-items: center;
   padding: 30px;
+  position: relative;
+  overflow: hidden;
 }
 
+.bolinhas-decorativas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 550px;
+  height: 450px;
+  z-index: 0;
+  pointer-events: none;
+}
+.bolinha {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #f5822b;
+  opacity: 0.35;
+  animation-name: flutuar;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes flutuar {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(15px, -20px);
+  }
+  50% {
+    transform: translate(-10px, -35px);
+  }
+  75% {
+    transform: translate(-20px, -10px);
+  }
+  100% {
+    transform: translate(0, 0);
+}
+}
 .card {
   width: 100%;
   max-width: 1200px;
@@ -23,6 +61,8 @@
   box-shadow: 0 40px 80px rgba(245, 110, 38, 0.5);
   min-height: 520px;
   margin: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .painel-esquerdo {
@@ -30,6 +70,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .logo {
@@ -176,4 +218,49 @@
 .botao-entrar:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.arcos-decorativos {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 600px;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.arco {
+  position: absolute;
+  border-radius: 80%;
+  top: 50%;
+  right: -40%;
+  transform: translateY(-50%);
+}
+.arco-1 {
+  width: 680px;
+  height: 700px;
+  background-color: #ffb17a;
+  z-index: 1;
+}
+.arco-2 {
+  width: 600px;
+  height: 680px;
+  background-color: #f5822b;
+  z-index: 2;
+}
+.arco-3 {
+  width: 500px;
+  height: 600px;
+  background-color: #c22d08;
+  z-index: 3;
+}
+
+
+.campo input:-webkit-autofill,
+.campo input:-webkit-autofill:hover,
+.campo input:-webkit-autofill:focus,
+.campo input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #c7c7c7 inset;
+  -webkit-text-fill-color: rgb(24, 23, 23);
 }
