@@ -12,6 +12,11 @@ import { CommonModule } from '@angular/common';
 })
 
 export class Cadastro {
+
+  //CONTROLE DE ETAPAS (1-DADOS PESSOAIS / 2- ENDEREÇO)
+  public etapaAtual: number = 1; 
+  public erroEtapa1: string = ''; // mensagem de erro exibida se a validação falhar
+
   //DADOS PESSOAIS
   public cpf : string = '';
   public nome : string = '';
@@ -129,6 +134,39 @@ export class Cadastro {
       }
     });
   }
+
+  //VALIDAR CAMPOS
+  public proximaEtapa(): void {
+    this.formatarCPF();       
+    this.formatarTelefone(); 
+
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email);
+
+    if (!this.nome.trim()) {
+      this.erroEtapa1 = 'Informe seu nome completo.';
+      return;
+    }
+    if (this.cpf.length !== 14) { 
+      this.erroEtapa1 = 'CPF inválido.';
+      return;
+    }
+    if (!emailValido) {
+      this.erroEtapa1 = 'Informe um e-mail válido.';
+      return;
+    }
+    if (this.telefone.length < 14) {
+      this.erroEtapa1 = 'Telefone inválido.';
+      return;
+    }
+
+    this.erroEtapa1 = '';
+    this.etapaAtual = 2; //etapa de endereço
+  }
+
+  public voltarEtapa(): void {
+    this.etapaAtual = 1;
+  }
+
   //MÉTODOS DO BOTÃO CADASTRAR-SE
   public btnCadastroAnimacao(): void{
     this.carregandoDados = true;
