@@ -160,7 +160,7 @@ export class Cadastro {
     }
 
     this.erroEtapa1 = '';
-    this.etapaAtual = 2; //etapa de endereço
+    this.etapaAtual = 2; 
   }
 
   public voltarEtapa(): void {
@@ -184,5 +184,28 @@ export class Cadastro {
     this.carregandoDados = false;
     this.bloqueado = false;
     this.btnCadastroTexto = 'Cadastrar-se';
+  }
+
+  /*CONFERIR ENDEREÇO ANTES DE CADASTRAR DE FATO*/
+  public cadastrar(): void {
+      const cepLimpo = this.cep.replace(/\D/g, '');
+
+      if (cepLimpo.length !== 8) {
+          this.mensagemCEP = 'Informe um CEP válido.';
+          return;
+      }
+
+      if (!this.numero.trim()) {
+          this.mensagemCEP = 'Informe o número do endereço.';
+          return;
+      }
+
+      if (!this.logradouro || !this.bairro || !this.cidade || !this.estado ) {
+          this.mensagemCEP = 'Consulte um CEP válido.';
+          return;
+      }
+
+      this.mensagemCEP = '';
+      this.btnCadastroAnimacao();
   }
 }

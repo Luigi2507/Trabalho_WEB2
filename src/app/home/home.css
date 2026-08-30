@@ -12,6 +12,7 @@
   background: white;
 }
 
+/*LOGO*/
 .logo{
   display: flex;
   align-items: center;
@@ -42,32 +43,45 @@
   text-shadow: 0 0 10px rgba(255, 106, 26, 0.553), 0 0 24px rgba(255, 89, 0, 0.35);
 }
 
+/*ITENS MENU*/
 .menu{
   display: flex;
   gap: 15px;
 }
 
-.menu-item{
+.menu-item {
+  position: relative;
   color: #000000;
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
   padding: 10px 18px;
   border-radius: 8px;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.botao-entrar{
-  background: #db5b16;
-  color: rgb(0, 0, 0);
-  border: 1.5px solid #db5b16;
-  padding: 10px 26px;
-  border-radius: 22px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-left: 32px;
+.menu-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #db5b16;
+  border-radius: 8px;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.3s ease;
+  z-index: -1;
 }
 
+.menu-item:hover::before {
+  transform: scaleY(1);
+}
+
+.menu-item:hover {
+  color: #ffffff;
+}
+
+/*PARTE PRINCIPAL DA HOME*/
 .home{
   position: relative;
   overflow: hidden;
@@ -98,6 +112,19 @@
   margin-bottom: 36px;
 }
 
+/*BOTÕES*/
+.botao-entrar{
+  background: #db5b16;
+  color: rgb(0, 0, 0);
+  border: 1.5px solid #db5b16;
+  padding: 10px 26px;
+  border-radius: 22px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 32px;
+}
+
 .botao-slt{
   background: #db5b16;
   color: black;
@@ -107,4 +134,10 @@
   font-size: 17px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.botao-entrar:hover, .botao-slt:hover{
+  font-weight: 800;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(219, 91, 22, 0.25);
 }
