@@ -66,9 +66,9 @@ export class Home {
 
   //SEÇÃO PRODUTOS/EQUIPAMENTOS EM DESTAQUE
   public produtos: Produto[] = [
-    { imagem: 'images/notebook.png', nome: 'Notebooks', categoria: 'Informática' },
-    { imagem: 'impressora.png', nome: 'Impressoras', categoria: 'Escritório' },
-    { imagem: 'eletrodomestico.png', nome: 'Eletrodomésticos', categoria: 'Casa' },
-    { imagem: 'celular.png', nome: 'Celulares', categoria: 'Mobile' },
+    { imagem: 'images/notebook-3.png', nome: 'Notebooks', categoria: 'Informática' },
+    { imagem: 'images/impressora.png', nome: 'Impressoras', categoria: 'Escritório' },
+    { imagem: 'images/microfone-2.png', nome: 'Microfones', categoria: 'Equipamentos' },
+    { imagem: 'images/celular.png', nome: 'Celulares', categoria: 'Mobile' },
   ];
 }

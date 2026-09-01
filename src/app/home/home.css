@@ -1,7 +1,5 @@
 *{
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 .cabecalho{
@@ -174,10 +172,10 @@ subtitulo-secao{
 
 .card-servico {
   height: 100%;
-  padding: 32px 24px;
+  padding: 32px 28px;
   border-radius: 16px;
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(202, 110, 12, 0.6);
   transition: transform 0.25s ease, box shadow 0.25 ease;
 }
 
@@ -234,18 +232,19 @@ subtitulo-secao{
   box-shadow: 0 12px 28px rgba(219, 91, 22, 0.15);
 }
 
-.card-produto-imagem{
+.card-produto-img{
   width: 100%;
   height: 160px;
   background: #fff;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.card-produto-imagem img{
-  max-width: 70%;
-  max-height: 70%;
+.card-produto-img img{
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -329,3 +328,4 @@ subtitulo-secao{
   font-size: 13px;
   color: rgba(16, 13, 10, 0.4);
 }
+
