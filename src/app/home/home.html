@@ -1,9 +1,7 @@
 <header class="cabecalho">
   <div class="logo">
     <div class="logo-icone">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-      </svg>
+      <img src="images/logoMT.png" alt="logo ManuTech" class="logo-imagem">
     </div>
     <span class="logo-texto">ManuTech</span>
   </div>
@@ -29,3 +27,88 @@
             (click)="btnHomeAnimacao()">{{btnHomeTexto}}</button>
   </div>
 </section>
+
+<section class="secao-servicos">
+  <div class="container">
+    <h2 class="titulo-secao">Nossos Serviços</h2>
+    <p class="subtitulo-secao"> oq faz</p>
+
+    <div class="row g-4 mt-3">
+      <div class="col-lg-3 col-md-6" *ngFor="let servico of servicos">
+        <div class="card-servico">
+          <div class="card-servico-icone">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path [attr.d]="servico.icone"/>
+            </svg>
+          </div>
+          <h3 class="card-servico-titulo">{{ servico.titulo }}</h3>
+          <p class="card-servico-texto">{{ servico.descricao }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="secao-produtos">
+  <div class="container">
+    <h2 class="titulo-secao">Equipamentos Atendidos</h2>
+    
+    <div class="row g-4 mt-3">
+      <div class="col-lg-3 col-md-6" *ngFor="let produto of produtos">
+        <div class="card-produto">
+          <div class="card-produto-img">
+            <img [src]="'assets/produtos/' + produto.imagem" [alt]="produto.nome">
+          </div>
+          <span class="card-produto-categoria"> {{ produto.categoria }}</span>
+          <h3 class="card-produto-nome"> {{ produto.nome }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="rodapé">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="rodape-logo">
+          <div class="logo-icone-2">
+            <img src="images/manutechNome.png" alt="logo ManuTech" class="logo-imagem-2">
+          </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+          <h4 class="rodape-titulo">Links</h4>
+          <ul class="rodape-lista">
+            <li><a href="#">Início</a></li>
+            <li><a href="#">Solicitações</a></li>
+            <li><a href="#">Sobre</a></li>
+            <li><a href="#">Contato</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h4 class="rodape-titulo">Serviços</h4>
+          <ul class="rodape-lista">
+            <li>Diagnóstico</li>
+            <li>Manutenção preventiva</li>
+            <li>Manut corretiva..</li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h4 class="rodape-titulo">Contato</h4>
+          <ul class="rodape-lista">
+            <li>contato&#64;manutech.com</li>
+            <li>(41) 9999-9999</li>
+            <li>Curitiba, PR</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="rodape-linha">
+      <p class="rodape-copyright">&copy; 2026 ManuTech.</p>
+  </div>
+</footer>
+

@@ -27,4 +27,6 @@ export class Home {
     this.acaoEmAndamento = false;
     this.btnHomeTexto = 'Solicitar Orçamento'; 
   }
+    
+  
 }
