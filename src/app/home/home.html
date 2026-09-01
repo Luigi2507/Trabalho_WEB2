@@ -57,7 +57,7 @@
       <div class="col-lg-3 col-md-6" *ngFor="let produto of produtos">
         <div class="card-produto">
           <div class="card-produto-img">
-            <img [src]="'assets/produtos/' + produto.imagem" [alt]="produto.nome">
+            <img [src]="produto.imagem" [alt]="produto.nome">
           </div>
           <span class="card-produto-categoria"> {{ produto.categoria }}</span>
           <h3 class="card-produto-nome"> {{ produto.nome }}</h3>
