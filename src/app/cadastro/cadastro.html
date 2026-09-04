@@ -14,9 +14,10 @@
                 <button class="aba" type="button" routerLink="/login">Login</button>
                 <button class="aba cadastro" type="button" routerLink="/cadastro">Cadastro</button>
             </div>
+        </div>
+    </header>
 
-
-            <!--BARRA DE DADOS E ENDEREÇO-->
+    <!--BARRA DE DADOS E ENDEREÇO-->
             <div class="progressoEtapas">
                 <div class="etapa" [class.ativa]="etapaAtual === 1" [class.concluida]="etapaAtual === 2">
                     <span class="etapaNumero">1</span>
@@ -28,11 +29,9 @@
                     <span class="etapaNome">Endereço</span>
                 </div>
             </div>
-        </div>
-        
-    </header>
 
     <div class="area-formulario">
+
         <main>
 
                 <!--DADOS PESSOAIS-->

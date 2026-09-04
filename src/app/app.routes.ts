@@ -4,6 +4,7 @@ import { Cadastro } from './cadastro/cadastro';
 import { Home } from './home/home';
 import { Contato } from './contato/contato';
 import { Sobre } from './sobre/sobre';
+import { FuncionarioHome } from './funcionario-home/funcionario-home';    
 
 export const routes: Routes = [
   {
@@ -30,5 +31,9 @@ export const routes: Routes = [
   {
     path: 'sobre',
     component: Sobre
+  },
+  {
+    path: 'funcionario-home',
+    component: FuncionarioHome
   }
 ];
