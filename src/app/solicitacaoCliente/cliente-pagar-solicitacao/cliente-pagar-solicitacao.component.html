@@ -1,0 +1,43 @@
+<header class="cabecalho-cliente">
+  <div class="logo">
+    <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+    <span class="logo-texto">ManuTech</span>
+  </div>
+
+  <nav class="menu-cliente">
+    <a [routerLink]="['/solicitacaoCliente/listar']" class="menu-item">Minhas Solicitações</a>
+    <a [routerLink]="['/solicitacaoCliente/nova']" class="menu-item">Nova Solicitação</a>
+  </nav>
+
+  <a href="#" class="botao-sair">Sair</a>
+</header>
+
+<div class="conteudo-central">
+  @if (solicitacao) {
+    <h1>Pagamento do Serviço</h1>
+    <div class="well">
+      <div class="form-group">
+        <label>Equipamento:</label>
+        <p>{{ solicitacao.descricaoEquipamento }}</p>
+      </div>
+      <div class="form-group">
+        <label>Defeito:</label>
+        <p>{{ solicitacao.descricaoDefeito }}</p>
+      </div>
+
+      <div class="destaque-valor">
+        <span>Valor a Pagar</span>
+        <strong>R$ {{ solicitacao.orcamento | number:'1.2-2' }}</strong>
+      </div>
+
+      <div class="acoes">
+        <button type="button" class="btn-pagar" (click)="confirmarPagamento()">
+          <i class="fa fa-money"></i> Confirmar Pagamento
+        </button>
+        <a class="btn-secondary" [routerLink]="['/solicitacaoCliente/listar']">
+          <i class="fa fa-arrow-left"></i> Voltar
+        </a>
+      </div>
+    </div>
+  }
+</div>

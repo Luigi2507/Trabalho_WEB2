@@ -1,0 +1,80 @@
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { SolicitacaoService } from '../../services/solicitacao.service';
+import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
+
+@Component({
+  selector: 'app-cliente-listar-solicitacao',
+  standalone: true,
+  imports: [RouterModule, CommonModule],
+  templateUrl: './cliente-listar-solicitacao.component.html',
+  styleUrl: './cliente-listar-solicitacao.component.css',
+})
+export class ClienteListarSolicitacaoComponent implements OnInit {
+  private solicitacaoService = inject(SolicitacaoService);
+  private router = inject(Router);
+
+  solicitacoes: Solicitacao[] = [];
+
+  ngOnInit(): void {
+    this.carregarSolicitacoes();
+  }
+
+  carregarSolicitacoes(): void {
+    this.solicitacoes = this.solicitacaoService.listarTodos().sort((a, b) => {
+      const dataA = a.dataHora instanceof Date ? a.dataHora.getTime() : new Date(a.dataHora).getTime();
+      const dataB = b.dataHora instanceof Date ? b.dataHora.getTime() : new Date(b.dataHora).getTime();
+      return dataA - dataB;
+    });
+  }
+
+  descricaoResumida(descricao: string): string {
+    if (!descricao) return '';
+    return descricao.length > 30 ? descricao.substring(0, 30) + "..." : descricao;
+  }
+
+  textoBotaoAcao(status: string): string {
+    switch (status) {
+      case 'ORCADA':
+      case 'ABERTA':
+        return 'Aprovar/Rejeitar Orçamento';
+      case 'REJEITADA':
+        return 'Resgatar Serviço';
+      case 'ARRUMADA':
+        return 'Pagar Serviço';
+      default:
+        return '';
+    }
+  }
+
+  navegarParaAcao(solicitacao: Solicitacao): void {
+    switch (solicitacao.status) {
+      case 'ORCADA':
+      case 'ABERTA':
+        this.router.navigate(['/solicitacaoCliente/orcamento', solicitacao.id]);
+        break;
+      case 'ARRUMADA':
+        this.router.navigate(['/solicitacaoCliente/pagar', solicitacao.id]);
+        break;
+      default:
+        this.router.navigate(['/solicitacaoCliente/visualizar', solicitacao.id]);
+        break;
+    }
+  }
+
+  resgatar($event: Event, solicitacao: Solicitacao): void {
+    $event.preventDefault();
+    if (confirm(`Deseja resgatar a solicitação "${solicitacao.descricaoEquipamento}"?`)) {
+      solicitacao.status = 'APROVADA';
+      if (!solicitacao.historico) solicitacao.historico = [];
+      
+      solicitacao.historico.push(
+        new HistoricoItem(new Date(), 'APROVADA', 'Cliente')
+      );
+      
+      this.solicitacaoService.atualizar(solicitacao);
+      this.carregarSolicitacoes();
+    }
+  }
+}

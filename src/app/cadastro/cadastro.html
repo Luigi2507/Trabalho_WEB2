@@ -78,6 +78,15 @@
                                 </button>
                             </div>
                         </section> 
+
+                        @if (mensagemCPF) {
+                            <p class="erro-etapa">{{mensagemCPF}}</p>
+                        }
+                            
+                        @if (mensagemEmail) {
+                            <p class="erro-etapa">{{mensagemEmail}}</p>
+                        }
+                            
                     }
                     
                     <!--DADOS DE ENDEREÇO-->

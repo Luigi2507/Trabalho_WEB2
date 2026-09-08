@@ -1,0 +1,91 @@
+<header class="cabecalho-cliente">
+  <div class="logo">
+    <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+    <span class="logo-texto">ManuTech</span>
+  </div>
+
+  <nav class="menu-cliente">
+    <a [routerLink]="['/solicitacaoCliente/listar']" class="menu-item">Minhas Solicitações</a>
+    <a [routerLink]="['/solicitacaoCliente/nova']" class="menu-item ativo">Nova Solicitação</a>
+  </nav>
+
+  <a href="#" class="botao-sair" >Sair</a>
+</header>
+
+<div class="conteudo-central">
+  <h1>Nova Solicitação de Manutenção</h1>
+  <div class="well">
+    <form #formSolicitacao="ngForm">
+      <div class="form-group">
+        <label for="descricaoEquipamento">Descrição do Equipamento:</label>
+        <input type="text" class="form-control" id="descricaoEquipamento" name="descricaoEquipamento"
+               [(ngModel)]="solicitacao.descricaoEquipamento"
+               #descricaoEquipamento="ngModel"
+               minlength="2" required>
+
+        @if (descricaoEquipamento.errors && (descricaoEquipamento.dirty || descricaoEquipamento.touched)) {
+          <div class="alert alert-danger">
+            <div [hidden]="!descricaoEquipamento.errors['required']">
+              Digite a descrição do equipamento.
+            </div>
+            <div [hidden]="!descricaoEquipamento.errors['minlength']">
+              A descrição deve conter ao menos 2 caracteres.
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="categoria">Categoria do Equipamento:</label>
+        <select class="form-control" id="categoria" name="categoria"
+                [(ngModel)]="solicitacao.categoria"
+                #categoria="ngModel"
+                required>
+          <option value="" disabled selected>Selecione uma categoria</option>
+          <option value="ELETRODOMESTICO">Eletrodoméstico</option>
+          <option value="ELETRONICO">Eletrônico</option>
+          <option value="MOVEL">Móvel</option>
+          <option value="OUTRO">Outro</option>
+        </select>
+
+        @if (categoria.errors && (categoria.dirty || categoria.touched)) {
+          <div class="alert alert-danger">
+            <div [hidden]="!categoria.errors['required']">
+              Selecione a categoria do equipamento.
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="descricaoDefeito">Descrição do Defeito:</label>
+        <textarea class="form-control" id="descricaoDefeito" name="descricaoDefeito"
+                  [(ngModel)]="solicitacao.descricaoDefeito"
+                  #descricaoDefeito="ngModel"
+                  minlength="5" required></textarea>
+
+        @if (descricaoDefeito.errors && (descricaoDefeito.dirty || descricaoDefeito.touched)) {
+          <div class="alert alert-danger">
+            <div [hidden]="!descricaoDefeito.errors['required']">
+              Digite a descrição do defeito.
+            </div>
+            <div [hidden]="!descricaoDefeito.errors['minlength']">
+              Descreva o defeito com ao menos 5 caracteres.
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <button type="button" class="btn btn-primary"
+                (click)="inserir()"
+                [disabled]="!formSolicitacao.form.valid">
+          <i class="fa fa-save"></i> Enviar Solicitação
+        </button>
+        <a class="btn btn-secondary" [routerLink]="['/solicitacaoCliente/listar']">
+          <i class="fa fa-arrow-left"></i> Voltar
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

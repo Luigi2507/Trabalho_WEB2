@@ -1,0 +1,60 @@
+<header class="cabecalho-cliente">
+  <div class="logo">
+    <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+    <span class="logo-texto">ManuTech</span>
+  </div>
+
+  <nav class="menu">
+    <a [routerLink]="['/solicitacaoCliente/listar']" class="menu-item">Minhas Solicitações</a>
+    <a [routerLink]="['/solicitacaoCliente/nova']" class="menu-item">Nova Solicitação</a>
+  </nav>
+
+  <a [routerLink]="['/home']" class="botao-sair">Sair</a>
+</header>
+
+<section class="conteudo-central">
+  <h1>Minhas Solicitações</h1>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Data/Hora</th>
+        <th>Equipamento</th>
+        <th>Status</th>
+        <th class="text-center">
+          <a [routerLink]="['/solicitacaoCliente/nova']" title="Nova Solicitação" class="btn btn-xs btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i> Nova Solicitação
+          </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (solicitacao of solicitacoes; track solicitacao.id) {
+        <tr>
+          <td>{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ descricaoResumida(solicitacao.descricaoEquipamento) }}</td>
+          <td>{{ solicitacao.status }}</td>
+          <td class="text-center">
+            <a [routerLink]="['/solicitacaoCliente/visualizar', solicitacao.id]" title="Visualizar" class="btn btn-xs btn-info">
+              <i class="fa fa-eye" aria-hidden="true"></i> Visualizar
+            </a>
+
+            @if (solicitacao.status === 'REJEITADA') {
+              <button type="button" title="Resgatar Serviço" class="btn btn-xs btn-warning" (click)="resgatar($event, solicitacao)">
+                <i class="fa fa-bolt" aria-hidden="true"></i> Resgatar
+              </button>
+            } @else if (textoBotaoAcao(solicitacao.status)) {
+              <button type="button" class="btn btn-xs btn-warning" (click)="navegarParaAcao(solicitacao)">
+                <i class="fa fa-bolt" aria-hidden="true"></i> {{ textoBotaoAcao(solicitacao.status) }}
+              </button>
+            }
+          </td>
+        </tr>
+      }
+      @empty {
+        <tr>
+          <td colspan="4" class="text-center">Nenhuma solicitação registrada.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

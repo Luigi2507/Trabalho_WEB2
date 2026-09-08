@@ -44,7 +44,7 @@
               <rect x="3" y="5" width="18" height="14" rx="2"/>
               <path d="M3 6l9 7 9-7"/>
             </svg>
-          </div>
+          </div> 
           <input  type="email" 
                   class="form-control" 
                   placeholder="E-mail" required
@@ -53,8 +53,8 @@
                   (input)="limparErros()">
         </div>
         
-        <span *ngIf="mensagemStatus" style="color: #c22e08; font-size: 13px; display: block; padding-left: 10px;">
-        {{ mensagemStatus  }}
+        <span *ngIf="erroEmail" style="color: #c22e08; font-size: 13px; display: block; padding-left: 10px;">
+        {{ erroEmail }}
         </span>
 
         <div class="campo">
@@ -75,6 +75,10 @@
         <span *ngIf="erroSenha" style="color: #c22e08; font-size: 13px; display: block; padding-left: 10px;">
         {{ erroSenha }}
         </span>
+
+        <span *ngIf="mensagemStatus" style="color: #c22e08; font-size: 13px; display: block; padding-left: 10px; margin-top: 10px;">
+        {{ mensagemStatus }}
+       </span>
 
         <div class="linha-acoes">
           <a href="#" class="esqueci-senha">Esqueceu sua senha?</a>

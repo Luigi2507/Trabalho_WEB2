@@ -142,6 +142,10 @@ export class Cadastro {
     this.formatarCPF();       
     this.formatarTelefone(); 
 
+    this.erroEtapa1 = '';
+    this.mensagemCPF = '';
+    this.mensagemEmail = '';
+
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email);
 
     if (!this.nome.trim()) {
@@ -161,8 +165,28 @@ export class Cadastro {
       return;
     }
 
-    this.erroEtapa1 = '';
-    this.etapaAtual = 2; 
+    const clientesSalvos = localStorage.getItem(LS_CHAVE_CLIENTES);
+      const clientes = clientesSalvos ? JSON.parse(clientesSalvos) : [];
+
+      const emailExiste = clientes.some(
+        (cliente: any) => cliente.email.toLowerCase() === this.email.toLowerCase()
+      );
+
+      if (emailExiste) {
+        this.mensagemEmail = 'Este e-mail já está cadastrado.';
+        return;
+      }
+
+      const cpfExiste = clientes.some(
+        (cliente: any) => cliente.cpf === this.cpf
+      );
+
+      if (cpfExiste) {
+        this.mensagemCPF = 'Este CPF já está cadastrado.';
+        return;
+      }
+
+      this.etapaAtual = 2;
   }
 
   public voltarEtapa(): void {
@@ -193,6 +217,9 @@ export class Cadastro {
     return Math.floor(1000 + Math.random() * 9000).toString();
   }
 
+  public mensagemEmail: string = '';
+  public mensagemCPF: string = '';
+
   public cadastrar(): void {
     /*CONFERIR ENDEREÇO ANTES DE CADASTRAR DE FATO*/
       const cepLimpo = this.cep.replace(/\D/g, '');
@@ -219,26 +246,6 @@ export class Cadastro {
 
       const clientes = clientesSalvos ? JSON.parse(clientesSalvos) : [];
 
-      // Verifica se o e-mail já existe
-      const emailExiste = clientes.some(
-        (cliente: any) =>
-        cliente.email.toLowerCase() === this.email.toLowerCase()
-      );
-
-      if (emailExiste) {
-        this.mensagemCEP = 'Este e-mail já está cadastrado.';
-        return;
-      }
-
-      const cpfExiste = clientes.some(
-        (cliente: any) => cliente.cpf === this.cpf
-      );
-
-      if (cpfExiste) {
-        this.mensagemCEP = 'Este CPF já está cadastrado.';
-        return;
-      }
-
       const senha = this.gerarSenha();
 
       const cliente = {
@@ -246,7 +253,6 @@ export class Cadastro {
         nome: this.nome,
         email: this.email,
         telefone: this.telefone,
-
         cep: this.cep,
         logradouro: this.logradouro,
         numero: this.numero,
@@ -254,7 +260,6 @@ export class Cadastro {
         bairro: this.bairro,
         cidade: this.cidade,
         estado: this.estado,
-
         senha: senha,
         perfil: 'CLIENTE'
       };

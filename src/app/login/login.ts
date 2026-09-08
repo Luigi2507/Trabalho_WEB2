@@ -79,7 +79,7 @@ export class Login {
       
       // Procura primeiro nos clientes
       const cliente = clientes.find(
-        (obj: any) => obj.email === this.email && obj.senha === this.senha);
+        (obj: any) => obj.email.toLowerCase() === this.email.toLowerCase() && obj.senha === this.senha);
         
       // Se encontrou cliente
       if (cliente) {
@@ -89,7 +89,7 @@ export class Login {
         this.btnDesativado = false;
         this.btnLoginTexto = 'Entrar';
 
-        this.router.navigate(['/home']);
+        this.router.navigate(['/solicitacaoCliente']);
         return
       }
 

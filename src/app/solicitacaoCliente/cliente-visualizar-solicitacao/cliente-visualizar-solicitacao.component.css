@@ -1,0 +1,131 @@
+* { box-sizing: border-box; }
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff6f0 0%, #fff 100%);
+}
+
+.cabecalho-cliente {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 48px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(219, 91, 22, 0.08);
+}
+
+.logo { display: flex; align-items: center; gap: 10px; flex: 1; }
+.logo-icone { width: 36px; height: 36px; object-fit: contain; }
+.logo-texto { font-size: 20px; font-weight: 800; color: #db5b16; }
+
+.menu-cliente { display: flex; gap: 8px; }
+.menu-item {
+  color: #525050;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+.menu-item:hover { background: #fdece0; color: #db5b16; }
+.menu-item.ativo { background: #db5b16; color: #fff; }
+
+.botao-sair {
+  color: #525050;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+}
+.botao-sair:hover { border-color: #db5b16; color: #db5b16; }
+
+.conteudo-central {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.conteudo-central h1 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+.well {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px 32px;
+  box-shadow: 0 8px 24px rgba(219, 91, 22, 0.12);
+}
+
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  color: #525050;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  display: block;
+  margin-bottom: 2px;
+}
+.form-group p { font-size: 15px; color: #1a1a1a; margin: 0; }
+
+.badge-status {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 16px;
+  background: #fdece0;
+  color: #db5b16;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #db5b16;
+  margin: 24px 0 12px;
+}
+
+.table {
+  font-size: 13px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th { background: #fdece0; color: #db5b16; font-size: 12px; }
+
+.acoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.btn-warning, .btn-outline, .btn-secondary {
+  padding: 9px 18px;
+  border-radius: 18px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-warning { background: #ffb17a; color: #1a1a1a; }
+.btn-warning:hover { background: #db5b16; color: #fff; }
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid rgba(0,0,0,0.15);
+  color: #525050;
+}
+.btn-outline:hover { border-color: #db5b16; color: #db5b16; }
+
+.btn-secondary { background: transparent; color: #db5b16; }
+.btn-secondary:hover { text-decoration: underline; }
