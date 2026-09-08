@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+const LS_CHAVE_CLIENTES = 'clientes';
+
 @Component({
   selector: 'app-cadastro',
   imports: [FormsModule, RouterLink, CommonModule],
@@ -186,8 +188,13 @@ export class Cadastro {
     this.btnCadastroTexto = 'Cadastrar-se';
   }
 
-  /*CONFERIR ENDEREÇO ANTES DE CADASTRAR DE FATO*/
+  /* GERAR SENHA */
+  public gerarSenha(): string {
+    return Math.floor(1000 + Math.random() * 9000).toString();
+  }
+
   public cadastrar(): void {
+    /*CONFERIR ENDEREÇO ANTES DE CADASTRAR DE FATO*/
       const cepLimpo = this.cep.replace(/\D/g, '');
 
       if (cepLimpo.length !== 8) {
@@ -206,6 +213,60 @@ export class Cadastro {
       }
 
       this.mensagemCEP = '';
+
+      //busca clientes já cadastrados
+      const clientesSalvos = localStorage.getItem(LS_CHAVE_CLIENTES);
+
+      const clientes = clientesSalvos ? JSON.parse(clientesSalvos) : [];
+
+      // Verifica se o e-mail já existe
+      const emailExiste = clientes.some(
+        (cliente: any) =>
+        cliente.email.toLowerCase() === this.email.toLowerCase()
+      );
+
+      if (emailExiste) {
+        this.mensagemCEP = 'Este e-mail já está cadastrado.';
+        return;
+      }
+
+      const cpfExiste = clientes.some(
+        (cliente: any) => cliente.cpf === this.cpf
+      );
+
+      if (cpfExiste) {
+        this.mensagemCEP = 'Este CPF já está cadastrado.';
+        return;
+      }
+
+      const senha = this.gerarSenha();
+
+      const cliente = {
+        cpf: this.cpf,
+        nome: this.nome,
+        email: this.email,
+        telefone: this.telefone,
+
+        cep: this.cep,
+        logradouro: this.logradouro,
+        numero: this.numero,
+        complemento: this.complemento,
+        bairro: this.bairro,
+        cidade: this.cidade,
+        estado: this.estado,
+
+        senha: senha,
+        perfil: 'CLIENTE'
+      };
+
+      clientes.push(cliente);
+      
+      //por enquanto vamos salvar no localStorage
+      localStorage.setItem(LS_CHAVE_CLIENTES, JSON.stringify(clientes));
+      
       this.btnCadastroAnimacao();
+
+      // Para mostrar a senha gerada
+      setTimeout(() => {alert(`Sua senha é: ${senha}`);}, 2000);
   }
 }

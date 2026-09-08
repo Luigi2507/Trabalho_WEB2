@@ -13,10 +13,10 @@
     padding: 18px 0;
 }
 
-.cabecalho .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .logo {
@@ -162,20 +162,22 @@
 
 /* ícones dos Cards */
 .contato-card-icone {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    background: rgba(219, 91, 22, 0.12);
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 18px;
+    background: rgba(219, 91, 22, 0.12); 
+    border-radius: 12px;
+    width: 52px;
+    height: 52px;
 }
 
-.contato-card-icone svg {
-    width: 26px;
-    height: 26px;
-    stroke: #db5b16;
+.contato-card-icone i {
+    font-size: 26px;
+    display: inline-block;
+    line-height: 1;
+    color:  #db5b16;
 }
 
 
@@ -313,65 +315,4 @@
     font-size: 13px;
     color: rgba(16, 13, 10, 0.4);
     margin-bottom: 0;
-}
-
-
-/* Responsividade */
-
-@media (max-width: 991px) {
-    .cabecalho {
-        padding: 18px 25px;
-    }
-
-    .contato {
-        padding: 60px 25px 70px;
-    }
-
-    .rodape {
-        padding: 55px 25px 24px;
-    }
-
-    .contato-suporte {
-        margin-top: 50px;
-    }
-}
-
-
-@media (max-width: 767px) {
-    .logo-texto {
-        font-size: 22px;
-    }
-
-    .btn-entrar {
-        padding: 9px 20px;
-    }
-
-    .contato-titulo {
-        font-size: 34px;
-    }
-
-    .contato-texto {
-        font-size: 16px;
-    }
-
-    .contato-card {
-        min-height: 190px;
-    }
-
-    .contato-suporte {
-        padding: 35px 25px;
-    }
-
-    .contato-suporte h2 {
-        font-size: 25px;
-    }
-
-    .rodape {
-        padding: 50px 25px 20px;
-    }
-
-    .logo-imagem-2 {
-        width: 160px;
-        height: 160px;
-    }
 }

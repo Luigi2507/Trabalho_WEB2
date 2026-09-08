@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -31,31 +31,7 @@ export class Login {
     cor: ['#db5b16', '#f5822b', '#ffb17a', '#c22e08'][Math.floor(Math.random() * 4)]
   }));
 
-  public btnLoginAnimacao(): void{
-    const emailValido = this.validarEmail();
-    const senhaValida = this.validarSenha();
-
-    this.btnCarregando = true;
-    this.btnDesativado = true;
-    this.btnLoginTexto = 'Aguarde...';
-
-    setTimeout(() => {
-    this.btnCarregando = false;
-    this.btnDesativado = false;
-    this.btnLoginTexto = 'Entrar';
-    },2000);
-
-    if (!emailValido || !senhaValida){
-      this.mensagemStatus = 'Por favor, preencha os campos corretamente.';
-      return;
-    }
-  }
-  
-  public resetBtnEstado (): void{
-    this.btnCarregando = false;
-    this.btnDesativado = false;
-    this.btnLoginTexto = 'Entrar';
-  }
+  constructor(private router: Router) {}
 
   public validarEmail(): boolean{
     if (!this.email){
@@ -75,13 +51,83 @@ export class Login {
       this.erroSenha = 'Senha obrigatória.';
       return false;
     }
-    if (this.senha.length< 6){
-      this.erroSenha = 'Inclua ao menos 6 caracteres.';
+    if (this.senha.length < 4 || this.senha.length > 4){
+      this.erroSenha = 'Inclua ao menos 4 caracteres.';
       return false;
     }
     this.erroSenha = '';
     return true;
   }
+
+  public btnLoginAnimacao(): void{
+    //validar os campos
+    const emailValido = this.validarEmail();
+    const senhaValida = this.validarSenha();
+
+    if (!emailValido || !senhaValida) {
+      this.mensagemStatus = 'Por favor, preencha os campos corretamente.';
+      return;
+    }
+
+    this.btnCarregando = true;
+    this.btnDesativado = true;
+    this.btnLoginTexto = 'Aguarde...';
+    
+    setTimeout(() => {
+      //buscar os dados
+      const clientes = JSON.parse( localStorage.getItem('clientes') || '[]');
+      
+      // Procura primeiro nos clientes
+      const cliente = clientes.find(
+        (obj: any) => obj.email === this.email && obj.senha === this.senha);
+        
+      // Se encontrou cliente
+      if (cliente) {
+        localStorage.setItem( 'usuarioLogado', JSON.stringify(cliente));
+
+        this.btnCarregando = false;
+        this.btnDesativado = false;
+        this.btnLoginTexto = 'Entrar';
+
+        this.router.navigate(['/home']);
+        return
+      }
+
+      //Procura o funcionario
+      const funcionarios = JSON.parse( localStorage.getItem('funcionarios') || '[]');
+
+      const funcionario = funcionarios.find((obj: any) => obj.email === this.email && obj.senha === this.senha);
+            
+      // Se encontrou funcionário
+      if (funcionario) {
+
+        localStorage.setItem('usuarioLogado', JSON.stringify(funcionario));
+        
+        this.btnCarregando = false;
+        this.btnDesativado = false;
+        this.btnLoginTexto = 'Entrar';
+
+        this.router.navigate(['/funcionario-home']);
+
+        return;
+      }
+
+      // Se não encontrou ninguém
+      this.btnCarregando = false;
+      this.btnDesativado = false;
+      this.btnLoginTexto = 'Entrar';
+
+      this.mensagemStatus = 'E-mail ou senha incorretos.';
+
+    }, 500);
+  }
+  
+  public resetBtnEstado (): void{
+    this.btnCarregando = false;
+    this.btnDesativado = false;
+    this.btnLoginTexto = 'Entrar';
+  }
+
 
   public limparErros(): void{
     this.erroEmail = '';
