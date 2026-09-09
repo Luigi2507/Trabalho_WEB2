@@ -39,21 +39,18 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
     }
 
     rotaBotaoAcao(status: string): string {
-      switch (status) {
-        case 'ORCADA': 
-          return '/solicitacaoCliente/orcamento';
-        case 'ARRUMADA': 
-          return '/solicitacaoCliente/pagar';
-        default: 
-          return '/solicitacaoCliente/visualizar';
-      }
+        switch (status) {
+          case 'ORCADA': return '/solicitacaoCliente/orcamento';
+          case 'ARRUMADA': return '/solicitacaoCliente/pagar';
+          default: return '';
+        }
     }
 
     simularConclusao(): void {
       if (!this.solicitacao) return;
       this.solicitacao.status = 'ARRUMADA';
       this.solicitacao.historico.push(
-        new HistoricoItem(new Date(), 'ARRUMADA', 'Funcionário')
+        new HistoricoItem(new Date(), 'ARRUMADA', 'Funcionário (temp - simulado)')
       );
       this.solicitacaoService.atualizar(this.solicitacao);
     }

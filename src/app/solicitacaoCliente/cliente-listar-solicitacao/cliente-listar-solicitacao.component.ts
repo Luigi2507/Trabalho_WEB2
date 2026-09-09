@@ -63,18 +63,16 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
     }
   }
 
-  resgatar($event: Event, solicitacao: Solicitacao): void {
+  resgatar($event: any, solicitacao: Solicitacao): void {
     $event.preventDefault();
     if (confirm(`Deseja resgatar a solicitação "${solicitacao.descricaoEquipamento}"?`)) {
       solicitacao.status = 'APROVADA';
-      if (!solicitacao.historico) solicitacao.historico = [];
-      
       solicitacao.historico.push(
-        new HistoricoItem(new Date(), 'APROVADA', 'Cliente')
+        new HistoricoItem(new Date(), 'APROVADA', 'Cliente (resgate)')
       );
-      
       this.solicitacaoService.atualizar(solicitacao);
-      this.carregarSolicitacoes();
+      this.solicitacoes = this.solicitacaoService.listarTodos().sort((a, b) =>
+        new Date(a.dataHora).getTime() - new Date(b.dataHora).getTime());
     }
   }
 }

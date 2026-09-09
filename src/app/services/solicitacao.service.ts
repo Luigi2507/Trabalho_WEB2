@@ -10,22 +10,22 @@ const LS_CHAVE = "solicitacoes"
 //METODOS
 export class SolicitacaoService {
     // mostrar todas as soliciatacoes
-    listarTodos() : Solicitacao[] {
-        const solicitacoes = localStorage[LS_CHAVE]
-        if (!solicitacoes) return [];
+    listarTodos(): Solicitacao[] {
+    const solicitacoes = localStorage[LS_CHAVE];
+    if (!solicitacoes) return [];
+    const lista = JSON.parse(solicitacoes);
+    return lista.map((s: any) => this.reviverDatas(s));
+    }
 
-        const parsed = JSON.parse(solicitacoes);
-        
-        // Garante que as strings venham como instâncias reais de Date
-        return parsed.map((s: any) => {
-        s.dataHora = new Date(s.dataHora);
-        if (s.dataPagamento) s.dataPagamento = new Date(s.dataPagamento);
-        if (s.historico) {
-            s.historico = s.historico.map((h: any) => new HistoricoItem(new Date(h.dataHora), h.status, h.funcionario));
-        }
-        return s;
-        });
-    } 
+    private reviverDatas(s: any): Solicitacao {
+    s.dataHora = new Date(s.dataHora);
+    s.dataPagamento = s.dataPagamento ? new Date(s.dataPagamento) : null;
+    s.historico = (s.historico || []).map((h: any) => ({
+        ...h,
+        dataHora: new Date(h.dataHora)
+    }));
+    return s;
+    }
 
     //inserir uma nova solicitacao
     inserir(solicitacao : Solicitacao) : void{
