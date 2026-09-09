@@ -19,6 +19,13 @@ export class ClienteInserirSolicitacaoComponent {
 
   inserir() : void {
     if(this.formulario.form.valid){
+      //recupera os dados do cliente em solicitcao
+      const usuarioLogado = JSON.parse(
+        localStorage.getItem('usuarioLogado') || '{}' 
+      );
+
+      //associa solicitacao com cpf
+      this.solicitacao.clienteCpf = usuarioLogado.cpf;
       this.solicitacaoService.inserir(this.solicitacao)
       this.router.navigate(['/solicitacaoCliente/listar'])
     }

@@ -26,6 +26,7 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
     }
   }
 
+//confirma pagamento e altera status
   confirmarPagamento(): void {
     if (!this.solicitacao) return;
 

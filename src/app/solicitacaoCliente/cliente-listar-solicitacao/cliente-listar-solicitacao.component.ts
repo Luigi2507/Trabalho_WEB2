@@ -11,6 +11,7 @@ import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.mode
   templateUrl: './cliente-listar-solicitacao.component.html',
   styleUrl: './cliente-listar-solicitacao.component.css',
 })
+
 export class ClienteListarSolicitacaoComponent implements OnInit {
   private solicitacaoService = inject(SolicitacaoService);
   private router = inject(Router);
@@ -21,8 +22,13 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
     this.carregarSolicitacoes();
   }
 
+  //busca e mostra somente as solicitaçoes do cliente logado
   carregarSolicitacoes(): void {
-    this.solicitacoes = this.solicitacaoService.listarTodos().sort((a, b) => {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+
+    const cpfCliente = usuarioLogado.cpf;
+  
+    this.solicitacoes = this.solicitacaoService.listarTodos().filter(solicitacao => solicitacao.clienteCpf === cpfCliente).sort((a, b) => { //organiza as solicitacoes em ordem decrescente
       const dataA = a.dataHora instanceof Date ? a.dataHora.getTime() : new Date(a.dataHora).getTime();
       const dataB = b.dataHora instanceof Date ? b.dataHora.getTime() : new Date(b.dataHora).getTime();
       return dataA - dataB;
@@ -34,10 +40,10 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
     return descricao.length > 30 ? descricao.substring(0, 30) + "..." : descricao;
   }
 
+  //define qual acao o cliente pode realizar de acordo com o status da solicitacao
   textoBotaoAcao(status: string): string {
     switch (status) {
       case 'ORCADA':
-      case 'ABERTA':
         return 'Aprovar/Rejeitar Orçamento';
       case 'REJEITADA':
         return 'Resgatar Serviço';
@@ -48,10 +54,10 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
     }
   }
 
+  //direciona para a tela da acao disponivel
   navegarParaAcao(solicitacao: Solicitacao): void {
     switch (solicitacao.status) {
       case 'ORCADA':
-      case 'ABERTA':
         this.router.navigate(['/solicitacaoCliente/orcamento', solicitacao.id]);
         break;
       case 'ARRUMADA':

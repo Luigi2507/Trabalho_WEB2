@@ -25,6 +25,7 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
     }
   }
 
+// define botao de acordo com o status
   textoBotaoAcao(status: string): string {
       switch (status) {
         case 'ORCADA': 
@@ -38,6 +39,7 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
       }
     }
 
+  // qual pag o botao leva 
     rotaBotaoAcao(status: string): string {
         switch (status) {
           case 'ORCADA': return '/solicitacaoCliente/orcamento';

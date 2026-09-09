@@ -17,9 +17,12 @@ export class SolicitacaoService {
     return lista.map((s: any) => this.reviverDatas(s));
     }
 
+    //converte os campos de data do lS para objetos date
     private reviverDatas(s: any): Solicitacao {
     s.dataHora = new Date(s.dataHora);
     s.dataPagamento = s.dataPagamento ? new Date(s.dataPagamento) : null;
+    
+    //datas do historico tbm
     s.historico = (s.historico || []).map((h: any) => ({
         ...h,
         dataHora: new Date(h.dataHora)

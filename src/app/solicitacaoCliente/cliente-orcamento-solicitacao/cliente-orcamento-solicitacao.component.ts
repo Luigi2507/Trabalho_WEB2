@@ -11,6 +11,7 @@ import { Solicitacao, HistoricoItem } from '../../shared/models/solicitacao.mode
   templateUrl: './cliente-orcamento-solicitacao.component.html',
   styleUrl: './cliente-orcamento-solicitacao.component.css',
 })
+
 export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
   private solicitacaoService = inject(SolicitacaoService);
   private route = inject(ActivatedRoute);
@@ -27,27 +28,21 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
     if (this.solicitacao === undefined) {
       throw new Error("Solicitação não encontrada: id = " + id);
     }
-
-    // TEMPORÁRIO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    if (this.solicitacao.status === 'ABERTA' && this.solicitacao.orcamento === 0) {
-      this.solicitacao.status = 'ORCADA';
-      this.solicitacao.orcamento = 150.00; //valor padrao por enquanto
-    }
   }
 
+// aprova o orcamento e muda o status
   aprovar(): void {
     if (!this.solicitacao) return;
 
     this.solicitacao.status = 'APROVADA';
-    this.solicitacao.historico.push(
-      new HistoricoItem(new Date(), 'APROVADA', 'Cliente')
-    );
+    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', 'Cliente'));
     this.solicitacaoService.atualizar(this.solicitacao);
 
     alert(`Serviço Aprovado no Valor R$ ${this.solicitacao.orcamento.toFixed(2)}`);
     this.router.navigate(['/solicitacaoCliente/listar']);
   }
 
+// exibe o campo de motivo da rejeicao
   abrirRejeicao(): void {
     this.mostrarRejeicao = true;
   }

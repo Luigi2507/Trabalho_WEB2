@@ -1,6 +1,8 @@
+//solicitação de manutencao
 export class Solicitacao {
   constructor(
     public id: number = 0,
+    public clienteCpf: string = "",
     public descricaoEquipamento: string = "",
     public categoria: string = "",
     public descricaoDefeito: string = "",
@@ -13,7 +15,7 @@ export class Solicitacao {
   ) {}
 }
 
-//classe auxliar, RF8
+//classe auxliar para registrar cada evento no histórico
 export class HistoricoItem {
   constructor(
     public dataHora: Date = new Date(),
