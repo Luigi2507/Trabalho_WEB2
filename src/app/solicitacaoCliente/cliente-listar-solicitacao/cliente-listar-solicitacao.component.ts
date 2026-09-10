@@ -81,4 +81,10 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
         new Date(a.dataHora).getTime() - new Date(b.dataHora).getTime());
     }
   }
+
+  sair($event: any): void {
+    $event.preventDefault();
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/login']);
+  }
 }

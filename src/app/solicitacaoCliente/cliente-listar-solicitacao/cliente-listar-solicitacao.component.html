@@ -9,7 +9,7 @@
     <a [routerLink]="['/solicitacaoCliente/nova']" class="menu-item">Nova Solicitação</a>
   </nav>
 
-  <a [routerLink]="['/home']" class="botao-sair">Sair</a>
+  <a [routerLink]="['/home']" class="botao-sair" (click)="sair($event)">Sair</a>
 </header>
 
 <section class="conteudo-central">
