@@ -1,15 +1,18 @@
+
 import { Routes } from '@angular/router';
-import { Login } from './login/login';
 import { Cadastro } from './cadastro/cadastro';
-import { Home } from './home/home';
 import { Contato } from './contato/contato';
+import { Home } from './home/home';
+import { Login } from './login/login';
 import { Sobre } from './sobre/sobre';
-import { FuncionarioHome } from './funcionario-home/funcionario-home';    
 import { ClienteInserirSolicitacaoComponent } from './solicitacaoCliente/cliente-inserir-solicitacao/cliente-inserir-solicitacao.component';
 import { ClienteListarSolicitacaoComponent } from './solicitacaoCliente/cliente-listar-solicitacao/cliente-listar-solicitacao.component';
 import { ClienteOrcamentoSolicitacaoComponent } from './solicitacaoCliente/cliente-orcamento-solicitacao/cliente-orcamento-solicitacao.component';
 import { ClientePagarSolicitacaoComponent } from './solicitacaoCliente/cliente-pagar-solicitacao/cliente-pagar-solicitacao.component';
 import { ClienteVisualizarSolicitacaoComponent } from './solicitacaoCliente/cliente-visualizar-solicitacao/cliente-visualizar-solicitacao.component';
+import { FuncionarioListarSolicitacaoComponent } from './solicitacaoFuncionario/funcionario-listar-solicitacao/funcionario-listar-solicitacao.component';
+import { FuncionarioManutencaoSolicitacaoComponent } from './solicitacaoFuncionario/funcionario-manutencao-solicitacao/funcionario-manutencao-solicitacao.component';
+import { FuncionarioOrcamentoSolicitacaoComponent } from './solicitacaoFuncionario/funcionario-orcamento-solicitacao/funcionario-orcamento-solicitacao.component';
 
 export const routes: Routes = [
   {
@@ -63,4 +66,16 @@ export const routes: Routes = [
     path: 'solicitacaoCliente/pagar/:id',
     component: ClientePagarSolicitacaoComponent
   },
+  {
+    path: 'solicitacaoFuncionario/listar',
+    component: FuncionarioListarSolicitacaoComponent
+  },
+  {
+    path: 'solicitacaoFuncionario/orcamento/:id',
+    component: FuncionarioOrcamentoSolicitacaoComponent
+  },
+  {
+    path: 'solicitacaoFuncionario/manutencao/:id',
+    component: FuncionarioManutencaoSolicitacaoComponent
+  }
 ];

@@ -26,6 +26,7 @@ export class ClienteInserirSolicitacaoComponent {
 
       //associa solicitacao com cpf
       this.solicitacao.clienteCpf = usuarioLogado.cpf;
+      this.solicitacao.clienteNome = usuarioLogado.nome;
       this.solicitacaoService.inserir(this.solicitacao)
       this.router.navigate(['/solicitacaoCliente/listar'])
     }

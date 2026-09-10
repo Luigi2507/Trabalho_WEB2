@@ -1,0 +1,66 @@
+<header class="cabecalho-funcionario">
+  <div class="logo">
+    <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+    <span class="logo-texto">ManuTech</span>
+  </div>
+  <span class="funcionario-nome">Olá, {{ funcionarioLogado?.nome }}</span>
+  <a [routerLink]="['/solicitacaoFuncionario/listar']" class="botao-sair">Voltar</a>
+</header>
+
+<div class="conteudo-central">
+  @if (solicitacao) {
+    <h1>Efetuar Manutenção</h1>
+    <div class="well">
+      <h3>Dados da Solicitação</h3>
+      <div class="form-group"><label>Equipamento:</label><p>{{ solicitacao.descricaoEquipamento }}</p></div>
+      <div class="form-group"><label>Categoria:</label><p>{{ solicitacao.categoria }}</p></div>
+      <div class="form-group"><label>Defeito:</label><p>{{ solicitacao.descricaoDefeito }}</p></div>
+
+      <h3>Dados do Cliente</h3>
+      <div class="form-group"><label>Nome:</label><p>{{ solicitacao.clienteNome }}</p></div>
+      <div class="form-group"><label>CPF:</label><p>{{ solicitacao.clienteCpf }}</p></div>
+
+      <div class="modo-selecao">
+        <button type="button" class="modo-btn" [class.ativo]="modo === 'manutencao'" (click)="modo = 'manutencao'">
+          Efetuar Manutenção
+        </button>
+        <button type="button" class="modo-btn" [class.ativo]="modo === 'redirecionar'" (click)="modo = 'redirecionar'">
+          Redirecionar Manutenção
+        </button>
+      </div>
+
+      @if (modo === 'manutencao') {
+        <div class="form-group">
+          <label for="descManutencao">Descrição da Manutenção:</label>
+          <textarea id="descManutencao" class="form-control" [(ngModel)]="descricaoManutencao" name="descManutencao"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="orientacoes">Orientações para o Cliente:</label>
+          <textarea id="orientacoes" class="form-control" [(ngModel)]="orientacoesCliente" name="orientacoes"></textarea>
+        </div>
+        <div class="acoes">
+          <button type="button" class="btn-salvar"
+                  [disabled]="!descricaoManutencao.trim() || !orientacoesCliente.trim()"
+                  (click)="efetuarManutencao()">
+            Confirmar Manutenção
+          </button>
+        </div>
+      } @else {
+        <div class="form-group">
+          <label for="destino">Redirecionar para:</label>
+          <select id="destino" class="form-control" [(ngModel)]="funcionarioDestinoId" name="destino">
+            <option [value]="0" disabled selected>Selecione um funcionário</option>
+            @for (f of funcionariosDisponiveis; track f.id) {
+              <option [value]="f.id">{{ f.nome }}</option>
+            }
+          </select>
+        </div>
+        <div class="acoes">
+          <button type="button" class="btn-salvar" [disabled]="!funcionarioDestinoId" (click)="redirecionar()">
+            Confirmar Redirecionamento
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

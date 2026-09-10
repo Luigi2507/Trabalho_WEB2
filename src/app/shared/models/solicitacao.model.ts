@@ -3,6 +3,7 @@ export class Solicitacao {
   constructor(
     public id: number = 0,
     public clienteCpf: string = "",
+    public clienteNome: string = "",
     public descricaoEquipamento: string = "",
     public categoria: string = "",
     public descricaoDefeito: string = "",
@@ -11,7 +12,14 @@ export class Solicitacao {
     public orcamento: number = 0,
     public motivoRejeicao: string = "",
     public dataPagamento: Date | null = null,
-    public historico: HistoricoItem[] = [] // cada solicitação carrega uma lista de eventos
+    public historico: HistoricoItem[] = [], // cada solicitação carrega uma lista de eventos
+    public funcionarioOrcamento: string = "",
+    public descricaoManutencao: string = "",       
+    public orientacoesCliente: string = "",       
+    public funcionarioManutencao: string = "",  
+    public funcionarioAtual: string = "",   
+    public funcionarioFinalizacao: string = "",
+    public dataFinalizacao: Date | null = null
   ) {}
 }
 

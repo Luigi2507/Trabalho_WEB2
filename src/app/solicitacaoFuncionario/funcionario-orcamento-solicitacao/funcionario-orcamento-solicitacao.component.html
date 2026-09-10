@@ -1,0 +1,38 @@
+<header class="cabecalho-funcionario">
+  <div class="logo">
+    <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+    <span class="logo-texto">ManuTech</span>
+  </div>
+  <span class="funcionario-nome">Olá, {{ funcionarioLogado?.nome }}</span>
+  <a [routerLink]="['/solicitacaoFuncionario/listar']" class="botao-sair">Voltar</a>
+</header>
+
+<div class="conteudo-central">
+  @if (solicitacao) {
+    <h1>Efetuar Orçamento</h1>
+    <div class="well">
+      <h3>Dados da Solicitação</h3>
+      <div class="form-group"><label>Equipamento:</label><p>{{ solicitacao.descricaoEquipamento }}</p></div>
+      <div class="form-group"><label>Categoria:</label><p>{{ solicitacao.categoria }}</p></div>
+      <div class="form-group"><label>Defeito:</label><p>{{ solicitacao.descricaoDefeito }}</p></div>
+      <div class="form-group"><label>Data/Hora Abertura:</label><p>{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</p></div>
+
+      <h3>Dados do Cliente</h3>
+      <div class="form-group"><label>Nome:</label><p>{{ solicitacao.clienteNome }}</p></div>
+      <div class="form-group"><label>CPF:</label><p>{{ solicitacao.clienteCpf }}</p></div>
+
+      <h3>Orçamento</h3>
+      <div class="form-group">
+        <label for="valor">Valor Orçado (R$):</label>
+        <input type="number" id="valor" name="valor" class="form-control"
+               [(ngModel)]="valorOrcamento" min="0.01" step="0.01">
+      </div>
+
+      <div class="acoes">
+        <button type="button" class="btn-salvar" [disabled]="valorOrcamento <= 0" (click)="salvarOrcamento()">
+          Salvar Orçamento
+        </button>
+      </div>
+    </div>
+  }
+</div>

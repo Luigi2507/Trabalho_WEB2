@@ -1,0 +1,74 @@
+<header class="cabecalho-funcionario">
+  <div class="logo">
+    <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+    <span class="logo-texto">ManuTech</span>
+  </div>
+
+  <span class="funcionario-nome">Olá, {{ funcionarioLogado?.nome }}</span>
+  <a href="#" class="botao-sair" (click)="sair($event)">Sair</a>
+</header>
+
+<div class="conteudo-central">
+  <h1>Solicitações</h1>
+
+  <div class="filtros">
+    <button type="button"
+            class="filtro-btn"
+            [class.ativo]="filtroAtivo === 'HOJE'"
+            (click)="selecionarFiltro('HOJE')">Hoje</button>
+    <button type="button"
+            class="filtro-btn"
+            [class.ativo]="filtroAtivo === 'PERIODO'"
+            (click)="selecionarFiltro('PERIODO')">Período</button>
+    <button type="button"
+            class="filtro-btn"
+            [class.ativo]="filtroAtivo === 'TODAS'"
+            (click)="selecionarFiltro('TODAS')">Todas</button>
+
+    @if (filtroAtivo === 'PERIODO') {
+      <div class="filtro-periodo">
+        <input type="date" [(ngModel)]="dataInicio" (change)="aplicarFiltro()" class="form-control">
+        <span>até</span>
+        <input type="date" [(ngModel)]="dataFim" (change)="aplicarFiltro()" class="form-control">
+      </div>
+    }
+  </div>
+
+  <table class="table table-striped table-bordered table-hover">
+    <tbody>
+      <tr>
+        <th>Data/Hora</th>
+        <th>Cliente</th>
+        <th>Equipamento</th>
+        <th>Status</th>
+        <th class="text-center">Ação</th>
+      </tr>
+
+      @for (solicitacao of solicitacoes; track solicitacao.id) {
+        <tr>
+          <th>{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</th>
+          <th>{{ solicitacao.clienteNome }}</th>
+          <th>{{ descricaoResumida(solicitacao.descricaoEquipamento) }}</th>
+          <th>
+            <span class="badge-status" [class]="'status-' + corStatus(solicitacao.status)">
+              {{ solicitacao.status }}
+            </span>
+          </th>
+          <td class="text-center">
+            @if (textoBotaoAcao(solicitacao.status)) {
+              <a href="#" class="btn btn-xs btn-warning"
+                 (click)="$event.preventDefault(); navegarParaAcao(solicitacao)">
+                {{ textoBotaoAcao(solicitacao.status) }}
+              </a>
+            }
+          </td>
+        </tr>
+      }
+      @empty {
+        <tr>
+          <td colspan="5">Nenhuma solicitação encontrada para esse filtro.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

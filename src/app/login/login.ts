@@ -107,7 +107,7 @@ export class Login {
         this.btnDesativado = false;
         this.btnLoginTexto = 'Entrar';
 
-        this.router.navigate(['/funcionario-home']);
+        this.router.navigate(['/solicitacaoFuncionario/listar']);
 
         return;
       }
