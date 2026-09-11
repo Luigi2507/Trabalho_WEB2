@@ -1,1 +1,50 @@
-<p>inserir-funcionario works!</p>
+<header class="cabecalho-funcionario">
+  <div class="logo">
+    <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+    <span class="logo-texto">ManuTech</span>
+  </div>
+
+<div class="conteudo-central">
+    <h1>Novo Funcionário</h1>
+    <div class="well">
+        <form #formFuncionario="ngForm">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome"
+                placeholder="Digite o nome completo" required   
+                [(ngModel)]="funcionario.nome" #nome="ngModel">
+
+                @if (nome.invalid && nome.touched) {
+                    <p class="erro-etapa">Nome é obrigatório.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" name="email"
+                placeholder="Digite o email" required
+                [(ngModel)]="funcionario.email" #email="ngModel">
+                  
+                @if (email.invalid && email.touched) {
+                    <p class="erro-etapa">Informe um e-mail válido.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="dataNascimento">Data de Nascimento:</label>
+                <input type="date" class="form-control" id="dataNascimento" name="dataNascimento"
+                required
+                [(ngModel)]="funcionario.dataNascimento" #dataNascimento="ngModel">
+                
+                @if (dataNascimento.invalid && dataNascimento.touched) {
+                    <p class="erro-etapa">Data de nascimento é obrigatória.</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <a routerLink="/funcionarios/listar" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-success">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</div>

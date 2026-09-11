@@ -52,7 +52,7 @@ export const routes: Routes = [
     component: ListarFuncionarioComponent
   },
   {
-    path: 'funcionarios/inserir',
+    path: 'funcionarios/novo',
     component: InserirFuncionarioComponent
   },
   {

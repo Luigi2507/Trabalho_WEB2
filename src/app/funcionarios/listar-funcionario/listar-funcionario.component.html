@@ -1,1 +1,53 @@
-<p>listar-funcionario works!</p>
+<header class="cabecalho-funcionario">
+  <div class="logo">
+    <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+    <span class="logo-texto">ManuTech</span>
+  </div>
+
+    <span class="funcionario-nome">Olá, {{funcionarioLogado?.nome}}</span>
+    <a href="#" class="botao-sair" (click)="sair($event)">Sair</a>
+</header>
+
+<div class="conteudo-central">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Funcionários</h1>
+        <a [routerLink]="['/funcionarios/novo']" class="btn btn-success">Novo Funcionário</a>
+    </div>
+
+    
+    <table class="table table-striped table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Data de Nascimento</th>
+                <th class="text-center">Ação</th>
+            </tr>
+
+            @for (funcionario of funcionarios; track funcionario.id) {
+                <tr>
+                    <th>{{funcionario.nome}}</th>
+                    <th>{{funcionario.email}}</th>
+                    <th>{{funcionario.dataNascimento}}</th>
+                    <td class="text-center">
+                        <a href="#" class="btn btn-xs btn-warning" 
+                            (click)="$event.preventDefault(); editar(funcionario)">Editar</a>
+                        <a href="#" class="btn btn-xs btn-danger"
+                            (click)="$event.preventDefault(); remover(funcionario)">Remover</a>
+                    </td>
+                </tr>
+            } @empty {
+                <tr>
+                    <td colspan="4">Nenhum funcionário cadastrado.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
