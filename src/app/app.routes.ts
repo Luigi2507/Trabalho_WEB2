@@ -13,8 +13,13 @@ import { ClienteVisualizarSolicitacaoComponent } from './solicitacaoCliente/clie
 import { FuncionarioListarSolicitacaoComponent } from './solicitacaoFuncionario/funcionario-listar-solicitacao/funcionario-listar-solicitacao.component';
 import { FuncionarioManutencaoSolicitacaoComponent } from './solicitacaoFuncionario/funcionario-manutencao-solicitacao/funcionario-manutencao-solicitacao.component';
 import { FuncionarioOrcamentoSolicitacaoComponent } from './solicitacaoFuncionario/funcionario-orcamento-solicitacao/funcionario-orcamento-solicitacao.component';
+import { ListarFuncionarioComponent } from './funcionarios/listar-funcionario/listar-funcionario.component';
+import { InserirFuncionarioComponent } from './funcionarios/inserir-funcionario/inserir-funcionario.component';
+import { EditarFuncionarioComponent } from './funcionarios/editar-funcionario/editar-funcionario.component';
 
 export const routes: Routes = [
+
+  //Rotas das páginas principais
   {
     path: '',
     redirectTo: 'home',
@@ -39,6 +44,20 @@ export const routes: Routes = [
   {
     path: 'sobre',
     component: Sobre
+  },
+
+  //Rotas das páginas CRUD de funcionários
+  {
+    path: 'funcionarios/listar',
+    component: ListarFuncionarioComponent
+  },
+  {
+    path: 'funcionarios/inserir',
+    component: InserirFuncionarioComponent
+  },
+  {
+    path: 'funcionarios/editar/:id',
+    component: EditarFuncionarioComponent
   },
 
   {
