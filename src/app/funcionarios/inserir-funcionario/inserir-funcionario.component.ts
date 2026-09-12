@@ -19,8 +19,16 @@ export class InserirFuncionarioComponent {
 
   inserir(): void {
     if (this.formulario.valid) {
+
+      const senha = this.gerarSenha();
+      this.funcionario.senha = senha;
+      
       this.funcionarioService.inserir(this.funcionario);
       this.router.navigate(["/funcionarios/listar"]);
     }
+  }
+
+  private gerarSenha(): string {
+    return Math.floor(1000 + Math.random() * 9000).toString();
   }
 }
