@@ -31,4 +31,10 @@ export class ClienteInserirSolicitacaoComponent {
       this.router.navigate(['/solicitacaoCliente/listar'])
     }
   }
+
+  sair($event: any): void {
+    $event.preventDefault();
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/login']);
+  }
 }

@@ -17,6 +17,7 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
   private router = inject(Router);
 
   solicitacoes: Solicitacao[] = [];
+  abaAtiva: string = 'TODAS';
 
   ngOnInit(): void {
     this.carregarSolicitacoes();
@@ -28,11 +29,32 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
 
     const cpfCliente = usuarioLogado.cpf;
   
+    //ordena as solicitações
     this.solicitacoes = this.solicitacaoService.listarTodos().filter(solicitacao => solicitacao.clienteCpf === cpfCliente).sort((a, b) => { //organiza as solicitacoes em ordem decrescente
       const dataA = a.dataHora instanceof Date ? a.dataHora.getTime() : new Date(a.dataHora).getTime();
       const dataB = b.dataHora instanceof Date ? b.dataHora.getTime() : new Date(b.dataHora).getTime();
       return dataA - dataB;
     });
+  }
+
+  //filtro
+  get solicitacoesFiltradas(): Solicitacao[] {
+    return this.solicitacoes.filter(s => {
+      switch (this.abaAtiva) {
+        case 'PENDENTES':
+          return ['ABERTA', 'ORCADA'].includes(s.status);
+        case 'EM_ANDAMENTO':
+          return ['APROVADA', 'PAGA', 'ARRUMADA'].includes(s.status);
+        case 'CONCLUIDAS':
+          return ['FINALIZADA', 'REJEITADA'].includes(s.status);
+        default:
+          return true;
+      }
+    });
+  }
+
+  mudarAba(aba: string): void {
+    this.abaAtiva = aba;
   }
 
   descricaoResumida(descricao: string): string {
@@ -73,12 +95,17 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
     $event.preventDefault();
     if (confirm(`Deseja resgatar a solicitação "${solicitacao.descricaoEquipamento}"?`)) {
       solicitacao.status = 'APROVADA';
+
+      if (!solicitacao.historico) {
+        solicitacao.historico = [];
+      }
+
       solicitacao.historico.push(
         new HistoricoItem(new Date(), 'APROVADA', 'Cliente (resgate)')
       );
+      
       this.solicitacaoService.atualizar(solicitacao);
-      this.solicitacoes = this.solicitacaoService.listarTodos().sort((a, b) =>
-        new Date(a.dataHora).getTime() - new Date(b.dataHora).getTime());
+      this.carregarSolicitacoes();
     }
   }
 
