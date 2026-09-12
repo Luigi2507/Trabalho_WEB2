@@ -62,4 +62,10 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
       this.solicitacaoService.atualizar(this.solicitacao);
       this.router.navigate(['/solicitacaoCliente/listar']);
     }
+      
+  sair($event: any): void {
+    $event.preventDefault();
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/login']);
+  }
 }

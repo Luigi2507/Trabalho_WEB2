@@ -60,4 +60,10 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
     alert('Serviço Rejeitado');
     this.router.navigate(['/solicitacaoCliente/listar']);
   }
+
+  sair($event: any): void {
+    $event.preventDefault();
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/login']);
+  }
 }

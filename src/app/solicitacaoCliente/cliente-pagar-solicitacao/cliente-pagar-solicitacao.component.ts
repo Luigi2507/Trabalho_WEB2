@@ -40,4 +40,10 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
     alert('Pagamento confirmado!');
     this.router.navigate(['/solicitacaoCliente/listar']);
   }
+
+  sair($event: any): void {
+    $event.preventDefault();
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/login']);
+  }
 }

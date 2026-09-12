@@ -72,20 +72,20 @@
                                 <p class="erro-etapa">{{erroEtapa1}}</p>
                             }
 
+                            @if (mensagemCPF) {
+                                <p class="erro-etapa">{{mensagemCPF}}</p>
+                            }
+                                
+                            @if (mensagemEmail) {
+                                <p class="erro-etapa">{{mensagemEmail}}</p>
+                            }
+
                             <div class="d-flex justify-content-center mt-4">
                                 <button type="button" class="botao-proximo" (click)="proximaEtapa()">
                                     Próximo
                                 </button>
                             </div>
                         </section> 
-
-                        @if (mensagemCPF) {
-                            <p class="erro-etapa">{{mensagemCPF}}</p>
-                        }
-                            
-                        @if (mensagemEmail) {
-                            <p class="erro-etapa">{{mensagemEmail}}</p>
-                        }
                             
                     }
                     

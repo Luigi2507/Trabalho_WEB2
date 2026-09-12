@@ -106,6 +106,8 @@
 }
 
 .topo-pagina h1 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: 800;
   font-size: 1.75rem;
   color: #503a2c;
   margin: 0;

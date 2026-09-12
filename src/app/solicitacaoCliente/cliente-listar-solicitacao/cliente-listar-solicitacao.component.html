@@ -40,17 +40,12 @@
           </div>
               
           <div class="card-acoes">
-            <a [routerLink]="['/solicitacaoCliente/visualizar', solicitacao.id]" title="Visualizar" class="btn btn-xs btn-info">
-              <i class="fa fa-eye" aria-hidden="true"></i> Visualizar
-            </a>
+            <a [routerLink]="['/solicitacaoCliente/visualizar', solicitacao.id]" title="Visualizar" class="btn btn-xs btn-info">Visualizar</a>
 
             @if (solicitacao.status === 'REJEITADA') {
-              <button type="button" title="Resgatar Serviço" class="btn btn-xs btn-warning" (click)="resgatar($event, solicitacao)">
-                <i class="fa fa-bolt" aria-hidden="true"></i> Resgatar
-              </button>
+              <button type="button" title="Resgatar Serviço" class="btn btn-xs btn-warning" (click)="resgatar($event, solicitacao)">Resgatar</button>
             } @else if (textoBotaoAcao(solicitacao.status)) {
-              <button type="button" class="btn btn-xs btn-warning" (click)="navegarParaAcao(solicitacao)">
-                <i class="fa fa-bolt" aria-hidden="true"></i> {{ textoBotaoAcao(solicitacao.status) }}
+              <button type="button" class="btn btn-xs btn-warning" (click)="navegarParaAcao(solicitacao)">{{ textoBotaoAcao(solicitacao.status) }}
               </button>
               }
           </div>

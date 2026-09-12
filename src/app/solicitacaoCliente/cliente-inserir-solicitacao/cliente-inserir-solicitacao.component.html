@@ -76,14 +76,9 @@
       </div>
 
       <div class="form-group">
-        <button type="button" class="btn btn-primary"
-                (click)="inserir()"
-                [disabled]="!formSolicitacao.form.valid">
-          <i class="fa fa-save"></i> Enviar Solicitação
-        </button>
-        <a class="btn btn-secondary" [routerLink]="['/solicitacaoCliente/listar']">
-          <i class="fa fa-arrow-left"></i> Voltar
-        </a>
+        <button type="button" class="btn btn-primary" (click)="inserir()" 
+        [disabled]="!formSolicitacao.form.valid">Enviar Solicitação</button>
+        <a class="botao-voltar" [routerLink]="['/solicitacaoCliente/listar']">Voltar</a>
       </div>
     </form>
   </div>

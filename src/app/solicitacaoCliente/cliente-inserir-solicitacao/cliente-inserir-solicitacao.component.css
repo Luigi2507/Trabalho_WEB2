@@ -100,6 +100,7 @@
 
 .conteudo-central h1 {
   font-size: 22px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   font-weight: 800;
   color: #db5b16;
   text-align: center;
@@ -170,4 +171,24 @@
   text-decoration: none;
 }
 
-.btn-secondary:hover { text-decoration: underline; }
+.btn-secondary:hover { 
+  text-decoration: underline; 
+}
+
+.botao-voltar {
+  display: inline-block;
+  background: transparent;
+  border: none;
+  color: #db5b16;
+  margin-left: 10px;
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none; /* Remove o sublinhado padrão de links */
+}
+
+.botao-voltar:hover {
+  background: rgba(219, 81, 22, 0.08);
+}

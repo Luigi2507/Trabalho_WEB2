@@ -6,28 +6,38 @@
 
   <nav class="menu-cliente">
     <a [routerLink]="['/solicitacaoCliente/listar']" class="menu-item">Minhas Solicitações</a>
-    <a [routerLink]="['/solicitacaoCliente/nova']" class="menu-item">Nova Solicitação</a>
   </nav>
 
-  <a href="#" class="botao-sair" >Sair</a>
+  <a [routerLink]="['/home']" class="botao-sair" (click)="sair($event)">Sair</a>
 </header>
 
 <div class="conteudo-central">
   @if (solicitacao) {
     <h1>Detalhes da Solicitação</h1>
-    <div class="well">
-      <div class="form-group">
-        <label>Data/Hora:</label>
-        <p>{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</p>
+    <div class="card">
+      
+      <div class="linha-dupla">
+        <div class="form-group">
+          <label>Data:</label>
+          <p>{{ solicitacao.dataHora | date:'dd/MM/yyyy' }}</p>
+        </div>
+        <div class="form-group">
+          <label>Hora:</label>
+          <p>{{ solicitacao.dataHora | date:'HH:mm' }}</p>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Equipamento:</label>
-        <p>{{ solicitacao.descricaoEquipamento }}</p>
+
+      <div class="linha-dupla">
+        <div class="form-group">
+          <label>Equipamento:</label>
+          <p>{{ solicitacao.descricaoEquipamento }}</p>
+        </div>
+        <div class="form-group">
+          <label>Categoria:</label>
+          <p>{{ solicitacao.categoria }}</p>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Categoria:</label>
-        <p>{{ solicitacao.categoria }}</p>
-      </div>
+
       <div class="form-group">
         <label>Defeito:</label>
         <p>{{ solicitacao.descricaoDefeito }}</p>
@@ -67,17 +77,11 @@
 
       <div class="form-group acoes">
         @if (solicitacao.status === 'REJEITADA') {
-          <button type="button" class="btn-warning" (click)="resgatar()">
-            <i class="fa fa-bolt"></i> Resgatar Serviço
-          </button>
+          <button type="button" class="btn-warning" (click)="resgatar()">Resgatar Serviço</button>
         } @else if (textoBotaoAcao(solicitacao.status)) {
-          <a class="btn-warning" [routerLink]="[rotaBotaoAcao(solicitacao.status), solicitacao.id]">
-            <i class="fa fa-bolt"></i> {{ textoBotaoAcao(solicitacao.status) }}
-          </a>
+          <a class="btn-warning" [routerLink]="[rotaBotaoAcao(solicitacao.status), solicitacao.id]">{{ textoBotaoAcao(solicitacao.status) }}</a>
         }
-        <a class="btn-secondary" [routerLink]="['/solicitacaoCliente/listar']">
-          <i class="fa fa-arrow-left"></i> Voltar
-        </a>
+        <a class="botao-voltar" [routerLink]="['/solicitacaoCliente/listar']">Voltar</a>
       </div>
     </div>
   }
