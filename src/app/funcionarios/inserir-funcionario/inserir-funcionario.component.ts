@@ -23,7 +23,13 @@ export class InserirFuncionarioComponent {
       const senha = this.gerarSenha();
       this.funcionario.senha = senha;
       
-      this.funcionarioService.inserir(this.funcionario);
+      const erro = this.funcionarioService.inserir(this.funcionario);
+      if (erro) {
+        alert(erro);
+        return;
+      }
+      
+      alert(`Funcionário cadastrado! Senha: ${senha}`);
       this.router.navigate(["/funcionarios/listar"]);
     }
   }

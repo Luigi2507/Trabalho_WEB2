@@ -16,6 +16,7 @@ import { FuncionarioOrcamentoSolicitacaoComponent } from './solicitacaoFuncionar
 import { ListarFuncionarioComponent } from './funcionarios/listar-funcionario/listar-funcionario.component';
 import { InserirFuncionarioComponent } from './funcionarios/inserir-funcionario/inserir-funcionario.component';
 import { EditarFuncionarioComponent } from './funcionarios/editar-funcionario/editar-funcionario.component';
+import { RelatorioComponent } from './solicitacaoFuncionario/relatorio/relatorio.component';
 
 export const routes: Routes = [
 
@@ -96,5 +97,9 @@ export const routes: Routes = [
   {
     path: 'solicitacaoFuncionario/manutencao/:id',
     component: FuncionarioManutencaoSolicitacaoComponent
+  },
+  {
+    path:'relatorios',
+    component: RelatorioComponent
   }
 ];

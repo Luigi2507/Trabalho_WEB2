@@ -1,0 +1,40 @@
+<header class="cabecalho-funcionario">
+  <div class="logo">
+    <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+    <span class="logo-texto">ManuTech</span>
+  </div>
+  <a [routerLink]="['/solicitacaoFuncionario/listar']" class="botao-sair">Voltar</a>
+</header>
+
+<div class="conteudo-central">
+  <h1>Relatórios</h1>
+  <div>
+
+    <div class="modo-selecao">
+      <button type="button" class="modo-btn" [class.ativo]="modo === 'periodo'" (click)="modo = 'periodo'">
+        Receitas por Período
+      </button>
+      <button type="button" class="modo-btn" [class.ativo]="modo === 'categoria'" (click)="modo = 'categoria'">
+        Receitas por Categoria
+      </button>
+    </div>
+
+    @if (modo === 'periodo') {
+      <div class="form-group">
+        <label for="dataInicio">Data Inicial</label>
+        <input type="date" id="dataInicio" name="dataInicio" class="form-control" [(ngModel)]="dataInicio">
+      </div>
+      <div class="form-group">
+        <label for="dataFim">Data Final</label>
+        <input type="date" id="dataFim" name="dataFim" class="form-control" [(ngModel)]="dataFim">
+      </div>
+    } @else {
+    }
+
+    <div class="acoes">
+      <button type="button" class="btn-salvar" (click)="gerarPdf()">
+        Gerar PDF
+      </button>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@ export interface CategoriaEquipamento{
 
 @Component({
   selector: 'app-equipamentos',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './equipamentos.html',
   styleUrl: './equipamentos.css'
 })

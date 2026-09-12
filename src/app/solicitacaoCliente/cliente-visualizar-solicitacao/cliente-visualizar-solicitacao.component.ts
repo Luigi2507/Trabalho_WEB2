@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
 
@@ -13,6 +13,7 @@ import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.mode
 export class ClienteVisualizarSolicitacaoComponent implements OnInit{
   private solicitacaoService = inject(SolicitacaoService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   solicitacao: Solicitacao | undefined;
   
@@ -44,16 +45,21 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
         switch (status) {
           case 'ORCADA': return '/solicitacaoCliente/orcamento';
           case 'ARRUMADA': return '/solicitacaoCliente/pagar';
+
           default: return '';
         }
     }
 
-    simularConclusao(): void {
+    // cliente resgatar 
+    resgatar(): void {
       if (!this.solicitacao) return;
-      this.solicitacao.status = 'ARRUMADA';
+      if (!confirm(`Deseja resgatar a solicitação "${this.solicitacao.descricaoEquipamento}"?`)) return;
+
+      this.solicitacao.status = 'APROVADA';
       this.solicitacao.historico.push(
-        new HistoricoItem(new Date(), 'ARRUMADA', 'Funcionário (temp - simulado)')
+        new HistoricoItem(new Date(), 'APROVADA', 'Cliente (resgate)')
       );
       this.solicitacaoService.atualizar(this.solicitacao);
+      this.router.navigate(['/solicitacaoCliente/listar']);
     }
 }

@@ -5,6 +5,9 @@
   </div>
 
   <span class="funcionario-nome">Olá, {{ funcionarioLogado?.nome }}</span>
+  <a [routerLink]="['/funcionarios/listar']" class="menu-item">Cadastrar Funcionario</a>
+  <a href="#" class="menu-item">Cadastrar equipamentos</a>
+  <a [routerLink]="['/relatorios']"class="menu-item">Relatórios</a>
   <a href="#" class="botao-sair" (click)="sair($event)">Sair</a>
 </header>
 

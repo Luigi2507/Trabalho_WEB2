@@ -36,7 +36,7 @@ export class SolicitacaoService {
         solicitacao.id = new Date().getTime() // gera id unico usando a data e hora exata em milissegundos
         solicitacao.dataHora = new Date()
         solicitacao.status = "ABERTA"
-        solicitacao.historico = [new HistoricoItem(new Date(), "ABERTA", "CLIENTE")]
+        solicitacao.historico = [new HistoricoItem(new Date(), "ABERTA", "Cliente")]
         solicitacoes.push(solicitacao)
         localStorage[LS_CHAVE] = JSON.stringify(solicitacoes) //armazena no localtorage
     }

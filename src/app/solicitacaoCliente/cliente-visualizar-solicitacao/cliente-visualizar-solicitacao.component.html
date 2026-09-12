@@ -54,7 +54,7 @@
       <h3>Histórico</h3>
       <table class="table table-striped table-bordered">
         <tbody>
-          <tr><th>Data/Hora</th><th>Status</th><th>Funcionário</th></tr>
+          <tr><th>Data/Hora</th><th>Status</th><th>Responsável</th></tr>
           @for (item of solicitacao.historico; track $index) {
             <tr>
               <td>{{ item.dataHora | date:'dd/MM/yyyy HH:mm' }}</td>
@@ -66,15 +66,14 @@
       </table>
 
       <div class="form-group acoes">
-        @if (textoBotaoAcao(solicitacao.status)) {
+        @if (solicitacao.status === 'REJEITADA') {
+          <button type="button" class="btn-warning" (click)="resgatar()">
+            <i class="fa fa-bolt"></i> Resgatar Serviço
+          </button>
+        } @else if (textoBotaoAcao(solicitacao.status)) {
           <a class="btn-warning" [routerLink]="[rotaBotaoAcao(solicitacao.status), solicitacao.id]">
             <i class="fa fa-bolt"></i> {{ textoBotaoAcao(solicitacao.status) }}
           </a>
-        }
-        @if (solicitacao.status === 'APROVADA') {
-          <button type="button" class="btn-outline" (click)="simularConclusao()">
-            <i class="fa fa-wrench"></i> Simular Conclusão (temp)
-          </button>
         }
         <a class="btn-secondary" [routerLink]="['/solicitacaoCliente/listar']">
           <i class="fa fa-arrow-left"></i> Voltar
