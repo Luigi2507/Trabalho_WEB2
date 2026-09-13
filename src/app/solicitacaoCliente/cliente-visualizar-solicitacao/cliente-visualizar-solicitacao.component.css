@@ -27,15 +27,16 @@
 }
 
 .logo-icone {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
 .logo-texto {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 800;
   color: #db5b16;
+  text-shadow: 0 0 10px rgba(255, 106, 26, 0.553), 0 0 24px rgba(255, 89, 0, 0.35);
 }
 
 /*ITENS MENU*/
@@ -103,7 +104,7 @@
   text-align: center;
   font-size: 22px;
   font-weight: 800;
-  color: #1a1a1a;
+  color: #7d480c;
   margin-bottom: 20px;
 }
 
@@ -111,7 +112,7 @@
   background: #fff;
   border-radius: 16px;
   padding: 30px 32px;
-  box-shadow: 0 8px 24px rgba(219, 91, 22, 0.12);
+  box-shadow: 0 8px 24px rgba(219, 91, 22, 0.522);
 }
 
 .linha-dupla {
