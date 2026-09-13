@@ -64,6 +64,7 @@
                             </div> 
                         </div>
 
+                        <!--MENSAGENS DE ERRO-->
                         @if (erroEtapa1) {
                             <p class="erro-etapa">{{erroEtapa1}}</p>
                         }
@@ -103,7 +104,8 @@
                                 [(ngModel)]="numero" (input)="somenteNumeros()">
                             </div>
                         </div>
-                            
+                          
+                        <!--MENSAGEM DE ERRO CEP-->
                         @if (mensagemCEP) {
                             <p class="erro-etapa">{{mensagemCEP}}</p>
                         }

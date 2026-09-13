@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 export interface CategoriaEquipamento{
     id: number;
@@ -10,7 +10,7 @@ export interface CategoriaEquipamento{
 
 @Component({
   selector: 'app-equipamentos',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './equipamentos.html',
   styleUrl: './equipamentos.css'
 })

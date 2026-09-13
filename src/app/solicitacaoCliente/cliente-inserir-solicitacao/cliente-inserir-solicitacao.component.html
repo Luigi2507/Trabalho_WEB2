@@ -8,7 +8,7 @@
     <a [routerLink]="['/solicitacaoCliente/listar']" class="menu-item">Minhas Solicitações</a>
   </nav>
 
-  <a href="#" class="botao-sair" >Sair</a>
+  <a href="#" class="botao-sair" (click)="sair($event)">Sair</a>
 </header>
 
 <div class="conteudo-central">
@@ -17,10 +17,7 @@
     <form #formSolicitacao="ngForm">
       <div class="form-group">
         <label for="descricaoEquipamento">Descrição do Equipamento:</label>
-        <input type="text" class="form-control" id="descricaoEquipamento" name="descricaoEquipamento"
-               [(ngModel)]="solicitacao.descricaoEquipamento"
-               #descricaoEquipamento="ngModel"
-               minlength="2" required>
+        <input type="text" class="form-control" id="descricaoEquipamento" name="descricaoEquipamento" [(ngModel)]="solicitacao.descricaoEquipamento" #descricaoEquipamento="ngModel" minlength="2" required>
 
         @if (descricaoEquipamento.errors && (descricaoEquipamento.dirty || descricaoEquipamento.touched)) {
           <div class="alert alert-danger">
@@ -36,10 +33,7 @@
 
       <div class="form-group">
         <label for="categoria">Categoria do Equipamento:</label>
-        <select class="form-control" id="categoria" name="categoria"
-                [(ngModel)]="solicitacao.categoria"
-                #categoria="ngModel"
-                required>
+        <select class="form-control" id="categoria" name="categoria" [(ngModel)]="solicitacao.categoria" #categoria="ngModel" required>
           <option value="" disabled selected>Selecione uma categoria</option>
           <option value="NOTEBOOK">Notebook</option>
           <option value="IMPRESSORA">Impressora</option>
@@ -58,10 +52,7 @@
 
       <div class="form-group">
         <label for="descricaoDefeito">Descrição do Defeito:</label>
-        <textarea class="form-control" id="descricaoDefeito" name="descricaoDefeito"
-                  [(ngModel)]="solicitacao.descricaoDefeito"
-                  #descricaoDefeito="ngModel"
-                  minlength="5" required></textarea>
+        <textarea class="form-control" id="descricaoDefeito" name="descricaoDefeito" [(ngModel)]="solicitacao.descricaoDefeito" #descricaoDefeito="ngModel" minlength="5" required></textarea>
 
         @if (descricaoDefeito.errors && (descricaoDefeito.dirty || descricaoDefeito.touched)) {
           <div class="alert alert-danger">
@@ -76,8 +67,7 @@
       </div>
 
       <div class="form-group">
-        <button type="button" class="btn btn-primary" (click)="inserir()" 
-        [disabled]="!formSolicitacao.form.valid">Enviar Solicitação</button>
+        <button type="button" class="btn btn-primary" (click)="inserir()" [disabled]="!formSolicitacao.form.valid">Enviar Solicitação</button>
         <a class="botao-voltar" [routerLink]="['/solicitacaoCliente/listar']">Voltar</a>
       </div>
     </form>

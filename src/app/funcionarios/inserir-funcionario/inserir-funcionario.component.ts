@@ -10,6 +10,7 @@ import { FormsModule, NgForm } from '@angular/forms';
   templateUrl: './inserir-funcionario.component.html',
   styleUrl: './inserir-funcionario.component.css',
 })
+
 export class InserirFuncionarioComponent {
   @ViewChild('formFuncionario') formulario! : NgForm;
   funcionario: Funcionario = new Funcionario();
@@ -17,6 +18,7 @@ export class InserirFuncionarioComponent {
   private funcionarioService = inject(FuncionarioService);
   private router = inject(Router);
 
+  //Insere novo func
   inserir(): void {
     if (this.formulario.valid) {
 
@@ -34,6 +36,7 @@ export class InserirFuncionarioComponent {
     }
   }
 
+  //gerar senha
   private gerarSenha(): string {
     return Math.floor(1000 + Math.random() * 9000).toString();
   }

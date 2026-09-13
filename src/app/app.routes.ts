@@ -17,6 +17,7 @@ import { ListarFuncionarioComponent } from './funcionarios/listar-funcionario/li
 import { InserirFuncionarioComponent } from './funcionarios/inserir-funcionario/inserir-funcionario.component';
 import { EditarFuncionarioComponent } from './funcionarios/editar-funcionario/editar-funcionario.component';
 import { RelatorioComponent } from './solicitacaoFuncionario/relatorio/relatorio.component';
+import { Equipamentos } from './equipamentos/equipamentos';
 
 export const routes: Routes = [
 
@@ -45,6 +46,10 @@ export const routes: Routes = [
   {
     path: 'sobre',
     component: Sobre
+  },
+  {
+    path:'cadastrarEquipamentos',
+    component:Equipamentos
   },
 
   //Rotas das páginas CRUD de funcionários

@@ -6,23 +6,20 @@
 
   <span class="funcionario-nome">Olá, {{ funcionarioLogado?.nome }}</span>
   <a [routerLink]="['/funcionarios/listar']" class="menu-item">Cadastrar Funcionario</a>
-  <a href="#" class="menu-item">Cadastrar equipamentos</a>
-  <a [routerLink]="['/relatorios']"class="menu-item">Relatórios</a>
+  <a [routerLink]="['/cadastrarEquipamentos']" class="menu-item">Cadastrar equipamentos</a>
+  <a [routerLink]="['/relatorios']" class="menu-item">Relatórios</a>
   <a href="#" class="botao-sair" (click)="sair($event)">Sair</a>
+
 </header>
 
 <div class="conteudo-central">
   <h1>Solicitações</h1>
 
   <div class="abas-filtro">
-    <button type="button"
-            [class.ativo]="visualizacao === 'TODAS'"
-            (click)="selecionarVisualizacao('TODAS')">
+    <button type="button" [class.ativo]="visualizacao === 'TODAS'" (click)="selecionarVisualizacao('TODAS')">
       Todas as Solicitações
     </button>
-    <button type="button"
-            [class.ativo]="visualizacao === 'NOVAS'"
-            (click)="selecionarVisualizacao('NOVAS')">
+    <button type="button" [class.ativo]="visualizacao === 'NOVAS'" (click)="selecionarVisualizacao('NOVAS')">
       Novas Solicitações
     </button>
   </div>
@@ -54,19 +51,17 @@
 
       @for (solicitacao of solicitacoes; track solicitacao.id) {
         <tr>
-          <th>{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</th>
-          <th>{{ solicitacao.clienteNome }}</th>
-          <th>{{ descricaoResumida(solicitacao.descricaoEquipamento) }}</th>
-          <th>
+          <td>{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ solicitacao.clienteNome }}</td>
+          <td>{{ descricaoResumida(solicitacao.descricaoEquipamento) }}</td>
+          <td>
             <span class="badge-status" [class]="'status-' + corStatus(solicitacao.status)">
               {{ solicitacao.status }}
             </span>
-          </th>
+          </td>
           <td class="text-center">
             @if (textoBotaoAcao(solicitacao.status)) {
-              <a href="#" class="btn btn-xs btn-warning"
-                 (click)="$event.preventDefault(); navegarParaAcao(solicitacao)">
-                {{ textoBotaoAcao(solicitacao.status) }}
+              <a href="#" class="btn btn-xs btn-warning" (click)="$event.preventDefault(); navegarParaAcao(solicitacao)"> {{ textoBotaoAcao(solicitacao.status) }}
               </a>
             }
           </td>

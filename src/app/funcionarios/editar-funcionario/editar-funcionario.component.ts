@@ -10,6 +10,7 @@ import { FuncionarioService } from '../../services/funcionario.service';
   templateUrl: './editar-funcionario.component.html',
   styleUrl: './editar-funcionario.component.css',
 })
+
 export class EditarFuncionarioComponent implements OnInit {
   @ViewChild('formFuncionario') formulario! : NgForm;
   funcionario: Funcionario = new Funcionario();
@@ -19,9 +20,10 @@ export class EditarFuncionarioComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   mensagemErro: string = '';
+
   ngOnInit(): void {
     const id = Number(this.route.snapshot.params['id']);
-    const funcionarioEncontrado = this.funcionarioService.buscarPorID(id);
+    const funcionarioEncontrado = this.funcionarioService.buscarPorID(id); //PROCURA O FUNCIONARIO
 
     if (funcionarioEncontrado) {
       this.funcionario = funcionarioEncontrado;
@@ -30,6 +32,7 @@ export class EditarFuncionarioComponent implements OnInit {
     }
   }    
 
+  //ATUALIZAR CADASTRO
   editar(): void {
     if (this.formulario.valid) {
       this.funcionarioService.atualizar(this.funcionario);

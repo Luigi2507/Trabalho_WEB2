@@ -10,6 +10,7 @@ import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.mode
   templateUrl: './cliente-visualizar-solicitacao.component.html',
   styleUrl: './cliente-visualizar-solicitacao.component.css',
 })
+
 export class ClienteVisualizarSolicitacaoComponent implements OnInit{
   private solicitacaoService = inject(SolicitacaoService);
   private route = inject(ActivatedRoute);
@@ -22,11 +23,12 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
     this.solicitacao = this.solicitacaoService.buscarPorID(id);
 
     if (this.solicitacao === undefined) {
-      throw new Error("Solicitação não encontrada: id = " + id);
+      alert('Solicitação não encontrada.');
+      this.router.navigate(['/solicitacaoCliente/listar']);
     }
   }
 
-// define botao de acordo com o status
+  // define botao de acordo com o status
   textoBotaoAcao(status: string): string {
       switch (status) {
         case 'ORCADA': 
@@ -41,27 +43,30 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
     }
 
   // qual pag o botao leva 
-    rotaBotaoAcao(status: string): string {
-        switch (status) {
-          case 'ORCADA': return '/solicitacaoCliente/orcamento';
-          case 'ARRUMADA': return '/solicitacaoCliente/pagar';
+  rotaBotaoAcao(status: string): string {
+      switch (status) {
+        case 'ORCADA': return '/solicitacaoCliente/orcamento';
+        case 'ARRUMADA': return '/solicitacaoCliente/pagar';
 
-          default: return '';
-        }
+        default: return '';
+      }
+  }
+
+  // cliente resgatar 
+  resgatar(): void {
+    if (!this.solicitacao) return;
+    if (!confirm(`Deseja resgatar a solicitação "${this.solicitacao.descricaoEquipamento}"?`)) return;
+
+    this.solicitacao.status = 'APROVADA';
+    if (!this.solicitacao.historico) {
+      this.solicitacao.historico = [];
     }
 
-    // cliente resgatar 
-    resgatar(): void {
-      if (!this.solicitacao) return;
-      if (!confirm(`Deseja resgatar a solicitação "${this.solicitacao.descricaoEquipamento}"?`)) return;
-
-      this.solicitacao.status = 'APROVADA';
-      this.solicitacao.historico.push(
-        new HistoricoItem(new Date(), 'APROVADA', `${this.solicitacao.clienteNome} (Cliente - resgate)`)
-      );
-      this.solicitacaoService.atualizar(this.solicitacao);
-      this.router.navigate(['/solicitacaoCliente/listar']);
-    }
+    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${this.solicitacao.clienteNome} (Cliente - resgate)`)
+    );
+    this.solicitacaoService.atualizar(this.solicitacao);
+    this.router.navigate(['/solicitacaoCliente/listar']);
+  }
       
   sair($event: any): void {
     $event.preventDefault();

@@ -26,18 +26,23 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
     this.solicitacao = this.solicitacaoService.buscarPorID(id)
 
     if(this.solicitacao === undefined){
-       throw new Error("Solicitação não encontrada: id = " + id);
+      alert('Solicitação não encontrada.');
+      this.router.navigate(['/solicitacaoFuncionario/listar']);
     }
   }
 
   salvarOrcamento() : void {
-    if(!this.solicitacao || this.valorOrcamento < 0) return;
+    if(!this.solicitacao || this.valorOrcamento <= 0) return;
 
     this.solicitacao.orcamento = this.valorOrcamento;
     this.solicitacao.funcionarioOrcamento = this.funcionarioLogado.nome;
     this.solicitacao.status = 'ORCADA';
-    this.solicitacao.historico.push(
-      new HistoricoItem(new Date(), 'ORCADA', `${this.funcionarioLogado.nome} (Funcionário)`)
+
+    if (!this.solicitacao.historico) {
+      this.solicitacao.historico = [];
+    }
+
+    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'ORCADA', `${this.funcionarioLogado.nome} (Funcionário)`)
     );
     this.solicitacaoService.atualizar(this.solicitacao);
 

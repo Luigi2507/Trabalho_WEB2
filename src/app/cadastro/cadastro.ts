@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+//Chave para o localStorage
 const LS_CHAVE_CLIENTES = 'clientes';
 
 @Component({
@@ -14,17 +15,15 @@ const LS_CHAVE_CLIENTES = 'clientes';
 })
 
 export class Cadastro {
-
-  //CONTROLE DE ETAPAS (1-DADOS PESSOAIS / 2- ENDEREÇO)
-  public etapaAtual: number = 1; 
+  public etapaAtual: number = 1; //CONTROLE DE ETAPAS (1-DADOS PESSOAIS / 2- ENDEREÇO)
   public erroEtapa1: string = ''; // mensagem de erro exibida se a validação falhar
-
+  
   //DADOS PESSOAIS
   public cpf : string = '';
   public nome : string = '';
   public email : string = '';
   public telefone : string = '';
-
+  
   //DADOS DE ENDEREÇO
   public cep : string = '';
   public logradouro : string = '';
@@ -33,7 +32,7 @@ export class Cadastro {
   public bairro : string = '';
   public cidade : string = '';
   public estado : string = '';
-
+  
   //VIACEP -> requisição HTTP
   private http = inject(HttpClient);
 
@@ -42,6 +41,10 @@ export class Cadastro {
   public bloqueado: boolean = false;
   public btnCadastroTexto: string = 'Cadastrar-se';
 
+  //MENSAGENS DE ERRO
+  public mensagemEmail: string = '';
+  public mensagemCPF: string = '';
+  
   //MÁSCARAS
   public formatarCPF(): void {
     let cpf = this.cpf.replace(/\D/g, '');
@@ -189,6 +192,7 @@ export class Cadastro {
       this.etapaAtual = 2;
   }
 
+  //VOLTA PRA ETAPA DE DADOS PESSOAIS
   public voltarEtapa(): void {
     this.etapaAtual = 1;
   }
@@ -217,9 +221,7 @@ export class Cadastro {
     return Math.floor(1000 + Math.random() * 9000).toString();
   }
 
-  public mensagemEmail: string = '';
-  public mensagemCPF: string = '';
-
+  // CADASTRAR DE FATO E CONFERIR DADOS
   public cadastrar(): void {
     /*CONFERIR ENDEREÇO ANTES DE CADASTRAR DE FATO*/
       const cepLimpo = this.cep.replace(/\D/g, '');

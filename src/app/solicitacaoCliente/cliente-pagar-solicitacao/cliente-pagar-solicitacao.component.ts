@@ -10,6 +10,7 @@ import { Solicitacao, HistoricoItem } from '../../shared/models/solicitacao.mode
   templateUrl: './cliente-pagar-solicitacao.component.html',
   styleUrl: './cliente-pagar-solicitacao.component.css',
 })
+
 export class ClientePagarSolicitacaoComponent implements OnInit{
   private solicitacaoService = inject(SolicitacaoService);
   private route = inject(ActivatedRoute);
@@ -22,7 +23,8 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
     this.solicitacao = this.solicitacaoService.buscarPorID(id);
 
     if (this.solicitacao === undefined) {
-      throw new Error("Solicitação não encontrada: id = " + id);
+      alert('Solicitação não encontrada.');
+      this.router.navigate(['/solicitacaoCliente/listar']);
     }
   }
 
@@ -32,9 +34,13 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
 
     this.solicitacao.status = 'PAGA';
     this.solicitacao.dataPagamento = new Date();
-    this.solicitacao.historico.push(
-      new HistoricoItem(new Date(), 'PAGA', `${this.solicitacao.clienteNome} (Cliente)`)
+
+    if (!this.solicitacao.historico) {
+      this.solicitacao.historico = [];
+    }
+    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'PAGA', `${this.solicitacao.clienteNome} (Cliente)`)
     );
+    
     this.solicitacaoService.atualizar(this.solicitacao);
 
     alert('Pagamento confirmado!');

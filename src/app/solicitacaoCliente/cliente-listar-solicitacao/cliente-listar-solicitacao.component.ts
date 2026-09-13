@@ -30,14 +30,14 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
     const cpfCliente = usuarioLogado.cpf;
   
     //ordena as solicitações
-    this.solicitacoes = this.solicitacaoService.listarTodos().filter(solicitacao => solicitacao.clienteCpf === cpfCliente).sort((a, b) => { //organiza as solicitacoes em ordem decrescente
+    this.solicitacoes = this.solicitacaoService.listarTodos().filter(solicitacao => solicitacao.clienteCpf === cpfCliente).sort((a, b) => { //organiza as solicitacoes em ordem antiga pra mais nova
       const dataA = a.dataHora instanceof Date ? a.dataHora.getTime() : new Date(a.dataHora).getTime();
       const dataB = b.dataHora instanceof Date ? b.dataHora.getTime() : new Date(b.dataHora).getTime();
       return dataA - dataB;
     });
   }
 
-  //filtro
+  //filtro de solicitações 
   get solicitacoesFiltradas(): Solicitacao[] {
     return this.solicitacoes.filter(s => {
       switch (this.abaAtiva) {
@@ -91,6 +91,7 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
     }
   }
 
+  //resgatar a solicitacao reprovada
   resgatar($event: any, solicitacao: Solicitacao): void {
     $event.preventDefault();
     if (confirm(`Deseja resgatar a solicitação "${solicitacao.descricaoEquipamento}"?`)) {
@@ -100,8 +101,7 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
         solicitacao.historico = [];
       }
 
-      solicitacao.historico.push(
-        new HistoricoItem(new Date(), 'APROVADA', `${solicitacao.clienteNome} (Cliente - resgate)`)
+      solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${solicitacao.clienteNome} (Cliente / resgate)`)
       );
       
       this.solicitacaoService.atualizar(solicitacao);
