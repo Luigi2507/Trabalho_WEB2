@@ -20,7 +20,7 @@ export class ListarFuncionarioComponent implements OnInit {
   funcionarioLogado: any = null;
 
   ngOnInit(): void {
-    this.funcionarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+    this.funcionarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado') || '{}');
     this.carregar();
   }
 
@@ -46,7 +46,7 @@ export class ListarFuncionarioComponent implements OnInit {
 
   sair($event: any): void {
     $event.preventDefault();
-    localStorage.removeItem('usuarioLogado');
+    sessionStorage.removeItem('usuarioLogado');
     this.router.navigate(['/login']);
   }
 }

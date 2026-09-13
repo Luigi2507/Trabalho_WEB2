@@ -83,7 +83,7 @@ export class Login {
         
       // Se encontrou cliente
       if (cliente) {
-        localStorage.setItem( 'usuarioLogado', JSON.stringify(cliente));
+        sessionStorage.setItem( 'usuarioLogado', JSON.stringify(cliente));
 
         this.btnCarregando = false;
         this.btnDesativado = false;
@@ -101,7 +101,7 @@ export class Login {
       // Se encontrou funcionário
       if (funcionario) {
 
-        localStorage.setItem('usuarioLogado', JSON.stringify(funcionario));
+        sessionStorage.setItem('usuarioLogado', JSON.stringify(funcionario));
         
         this.btnCarregando = false;
         this.btnDesativado = false;

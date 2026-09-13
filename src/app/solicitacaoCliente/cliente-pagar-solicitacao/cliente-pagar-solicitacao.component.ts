@@ -43,7 +43,7 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
 
   sair($event: any): void {
     $event.preventDefault();
-    localStorage.removeItem('usuarioLogado');
+    sessionStorage.removeItem('usuarioLogado');
     this.router.navigate(['/login']);
   }
 }

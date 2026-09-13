@@ -21,7 +21,7 @@ export class ClienteInserirSolicitacaoComponent {
     if(this.formulario.form.valid){
       //recupera os dados do cliente em solicitcao
       const usuarioLogado = JSON.parse(
-        localStorage.getItem('usuarioLogado') || '{}' 
+        sessionStorage.getItem('usuarioLogado') || '{}' 
       );
 
       //associa solicitacao com cpf
@@ -34,7 +34,7 @@ export class ClienteInserirSolicitacaoComponent {
 
   sair($event: any): void {
     $event.preventDefault();
-    localStorage.removeItem('usuarioLogado');
+    sessionStorage.removeItem('usuarioLogado');
     this.router.navigate(['/login']);
   }
 }
