@@ -84,6 +84,12 @@
     color: white;
 }
 
+.menu-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
 /* Botão Entrar */
 .btn-entrar {
     background: #db5b16;
@@ -179,7 +185,7 @@
 
 /* Rodapé */
 .rodape {
-    background: #1a1a1a;
+    background: #f4f4f4;
     color: rgba(255, 255, 255, 0.85);
     padding: 64px 0 24px;
 }
