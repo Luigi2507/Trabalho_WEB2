@@ -8,7 +8,6 @@
 
   <nav class="menu">
     <a href="#" class="menu-item">Início</a>
-    <a href="#" class="menu-item">Solicitações</a>
     <a class="menu-item" routerLink="/contato">Contato</a>
     <a class="menu-item" routerLink="/sobre">Sobre</a>
   </nav>
@@ -20,18 +19,13 @@
   <div class="home-conteudo">
     <h1 class="home-titulo">Manutenção de Equipamentos</h1>
     <p class="home-subtitulo">Faça seu cadastro, abra sua solicitação e acompanhe o orçamento e o conserto do início ao fim!</p>
-    <button type="button"
-            class="botao-slt"
-            [disabled]="acaoEmAndamento"
-            [class.btnCarregando]="acaoEmAndamento"
-            (click)="btnHomeAnimacao()">{{btnHomeTexto}}</button>
+    <button type="button" class="botao-slt" routerLink="/login">Solicitar Orçamento</button>
   </div>
 </section>
 
 <section class="secao-servicos">
   <div class="container">
     <h2 class="titulo-secao">Nossos Serviços</h2>
-    <p class="subtitulo-secao"> oq faz</p>
 
     <div class="row g-4 mt-3">
       <div class="col-lg-3 col-md-6" *ngFor="let servico of servicos">
@@ -43,24 +37,6 @@
           </div>
           <h3 class="card-servico-titulo">{{ servico.titulo }}</h3>
           <p class="card-servico-texto">{{ servico.descricao }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="secao-produtos">
-  <div class="container">
-    <h2 class="titulo-secao">Equipamentos Atendidos</h2>
-    
-    <div class="row g-4 mt-3">
-      <div class="col-lg-3 col-md-6" *ngFor="let produto of produtos">
-        <div class="card-produto">
-          <div class="card-produto-img">
-            <img [src]="produto.imagem" [alt]="produto.nome">
-          </div>
-          <span class="card-produto-categoria"> {{ produto.categoria }}</span>
-          <h3 class="card-produto-nome"> {{ produto.nome }}</h3>
         </div>
       </div>
     </div>
@@ -81,10 +57,9 @@
         <div class="col-lg-3 col-md-6">
           <h4 class="rodape-titulo">Links</h4>
           <ul class="rodape-lista">
-            <li><a href="#">Início</a></li>
-            <li><a href="#">Solicitações</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Contato</a></li>
+            <li><a routerLink="/home">Início</a></li>
+            <li><a routerLink="/sobre">Sobre</a></li>
+            <li><a routerLink="/contato">Contato</a></li>
           </ul>
         </div>
 
@@ -93,7 +68,8 @@
           <ul class="rodape-lista">
             <li>Diagnóstico</li>
             <li>Manutenção preventiva</li>
-            <li>Manut corretiva..</li>
+            <li>Manutenção corretiva</li>
+            <li>Acompanhamento online</li>
           </ul>
         </div>
 

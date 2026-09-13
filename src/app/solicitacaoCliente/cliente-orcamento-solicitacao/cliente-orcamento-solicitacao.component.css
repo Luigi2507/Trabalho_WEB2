@@ -27,15 +27,16 @@
 }
 
 .logo-icone {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
 .logo-texto {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 800;
   color: #db5b16;
+  text-shadow: 0 0 10px rgba(255, 106, 26, 0.553), 0 0 24px rgba(255, 89, 0, 0.35);
 }
 
 /*ITENS MENU*/
@@ -103,7 +104,7 @@
   text-align: center;
   font-size: 22px;
   font-weight: 800;
-  color: #1a1a1a;
+  color: #553111;
   margin-bottom: 20px;
 }
 
@@ -182,12 +183,13 @@
 /*Botoes*/
 .acoes {
   display: flex;
+  align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .btn-aprovar, .btn-rejeitar{
-  margin-top: 20px;
   padding: 10px 20px;
   border-radius: 18px;
   font-size: 13.5px;
@@ -224,7 +226,7 @@
   border: none;
   margin-left: 5px;
   color: #db5b16;
-  padding: 0px 14px;
+  padding: 10px 14px;
   border-radius: 30px;
   font-size: 14px;
   font-weight: 600;
