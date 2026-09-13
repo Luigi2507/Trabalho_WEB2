@@ -35,7 +35,7 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
     if (!this.solicitacao) return;
 
     this.solicitacao.status = 'APROVADA';
-    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', 'Cliente'));
+    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${this.solicitacao.clienteNome} (Cliente)`));
     this.solicitacaoService.atualizar(this.solicitacao);
 
     alert(`Serviço Aprovado no Valor R$ ${this.solicitacao.orcamento.toFixed(2)}`);
@@ -53,7 +53,7 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
     this.solicitacao.status = 'REJEITADA';
     this.solicitacao.motivoRejeicao = this.motivoRejeicao;
     this.solicitacao.historico.push(
-      new HistoricoItem(new Date(), 'REJEITADA', 'Cliente')
+      new HistoricoItem(new Date(), 'REJEITADA', `${this.solicitacao.clienteNome} (Cliente)`)
     );
     this.solicitacaoService.atualizar(this.solicitacao);
 

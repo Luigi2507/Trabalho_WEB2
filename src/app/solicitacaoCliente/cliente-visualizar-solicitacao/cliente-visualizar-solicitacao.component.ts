@@ -57,7 +57,7 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
 
       this.solicitacao.status = 'APROVADA';
       this.solicitacao.historico.push(
-        new HistoricoItem(new Date(), 'APROVADA', 'Cliente (resgate)')
+        new HistoricoItem(new Date(), 'APROVADA', `${this.solicitacao.clienteNome} (Cliente - resgate)`)
       );
       this.solicitacaoService.atualizar(this.solicitacao);
       this.router.navigate(['/solicitacaoCliente/listar']);

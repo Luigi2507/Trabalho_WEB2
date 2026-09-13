@@ -21,7 +21,7 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
   valorOrcamento: number = 0
   
   ngOnInit(): void {
-    this.funcionarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+    this.funcionarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado') || '{}');
     const id = +this.route.snapshot.params['id']
     this.solicitacao = this.solicitacaoService.buscarPorID(id)
 

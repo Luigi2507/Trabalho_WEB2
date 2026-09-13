@@ -101,7 +101,7 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
       }
 
       solicitacao.historico.push(
-        new HistoricoItem(new Date(), 'APROVADA', 'Cliente (resgate)')
+        new HistoricoItem(new Date(), 'APROVADA', `${solicitacao.clienteNome} (Cliente - resgate)`)
       );
       
       this.solicitacaoService.atualizar(solicitacao);

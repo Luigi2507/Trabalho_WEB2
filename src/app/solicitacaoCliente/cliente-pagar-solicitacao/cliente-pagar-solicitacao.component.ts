@@ -33,7 +33,7 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
     this.solicitacao.status = 'PAGA';
     this.solicitacao.dataPagamento = new Date();
     this.solicitacao.historico.push(
-      new HistoricoItem(new Date(), 'PAGA', 'Cliente')
+      new HistoricoItem(new Date(), 'PAGA', `${this.solicitacao.clienteNome} (Cliente)`)
     );
     this.solicitacaoService.atualizar(this.solicitacao);
 
