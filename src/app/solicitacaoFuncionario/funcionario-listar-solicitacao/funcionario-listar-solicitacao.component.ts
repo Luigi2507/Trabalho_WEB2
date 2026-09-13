@@ -23,6 +23,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   solicitacoes: Solicitacao[] = [] //solici. depois q o filtro é aplicado
   funcionarioLogado: any = null //dados do func logado
   
+  visualizacao: 'NOVAS' | 'TODAS' = 'TODAS';
   filtroAtivo: Filtro = 'HOJE' 
   dataInicio: string = ''
   dataFim: string = ''
@@ -33,10 +34,19 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
     d1.getMonth() === d2.getMonth() &&
     d1.getDate() === d2.getDate();
   }
+
+  selecionarVisualizacao(v: 'NOVAS' | 'TODAS'): void {
+    this.visualizacao = v;
+    this.aplicarFiltro();
+  }
   
   aplicarFiltro() : void {
     let lista = [...this.todasSolicitacoes] //cria uma copia da lista
     
+    if (this.visualizacao === 'NOVAS') {
+      lista = lista.filter(s => s.status === 'ABERTA');
+    }
+
     //solicitaçoes de hoje
     if(this.filtroAtivo === 'HOJE'){
       const hoje = new Date()
@@ -85,11 +95,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
       solicitacao.funcionarioFinalizacao = this.funcionarioLogado.nome;
       solicitacao.dataFinalizacao = new Date();
       //adicona alterecao no historico
-      solicitacao.historico.push({
-        dataHora: new Date(),
-        status: 'FINALIZADA',
-        funcionario: this.funcionarioLogado.nome
-      });
+      solicitacao.historico.push({dataHora: new Date(), status: 'FINALIZADA', funcionario: `${this.funcionarioLogado.nome} (Funcionário)`});
       this.solicitacaoService.atualizar(solicitacao);
       this.carregar();
     }

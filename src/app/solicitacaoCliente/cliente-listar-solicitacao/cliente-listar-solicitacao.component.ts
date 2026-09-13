@@ -25,7 +25,7 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
 
   //busca e mostra somente as solicitaçoes do cliente logado
   carregarSolicitacoes(): void {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+    const usuarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado') || '{}');
 
     const cpfCliente = usuarioLogado.cpf;
   
@@ -111,7 +111,7 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
 
   sair($event: any): void {
     $event.preventDefault();
-    localStorage.removeItem('usuarioLogado');
+    sessionStorage.removeItem('usuarioLogado');
     this.router.navigate(['/login']);
   }
 }

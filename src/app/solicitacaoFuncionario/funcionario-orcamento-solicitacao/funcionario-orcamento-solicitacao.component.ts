@@ -37,7 +37,7 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
     this.solicitacao.funcionarioOrcamento = this.funcionarioLogado.nome;
     this.solicitacao.status = 'ORCADA';
     this.solicitacao.historico.push(
-      new HistoricoItem(new Date(), 'ORCADA', this.funcionarioLogado.nome)
+      new HistoricoItem(new Date(), 'ORCADA', `${this.funcionarioLogado.nome} (Funcionário)`)
     );
     this.solicitacaoService.atualizar(this.solicitacao);
 

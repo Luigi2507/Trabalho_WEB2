@@ -49,9 +49,9 @@
         <div class="form-group">
           <label for="destino">Redirecionar para:</label>
           <select id="destino" class="form-control" [(ngModel)]="funcionarioDestinoId" name="destino">
-            <option [value]="0" disabled selected>Selecione um funcionário</option>
+            <option [ngValue]="0" disabled selected>Selecione um funcionário</option>
             @for (f of funcionariosDisponiveis; track f.id) {
-              <option [value]="f.id">{{ f.nome }}</option>
+              <option [ngValue]="f.id">{{ f.nome }}</option>
             }
           </select>
         </div>
