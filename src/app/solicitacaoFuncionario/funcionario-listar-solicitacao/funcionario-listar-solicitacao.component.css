@@ -77,6 +77,32 @@
 }
 
 
+/*Abas de filtro*/
+.abas-filtro {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.abas-filtro button {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #666;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.abas-filtro button:hover {
+  color: #db5b16;
+}
+
 
 /*NÃO MEXXXXXXXXXXXXXXXXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*/
 .badge-status {
