@@ -27,15 +27,16 @@
 }
 
 .logo-icone {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
 .logo-texto {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 800;
   color: #db5b16;
+  text-shadow: 0 0 10px rgba(255, 106, 26, 0.553), 0 0 24px rgba(255, 89, 0, 0.35);
 }
 
 /*ITENS MENU*/
@@ -147,7 +148,7 @@
   padding: 8px 16px;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #666;
+  color: #666666;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -155,7 +156,7 @@
 
 .abas-filtro button:hover {
   background-color: #f5f3f0;
-  color: #333;
+  color: #e77e0d;
 }
 
 .abas-filtro button.ativa {
@@ -179,13 +180,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(205, 120, 24, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-solicitacao:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(225, 121, 24, 0.465);
 }
 
 .card-cabecalho {
@@ -197,7 +198,7 @@
 
 .card-data {
   font-size: 0.85rem;
-  color: #64748b;
+  color: #64748bce;
   font-weight: 500;
 }
 
