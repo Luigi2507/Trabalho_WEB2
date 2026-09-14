@@ -166,3 +166,11 @@
 .form-control.ng-invalid.ng-touched {
   border-color: #c0392b;
 }
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #97430e;
+  margin-bottom: 6px;
+  display: block;
+}
