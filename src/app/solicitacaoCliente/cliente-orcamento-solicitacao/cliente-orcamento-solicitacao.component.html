@@ -8,7 +8,7 @@
     <a [routerLink]="['/solicitacaoCliente/listar']" class="menu-item">Minhas Solicitações</a>
   </nav>
 
-  <a [routerLink]="['/home']" class="botao-sair" (click)="sair($event)">Sair</a>
+  <a href="#" class="botao-sair" (click)="sair($event)">Sair</a>
 </header>
 
 <div class="conteudo-central">
@@ -38,7 +38,7 @@
       } @else {
         <div class="form-group">
           <label for="motivo">Motivo da Rejeição:</label>
-          <textarea class="form-control" id="motivo" name="motivo"[(ngModel)]="motivoRejeicao" required></textarea>
+          <textarea class="form-control" id="motivo" name="motivo" [(ngModel)]="motivoRejeicao" required></textarea>
         </div>
         <div class="acoes">
           <button type="button" class="btn-rejeitar" (click)="confirmarRejeicao()" [disabled]="!motivoRejeicao.trim()">Confirmar Rejeição</button>

@@ -9,7 +9,7 @@
 
   </nav>
 
-  <a [routerLink]="['/home']" class="botao-sair" (click)="sair($event)">Sair</a>
+  <a href="#" class="botao-sair" (click)="sair($event)">Sair</a>
 </header>
 
 <div class="conteudo-central">
@@ -32,7 +32,7 @@
 
       <div class="acoes">
         <button type="button" class="btn-pagar" (click)="confirmarPagamento()">Confirmar Pagamento</button>
-        <a class="botao-voltar"[routerLink]="['/solicitacaoCliente/listar']">Voltar</a>
+        <a class="botao-voltar" [routerLink]="['/solicitacaoCliente/listar']">Voltar</a>
       </div>
     </div>
   }

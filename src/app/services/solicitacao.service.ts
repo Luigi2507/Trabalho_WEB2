@@ -21,6 +21,7 @@ export class SolicitacaoService {
     private reviverDatas(s: any): Solicitacao {
     s.dataHora = new Date(s.dataHora);
     s.dataPagamento = s.dataPagamento ? new Date(s.dataPagamento) : null;
+    s.dataFinalizacao = s.dataFinalizacao ? new Date(s.dataFinalizacao) : null;
     
     //datas do historico tbm
     s.historico = (s.historico || []).map((h: any) => ({
@@ -48,11 +49,11 @@ export class SolicitacaoService {
     }
 
     //atualizar solicitaçao (aprovar /rejeitar orçamento, resgatar e confirmar pagamento)
-    atualizar(Solicitacao : Solicitacao) : void {
+    atualizar(solicitacao : Solicitacao) : void {
         const solicitacoes = this.listarTodos()
         solicitacoes.forEach((obj, index, objs) => { 
-            if ( Solicitacao.id === obj.id){
-                objs[index] = Solicitacao
+            if ( solicitacao.id === obj.id){
+                objs[index] = solicitacao
             }
         });
         localStorage[LS_CHAVE] = JSON.stringify(solicitacoes)

@@ -23,6 +23,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   solicitacoes: Solicitacao[] = [] //solici. depois q o filtro é aplicado
   funcionarioLogado: any = null //dados do func logado
   
+  //FILTROS
   visualizacao: 'NOVAS' | 'TODAS' = 'TODAS';
   filtroAtivo: Filtro = 'HOJE' 
   dataInicio: string = ''
@@ -30,16 +31,16 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   
   //verifica se as datas são os mesmo dia
   private mesmaData(d1: Date, d2: Date){
-    return d1.getFullYear() === d2.getFullYear() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getDate() === d2.getDate();
+    return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
   }
 
+  //filtro de solicitações
   selecionarVisualizacao(v: 'NOVAS' | 'TODAS'): void {
     this.visualizacao = v;
     this.aplicarFiltro();
   }
   
+  //filtro de data
   aplicarFiltro() : void {
     let lista = [...this.todasSolicitacoes] //cria uma copia da lista
     
@@ -72,8 +73,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   carregar() : void {
     //solic 'redicerionadas' so aparecem para o func q foi definido como destino
     this.todasSolicitacoes = this.solicitacaoService.listarTodos().filter(s => s.status != 'REDIRECIONADA' || s.funcionarioAtual === this.funcionarioLogado.nome)
-    this.aplicarFiltro()    
-    
+    this.aplicarFiltro()      
   }
 
   //altera o filtro e atualiza  a lista

@@ -20,6 +20,7 @@ import { RelatorioComponent } from './solicitacaoFuncionario/relatorio/relatorio
 import { ListarCategoriaEquipamentoComponent } from './categoria-equipamento/listar-categoria-equipamento/listar-categoria-equipamento.component';
 import { InserirCategoriaEquipamentoComponent } from './categoria-equipamento/inserir-categoria-equipamento/inserir-categoria-equipamento.component';
 import { EditarCategoriaEquipamentoComponent } from './categoria-equipamento/editar-categoria-equipamento/editar-categoria-equipamento.component';
+import { Equipamentos } from './equipamentos/equipamentos';
 
 export const routes: Routes = [
 
@@ -48,6 +49,10 @@ export const routes: Routes = [
   {
     path: 'sobre',
     component: Sobre
+  },
+  {
+    path:'cadastrarEquipamentos',
+    component:Equipamentos
   },
 
   //Rotas das páginas CRUD de funcionários

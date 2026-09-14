@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -12,16 +12,22 @@ import { CommonModule } from '@angular/common';
 })
 
 export class Login {
+  private router = inject(Router);
+  //ANIMAÇÃO DOS BOTOES
   public btnCarregando: boolean = false;
   public btnLoginTexto: string = 'Entrar';
   public btnDesativado: boolean = false;
 
+  //DADOS PARA ENTRAR
   public email: string = '';
   public senha: string = '';
+
+  //MENSAGENS DE ERRO
   public erroEmail: string = '';
   public erroSenha: string = '';
   public mensagemStatus: string = '';
 
+  //ANIMAÇÃO DE FUNDO
   public bolinhas = Array.from({ length: 50 }, () => ({
     top: Math.random() * 100,
     left: Math.random() * 100,
@@ -31,8 +37,7 @@ export class Login {
     cor: ['#db5b16', '#f5822b', '#ffb17a', '#c22e08'][Math.floor(Math.random() * 4)]
   }));
 
-  constructor(private router: Router) {}
-
+  //VALIDÇÃO DO CAMPO EMAIL
   public validarEmail(): boolean{
     if (!this.email){
       this.erroEmail = 'E-mail obrigatório.';
@@ -46,6 +51,7 @@ export class Login {
     return true;
   }
 
+  //VALIDAÇÃO DO CAMPO SENHA
   public validarSenha(): boolean{
     if (!this.senha){
       this.erroSenha = 'Senha obrigatória.';
@@ -59,6 +65,7 @@ export class Login {
     return true;
   }
 
+  //VALIDAÇÃO E ANIMAÇÃO DO CAMPOS
   public btnLoginAnimacao(): void{
     //validar os campos
     const emailValido = this.validarEmail();
@@ -77,13 +84,12 @@ export class Login {
       //buscar os dados
       const clientes = JSON.parse( localStorage.getItem('clientes') || '[]');
       
-      // Procura primeiro nos clientes
+      // Procura primeiro o cliente no LocalStorange
       const cliente = clientes.find(
         (obj: any) => obj.email.toLowerCase() === this.email.toLowerCase() && obj.senha === this.senha);
         
-      // Se encontrou cliente
       if (cliente) {
-        sessionStorage.setItem( 'usuarioLogado', JSON.stringify(cliente));
+        sessionStorage.setItem('usuarioLogado', JSON.stringify(cliente));
 
         this.btnCarregando = false;
         this.btnDesativado = false;
@@ -96,11 +102,9 @@ export class Login {
       //Procura o funcionario
       const funcionarios = JSON.parse( localStorage.getItem('funcionarios') || '[]');
 
-      const funcionario = funcionarios.find((obj: any) => obj.email === this.email && obj.senha === this.senha);
-            
-      // Se encontrou funcionário
+      const funcionario = funcionarios.find((obj: any) => obj.email.toLowerCase() === this.email.toLowerCase() && obj.senha === this.senha);
+          
       if (funcionario) {
-
         sessionStorage.setItem('usuarioLogado', JSON.stringify(funcionario));
         
         this.btnCarregando = false;
@@ -127,7 +131,6 @@ export class Login {
     this.btnDesativado = false;
     this.btnLoginTexto = 'Entrar';
   }
-
 
   public limparErros(): void{
     this.erroEmail = '';

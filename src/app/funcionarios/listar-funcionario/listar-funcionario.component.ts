@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './listar-funcionario.component.html',
   styleUrl: './listar-funcionario.component.css',
 })
+
 export class ListarFuncionarioComponent implements OnInit {
   private funcionarioService = inject(FuncionarioService);
   private router = inject(Router);
@@ -19,11 +20,12 @@ export class ListarFuncionarioComponent implements OnInit {
   funcionarios: Funcionario[] = [];
   funcionarioLogado: any = null;
 
+  //CARREGAR SESSAO
   ngOnInit(): void {
     this.funcionarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado') || '{}');
     this.carregar();
   }
-
+  
   carregar(): void {
     this.funcionarios = this.funcionarioService.listarTodos();
   }

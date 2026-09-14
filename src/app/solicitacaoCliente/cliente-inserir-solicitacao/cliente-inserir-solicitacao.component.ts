@@ -11,15 +11,17 @@ import { Solicitacao } from '../../shared/models/solicitacao.model';
   templateUrl: './cliente-inserir-solicitacao.component.html',
   styleUrl: './cliente-inserir-solicitacao.component.css',
 })
+
 export class ClienteInserirSolicitacaoComponent {
   @ViewChild('formSolicitacao') formulario!: NgForm;
   solicitacao : Solicitacao = new Solicitacao();
   private solicitacaoService = inject(SolicitacaoService);
-  private router = inject(Router)
+  private router = inject(Router);
 
+  //CRIAR UMA SOLICITAÇÃO
   inserir() : void {
     if(this.formulario.form.valid){
-      //recupera os dados do cliente em solicitcao
+      //recupera a sessao do cliente 
       const usuarioLogado = JSON.parse(
         sessionStorage.getItem('usuarioLogado') || '{}' 
       );

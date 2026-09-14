@@ -2,9 +2,7 @@
     box-sizing: border-box;
 }
 
-
 /* Cabeçalho e NavBar */
-
 .cabecalho {
     width: 100%;
     background: white;
@@ -137,7 +135,6 @@
     line-height: 1.5;
     color: rgba(0, 0, 0, 0.65);
 }
-
 
 /* Cards */
 .contato-cards {

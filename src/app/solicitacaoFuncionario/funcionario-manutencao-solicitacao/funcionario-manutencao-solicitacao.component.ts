@@ -41,8 +41,12 @@ export class FuncionarioManutencaoSolicitacaoComponent implements OnInit{
     this.solicitacao.orientacoesCliente = this.orientacoesCliente;
     this.solicitacao.funcionarioManutencao = this.funcionarioLogado.nome;
     this.solicitacao.funcionarioAtual = this.funcionarioLogado.nome;
-    this.solicitacao.historico.push( 
-      new HistoricoItem(new Date(), 'ARRUMADA', `${this.funcionarioLogado.nome} (Funcionário)`));
+    
+    if (!this.solicitacao.historico) {
+      this.solicitacao.historico = [];
+    }
+    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'ARRUMADA', `${this.funcionarioLogado.nome} (Funcionário)`));
+
     this.solicitacaoService.atualizar(this.solicitacao);
     this.router.navigate(['/solicitacaoFuncionario/listar']);
   }
@@ -55,8 +59,12 @@ export class FuncionarioManutencaoSolicitacaoComponent implements OnInit{
 
     this.solicitacao.status = 'REDIRECIONADA';
     this.solicitacao.funcionarioAtual = destino.nome;
-    this.solicitacao.historico.push(
-      new HistoricoItem(new Date(), 'REDIRECIONADA',`${this.funcionarioLogado.nome} (Funcionário)`));
+
+    if (!this.solicitacao.historico) {
+      this.solicitacao.historico = [];
+    }
+    
+    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'REDIRECIONADA',`${this.funcionarioLogado.nome} (Funcionário)`));
     this.solicitacaoService.atualizar(this.solicitacao);
     this.router.navigate(['/solicitacaoFuncionario/listar']);
   }
@@ -68,7 +76,8 @@ export class FuncionarioManutencaoSolicitacaoComponent implements OnInit{
     this.solicitacao = this.solicitacaoService.buscarPorID(id);
 
     if (this.solicitacao === undefined) {
-      throw new Error("Solicitação não encontrada: id = " + id);
+      this.router.navigate(['/solicitacaoFuncionario/listar']);
+      return;
     }
 
     this.funcionariosDisponiveis = this.funcionarioService.listarTodos().filter((f: Funcionario) => f.nome !== this.funcionarioLogado.nome);

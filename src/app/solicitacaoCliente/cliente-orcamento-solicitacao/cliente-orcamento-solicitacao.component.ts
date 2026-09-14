@@ -26,7 +26,8 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
     this.solicitacao = this.solicitacaoService.buscarPorID(id);
 
     if (this.solicitacao === undefined) {
-      throw new Error("Solicitação não encontrada: id = " + id);
+      alert('Solicitação não encontrada.');
+      this.router.navigate(['/solicitacaoCliente/listar']);
     }
   }
 
@@ -35,6 +36,11 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
     if (!this.solicitacao) return;
 
     this.solicitacao.status = 'APROVADA';
+
+    if (!this.solicitacao.historico) {
+      this.solicitacao.historico = [];
+    }
+
     this.solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${this.solicitacao.clienteNome} (Cliente)`));
     this.solicitacaoService.atualizar(this.solicitacao);
 
@@ -52,6 +58,9 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
 
     this.solicitacao.status = 'REJEITADA';
     this.solicitacao.motivoRejeicao = this.motivoRejeicao;
+    if (!this.solicitacao.historico) {
+      this.solicitacao.historico = [];
+    }
     this.solicitacao.historico.push(
       new HistoricoItem(new Date(), 'REJEITADA', `${this.solicitacao.clienteNome} (Cliente)`)
     );
