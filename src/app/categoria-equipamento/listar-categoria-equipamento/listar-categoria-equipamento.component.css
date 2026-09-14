@@ -1,0 +1,216 @@
+* {
+    box-sizing: border-box;
+}
+
+:host {
+    display: block;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #fff6f0 0%, #fff 100%);
+}
+
+.cabecalho-funcionario {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 48px;
+    background: #fff;
+    box-shadow: 0px 2px 12px rgba(219, 91, 11, 0.08);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.area-direita {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-icone {
+    width: 48px;
+    height: 48px;
+    border-radius: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-texto {
+    font-size: 24px;
+    font-weight: 800;
+    color: #db5b16;
+    text-shadow: 0 0 10px rgba(255, 106, 26, 0.553), 0 0 24px rgba(255, 89, 0, 0.35);
+}
+
+.menu {
+    display: flex;
+    gap: 15px;
+}
+
+.menu-item {
+    position: relative;
+    color: #000000;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.menu-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #db5b16;
+    border-radius: 8px;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
+.menu-item:hover::before {
+    transform: scaleY(1);
+}
+
+.menu-item:hover {
+    color: #fff;
+}
+
+.botao-sair {
+    color: #525050;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.botao-sair:hover {
+    color: #db5b16;
+    border-color: #db5b16;
+}
+
+.conteudo-central {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.conteudo-central h1 {
+    font-size: 22px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 800;
+    color: #97430e;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.card {
+    background: #fff;
+    box-shadow: 0px 8px 24px rgba(209, 80, 11, 0.556);
+    border-radius: 16px;
+    padding: 30px 32px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #db5b16, #c22e08);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    font-weight: 700;
+    border-radius: 20px;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #c22e08, #db5b16);
+    color: #fff;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: none;
+    color: #db5b16;
+    font-weight: 600;
+    padding: 10px 18px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    text-decoration: underline;
+}
+
+.botao-voltar {
+    display: inline-block;
+    background: transparent;
+    border: none;
+    color: #db5b16;
+    margin-left: 10px;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.botao-voltar:hover {
+    background: rgba(219, 81, 22, 0.08);
+}
+
+.link-remover {
+    display: inline-block;
+    background: transparent;
+    border: none;
+    color: #c0392b;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link-remover:hover {
+    text-decoration: underline;
+}
+
+.tabela-categorias {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-categorias th {
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: #525050;
+    padding: 12px 14px;
+    border-bottom: 2px solid rgba(219, 91, 22, 0.15);
+}
+
+.tabela-categorias td {
+    font-size: 12px 14px;
+    padding: 14px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.tabela-categorias tbody tr:hover {
+    background-color: rgba(219, 91, 22, 0.04);
+}
+
+.linha-vazia {
+    color: #8a8a8a;
+    padding: 24px;
+}
