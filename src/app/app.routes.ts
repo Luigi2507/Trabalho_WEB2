@@ -17,6 +17,9 @@ import { ListarFuncionarioComponent } from './funcionarios/listar-funcionario/li
 import { InserirFuncionarioComponent } from './funcionarios/inserir-funcionario/inserir-funcionario.component';
 import { EditarFuncionarioComponent } from './funcionarios/editar-funcionario/editar-funcionario.component';
 import { RelatorioComponent } from './solicitacaoFuncionario/relatorio/relatorio.component';
+import { ListarCategoriaEquipamentoComponent } from './categoria-equipamento/listar-categoria-equipamento/listar-categoria-equipamento.component';
+import { InserirCategoriaEquipamentoComponent } from './categoria-equipamento/inserir-categoria-equipamento/inserir-categoria-equipamento.component';
+import { EditarCategoriaEquipamentoComponent } from './categoria-equipamento/editar-categoria-equipamento/editar-categoria-equipamento.component';
 
 export const routes: Routes = [
 
@@ -101,5 +104,18 @@ export const routes: Routes = [
   {
     path:'relatorios',
     component: RelatorioComponent
-  }
+  },
+  { 
+    path: 'categorias/listar', 
+    component: ListarCategoriaEquipamentoComponent 
+  },
+  { 
+    path: 'categorias/novo', 
+    component: InserirCategoriaEquipamentoComponent 
+  },
+  { 
+    path: 'categorias/editar/:id', 
+    component: EditarCategoriaEquipamentoComponent 
+  },
+  
 ];

@@ -1,0 +1,45 @@
+<header class="cabecalho-funcionario">
+    <div class="logo">
+        <img src="images/logoMT.png" alt="logo ManuTech" class="logo-icone">
+        <span class="logo-texto">ManuTech</span>
+    </div>
+
+    <div class="area-direita">
+        <nav class="menu">
+            <a routerLink="/categorias/listar" class="menu-item">Categorias</a>
+            <a routerLink="/equipamentos/listar" class="menu-item">Equipamentos</a>
+        </nav>
+        <a routerLink="/login" class="botao-sair">Sair</a>
+    </div>
+</header>
+<div class="conteudo-central" style="max-width: 900px;">
+    <h1>Categorias de Equipamento</h1>
+    <div class="card">
+        <div class="d-flex justify-content-end mb-3">
+            <a routerLink="/categorias/novo" class="btn-primary">+ Nova Categoria</a>
+        </div>
+
+        <table class="tabela-categorias">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let categoria of categorias">
+                    <td>{{ categoria.id }}</td>
+                    <td>{{ categoria.nome }}</td>
+                    <td class="text-center">
+                        <a [routerLink]="['/categorias/editar', categoria.id]" class="btn-secondary">Editar</a>
+                        <a href="#" (click)="remover($event, categoria)" class="link-remover">Remover</a>
+                    </td>
+                </tr>
+                <tr *ngIf="categorias.length === 0">
+                    <td colspan="3" class="text-center linha-vazia">Nenhuma categoria cadastrada.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
