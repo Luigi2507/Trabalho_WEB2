@@ -2,6 +2,22 @@
   box-sizing: border-box;
 }
 
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff6f0 0%, #fff 100%);
+}
+
+/* MENU */
+.cabecalho-cliente {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 48px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(219, 91, 22, 0.08);
+}
 
 .logo {
   display: flex;
@@ -11,17 +27,17 @@
 }
 
 .logo-icone {
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
 .logo-texto {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 800;
   color: #db5b16;
+  text-shadow: 0 0 10px rgba(255, 106, 26, 0.553), 0 0 24px rgba(255, 89, 0, 0.35);
 }
-
 
 /*ITENS MENU*/
 .menu{
@@ -40,7 +56,6 @@
   overflow: hidden;
   z-index: 1;
 }
-
 .menu-item::before {
   content: "";
   position: absolute;
@@ -76,6 +91,28 @@
   color: #db5b16;
 }
 
+/* Conteudo central da tela*/
+.conteudo-central {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.conteudo-central h1 {
+  font-size: 22px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: 800;
+  color: #97430e;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px 32px;
+  box-shadow: 0 8px 24px rgba(209, 80, 11, 0.556);
+}
 
 /*Abas de filtro*/
 .abas-filtro {
@@ -103,6 +140,53 @@
   color: #db5b16;
 }
 
+.abas-filtro button.ativo {
+  background: linear-gradient(135deg, #db5b16, #c22e08);
+  border-color: transparent;
+  color: #fff;
+}
+
+.abas-filtro input[type="date"] {
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #f5f5f5;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.abas-filtro span {
+  color: #525050;
+  font-size: 14px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(209, 80, 11, 0.15);
+}
+
+.table th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: #525050;
+  padding: 14px 16px;
+  background: #fdf1e8;
+  border-bottom: 2px solid rgba(219, 91, 22, 0.15);
+}
+
+.table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.table tbody tr:hover{
+  background: rgba(219, 91, 22, 0.04);
+}
 
 /*NÃO MEXXXXXXXXXXXXXXXXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*/
 .badge-status {
@@ -123,3 +207,22 @@
 .status-azul { background: #1e88e5; }
 .status-alaranjado { background: #fb8c00; }
 .status-verde { background: #43a047; }
+
+.btn-xs {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-warning {
+  background-color: linear-gradient(135deg, #db5b16, #c22e08);
+  color: #fff;
+}
+
+.btn-warning:hover {
+  opacity: 0.9;
+}
