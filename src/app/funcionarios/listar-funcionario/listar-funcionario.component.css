@@ -1,28 +1,23 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
+:host {
+    display: block;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #fff6f0, #ffffff 100%);
 }
 
-.logo-icone {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
+.cabecalho-funcionario {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 48px;
+    background: #fff;
+    box-shadow: 0px 2px 12px rgba(219, 91, 22, 0.08);
 }
-
-.logo-texto {
-  font-size: 20px;
-  font-weight: 800;
-  color: #db5b16;
-}
-
-
 /*ITENS MENU*/
 .menu{
   display: flex;
@@ -74,4 +69,143 @@
 .botao-sair:hover {
   border-color: #db5b16;
   color: #db5b16;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.logo-icone {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.logo-texto {
+    font-size: 24px;
+    font-weight: 800;
+    color: #db5b16;
+    text-shadow: 0 0 10px rgba(255, 106, 26, 0.553), 0 0 24px rgba(255, 89, 0, 0.35);
+}
+
+.conteudo-central {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.conteudo-central h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 800;
+    font-size: 1.75rem;
+    color: #503a2c;
+    margin-top: 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(205, 121, 24, 0.356);
+  border: 1px solid #f0e6e2;
+}
+
+.table th, .table td {
+  padding: 14px 18px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #f0e6e2;
+}
+
+.table tr:first-child th {
+  background-color: #fff6f0;
+  color: #503a2c;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #ebd9cf;
+}
+
+.table tbody tr:not(:first-child) th,
+.table tbody tr:not(:first-child) td {
+  font-weight: 400;
+  color: #1e293b;
+}
+
+.table-hover tbody tr:not(:first-child):hover {
+  background-color: #b25621;
+}
+
+.table .text-center {
+  text-align:center;
+}
+
+.table td[colspan] {
+  text-align: center;
+  padding: 32px;
+  color: #8b6464;
+  font-style: italic;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #db5b16, #c22e08);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(219, 91, 22, 0.2);
+}
+
+.btn-success:hover{
+    box-shadow: 0 6px 14px rgba(219, 91, 22, 0.3);
+}
+
+.btn-xs {
+  padding: 5px 14px;
+  font-size: 12px;
+  margin: 0 4px;
+  border-radius: 15px;
+}
+
+.btn-warning {
+  background: #f9e2d6;
+  border: 1.5px solid #db5b16;
+  color: #db5b16;
+}
+
+.btn-warning:hover {
+  background: #fdece0;
+}
+
+.btn-danger {
+  color:#c22e08;
+  background: #f9e2d6;
+  border: 1px solid #dc2626;
+}
+
+.btn-danger:hover {
+  background: #fef2f2;
 }
