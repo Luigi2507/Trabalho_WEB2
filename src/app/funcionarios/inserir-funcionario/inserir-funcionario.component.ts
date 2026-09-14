@@ -40,4 +40,10 @@ export class InserirFuncionarioComponent {
   private gerarSenha(): string {
     return Math.floor(1000 + Math.random() * 9000).toString();
   }
+
+  sair($event: any): void {
+    $event.preventDefault();
+    sessionStorage.removeItem('funcionarioLogado');
+    this.router.navigate(['/login'])
+  }
 }

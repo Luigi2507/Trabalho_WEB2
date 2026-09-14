@@ -56,6 +56,10 @@
   color: #ffffff;
 }
 
+.funcionario-nome {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
 .botao-sair {
   color: #525050;
   text-decoration: none;
@@ -92,7 +96,7 @@
 }
 
 .conteudo-central {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
     padding: 40px 24px;
 }
@@ -132,12 +136,14 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-bottom: 2px solid #ebd9cf;
+  text-align: center;
 }
 
 .table tbody tr:not(:first-child) th,
 .table tbody tr:not(:first-child) td {
   font-weight: 400;
   color: #1e293b;
+  text-align: center;
 }
 
 .table-hover tbody tr:not(:first-child):hover {
@@ -185,27 +191,37 @@
 
 .btn-xs {
   padding: 5px 14px;
-  font-size: 12px;
+  font-size: 13px;
   margin: 0 4px;
   border-radius: 15px;
 }
 
 .btn-warning {
-  background: #f9e2d6;
-  border: 1.5px solid #db5b16;
+  background: transparent;
+  border: none;
   color: #db5b16;
+  text-decoration: none;
+  padding: 5px 8px;
 }
 
 .btn-warning:hover {
-  background: #fdece0;
+  background: transparent;
+  text-decoration: underline;
+  box-shadow: none;
+  transform: none;
 }
 
 .btn-danger {
   color:#c22e08;
-  background: #f9e2d6;
-  border: 1px solid #dc2626;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  padding: 5px 8px;
 }
 
 .btn-danger:hover {
-  background: #fef2f2;
+  background: transparent;
+  text-decoration: underline;
+  box-shadow: none;
+  transform: none;
 }

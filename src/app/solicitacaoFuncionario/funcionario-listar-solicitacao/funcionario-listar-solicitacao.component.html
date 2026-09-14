@@ -15,7 +15,7 @@
 <div class="conteudo-central">
   <h1>Solicitações</h1>
 
-  <div class="abas-filtro">
+  <div class="abas-filtro abas-vizualizacao">
     <button type="button" [class.ativo]="visualizacao === 'TODAS'" (click)="selecionarVisualizacao('TODAS')">
       Todas as Solicitações
     </button>
@@ -27,14 +27,14 @@
     @if (visualizacao === 'TODAS') {
       <div class="abas-filtro">
         <button type="button" [class.ativo]="filtroAtivo === 'HOJE'" (click)="selecionarFiltro('HOJE')">Hoje</button>
+        <button type="button" [class.ativo]="filtroAtivo === 'TODAS'" (click)="selecionarFiltro('TODAS')">Todas as datas</button>
         <button type="button" [class.ativo]="filtroAtivo === 'PERIODO'" (click)="selecionarFiltro('PERIODO')">Período</button>
-        <button type="button" [class.ativo]="filtroAtivo === 'TODAS'" (click)="selecionarFiltro('TODAS')">Todas as Datas</button>
 
         @if (filtroAtivo === 'PERIODO') {
-          <div class="abas-filtro">
-            <input type="date" [(ngModel)]="dataInicio" (change)="aplicarFiltro()">
-            <span>até</span>
-            <input type="date" [(ngModel)]="dataFim" (change)="aplicarFiltro()">
+          <div class="filtro-periodo">
+            <input type="date" class="filtro-data" [(ngModel)]="dataInicio" (change)="aplicarFiltro()">
+            <span class="filtro-ate">até</span>
+            <input type="date" class="filtro-data" [(ngModel)]="dataFim" (change)="aplicarFiltro()">
           </div>
         }
       </div>

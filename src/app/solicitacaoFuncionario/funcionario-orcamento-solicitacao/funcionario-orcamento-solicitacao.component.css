@@ -9,7 +9,7 @@
 }
 
 /* MENU */
-.cabecalho-cliente {
+.cabecalho-funcionario {
   width: 100%;
   display: flex;
   align-items: center;
@@ -74,6 +74,10 @@
 
 .menu-item:hover {
   color: #ffffff;
+}
+
+.funcionario-nome {
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .botao-sair {

@@ -39,4 +39,10 @@ export class EditarFuncionarioComponent implements OnInit {
       this.router.navigate(['/funcionarios/listar'])
     }
   }
+
+  sair($event: any): void {
+    $event.preventDefault();
+    sessionStorage.removeItem('funcionarioLogado');
+    this.router.navigate(['/login'])
+  }
 }
