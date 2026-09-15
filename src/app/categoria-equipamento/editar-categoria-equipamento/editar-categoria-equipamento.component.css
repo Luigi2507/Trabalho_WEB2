@@ -32,19 +32,12 @@
 }
 
 .logo-icone {
-    width: 48px;
+    width: auto;
     height: 48px;
     border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.logo-texto {
-    font-size: 24px;
-    font-weight: 800;
-    color: #db5b16;
-    text-shadow: 0 0 10px rgba(255, 106, 26, 0.553), 0 0 24px rgba(255, 89, 0, 0.35);
 }
 
 .menu {

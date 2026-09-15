@@ -27,16 +27,9 @@
 }
 
 .logo-icone {
-  width: 48px;
+  width: auto;
   height: 48px;
   object-fit: contain;
-}
-
-.logo-texto {
-  font-size: 24px;
-  font-weight: 800;
-  color: #db5b16;
-  text-shadow: 0 0 10px rgba(255, 106, 26, 0.553), 0 0 24px rgba(255, 89, 0, 0.35);
 }
 
 /*ITENS MENU*/
