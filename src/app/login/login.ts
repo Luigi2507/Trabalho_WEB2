@@ -137,4 +137,8 @@ export class Login {
     this.erroSenha = '';
     this.mensagemStatus = '';
   }
+
+  public EsqueceuSenha(): void{
+      alert('Não foi implementado')
+  }
 }
