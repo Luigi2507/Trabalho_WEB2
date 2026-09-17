@@ -59,7 +59,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
       const fim = new Date(this.dataFim)
       fim.setHours(23, 59, 59, 999) //23h59m59s faz com que o ultimo dia seja incluido tbm
       lista = lista.filter(s => {const data = new Date(s.dataHora);
-        return data >= inicio && data <= fim;
+      return data >= inicio && data <= fim;
       });
     }
 
@@ -134,7 +134,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
         this.router.navigate(['/solicitacaoFuncionario/orcamento', solicitacao.id]);
         break;
         case 'APROVADA':
-          case 'REDIRECIONADA':
+        case 'REDIRECIONADA':
             this.router.navigate(['/solicitacaoFuncionario/manutencao', solicitacao.id]);
         break;
         case 'PAGA':

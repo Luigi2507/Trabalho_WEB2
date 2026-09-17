@@ -61,8 +61,7 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
     if (!this.solicitacao.historico) {
       this.solicitacao.historico = [];
     }
-    this.solicitacao.historico.push(
-      new HistoricoItem(new Date(), 'REJEITADA', `${this.solicitacao.clienteNome} (Cliente)`)
+    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'REJEITADA', `${this.solicitacao.clienteNome} (Cliente)`)
     );
     this.solicitacaoService.atualizar(this.solicitacao);
 

@@ -11,24 +11,10 @@ const LS_CHAVE = "solicitacoes"
 export class SolicitacaoService {
     // mostrar todas as soliciatacoes
     listarTodos(): Solicitacao[] {
-    const solicitacoes = localStorage[LS_CHAVE];
-    if (!solicitacoes) return [];
-    const lista = JSON.parse(solicitacoes);
-    return lista.map((s: any) => this.reviverDatas(s));
-    }
-
-    //converte os campos de data do lS para objetos date
-    private reviverDatas(s: any): Solicitacao {
-    s.dataHora = new Date(s.dataHora);
-    s.dataPagamento = s.dataPagamento ? new Date(s.dataPagamento) : null;
-    s.dataFinalizacao = s.dataFinalizacao ? new Date(s.dataFinalizacao) : null;
-    
-    //datas do historico tbm
-    s.historico = (s.historico || []).map((h: any) => ({
-        ...h,
-        dataHora: new Date(h.dataHora)
-    }));
-    return s;
+        const solicitacoes = localStorage[LS_CHAVE];
+        if (!solicitacoes) return [];
+        const lista = JSON.parse(solicitacoes);
+        return lista.map((s: any) => this.reviverDatas(s));
     }
 
     //inserir uma nova solicitacao
@@ -58,5 +44,15 @@ export class SolicitacaoService {
         });
         localStorage[LS_CHAVE] = JSON.stringify(solicitacoes)
     }
-
+    
+    //converte os campos de data do lS para objetos date
+    private reviverDatas(s: any): Solicitacao {
+        s.dataHora = new Date(s.dataHora);
+        s.dataPagamento = s.dataPagamento ? new Date(s.dataPagamento) : null;
+        s.dataFinalizacao = s.dataFinalizacao ? new Date(s.dataFinalizacao) : null;
+    
+        //datas do historico tbm
+        s.historico = (s.historico || []).map((h: any) => ({...h,dataHora: new Date(h.dataHora)}));
+        return s;
+    }
 }

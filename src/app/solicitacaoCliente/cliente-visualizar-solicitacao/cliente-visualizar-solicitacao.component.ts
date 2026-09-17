@@ -19,7 +19,7 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
   solicitacao: Solicitacao | undefined;
   
   ngOnInit(): void {
-      const id = +this.route.snapshot.params['id'];
+    const id = +this.route.snapshot.params['id'];
     this.solicitacao = this.solicitacaoService.buscarPorID(id);
 
     if (this.solicitacao === undefined) {
@@ -47,7 +47,6 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
       switch (status) {
         case 'ORCADA': return '/solicitacaoCliente/orcamento';
         case 'ARRUMADA': return '/solicitacaoCliente/pagar';
-
         default: return '';
       }
   }

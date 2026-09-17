@@ -27,7 +27,6 @@ export class FuncionarioManutencaoSolicitacaoComponent implements OnInit{
 
   descricaoManutencao: string = '';
   orientacoesCliente: string = '';
-
   funcionariosDisponiveis: Funcionario[] = [];
   funcionarioDestinoId: number = 0;
 
