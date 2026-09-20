@@ -37,6 +37,21 @@ export class Login {
     cor: ['#db5b16', '#f5822b', '#ffb17a', '#c22e08'][Math.floor(Math.random() * 4)]
   }));
 
+  //MODAL DE RECUPERAR SENHA
+  public exibirModalEsqueciSenha: boolean = false
+  public emailRecuperacao: string = ''
+  public erroModalRecuperacao: string = ''
+  public novaSenhaGerada: string = ''
+
+  // BUSCA PELO LOCALSTOREGE COM OS DADOS ATUALIZADOS
+  private get clientes(): any[] {
+    return JSON.parse(localStorage.getItem('clientes') || '[]')
+  }
+
+  private get funcionarios(): any[] {
+    return JSON.parse(localStorage.getItem('funcionarios') || '[]')
+  }
+
   //VALIDÇÃO DO CAMPO EMAIL
   public validarEmail(): boolean{
     if (!this.email){
@@ -81,51 +96,37 @@ export class Login {
     this.btnLoginTexto = 'Aguarde...';
     
     setTimeout(() => {
-      //buscar os dados
-      const clientes = JSON.parse( localStorage.getItem('clientes') || '[]');
-      
+      const emailDigitado = this.email.toLowerCase()
+
       // Procura primeiro o cliente no LocalStorange
-      const cliente = clientes.find(
-        (obj: any) => obj.email.toLowerCase() === this.email.toLowerCase() && obj.senha === this.senha);
-        
+      const cliente = this.clientes.find((obj: any) => obj.email?.toLowerCase() === emailDigitado && obj.senha === this.senha)
+      
       if (cliente) {
-        sessionStorage.setItem('usuarioLogado', JSON.stringify(cliente));
-
-        this.btnCarregando = false;
-        this.btnDesativado = false;
-        this.btnLoginTexto = 'Entrar';
-
+        sessionStorage.setItem('usuarioLogado', JSON.stringify(cliente))
+        this.resetBtnEstado()
         this.router.navigate(['/solicitacaoCliente']);
         return
       }
 
       //Procura o funcionario
-      const funcionarios = JSON.parse( localStorage.getItem('funcionarios') || '[]');
-
-      const funcionario = funcionarios.find((obj: any) => obj.email.toLowerCase() === this.email.toLowerCase() && obj.senha === this.senha);
+      const funcionario = this.funcionarios.find((obj: any) => obj.email?.toLowerCase() === emailDigitado && obj.senha === this.senha)
           
       if (funcionario) {
         sessionStorage.setItem('usuarioLogado', JSON.stringify(funcionario));
-        
-        this.btnCarregando = false;
-        this.btnDesativado = false;
-        this.btnLoginTexto = 'Entrar';
-
+        this.resetBtnEstado();
         this.router.navigate(['/solicitacaoFuncionario/listar']);
 
         return;
       }
 
       // Se não encontrou ninguém
-      this.btnCarregando = false;
-      this.btnDesativado = false;
-      this.btnLoginTexto = 'Entrar';
-
+      this.resetBtnEstado();
       this.mensagemStatus = 'E-mail ou senha incorretos.';
 
     }, 500);
   }
   
+  //ANIMAÇÃO BOTÃO
   public resetBtnEstado (): void{
     this.btnCarregando = false;
     this.btnDesativado = false;
@@ -138,7 +139,59 @@ export class Login {
     this.mensagemStatus = '';
   }
 
-  public EsqueceuSenha(): void{
-      alert('Não foi implementado')
+  //ANIMAÇAO MODAL
+  public abrirModalEsqueciSenha(): void {
+    this.emailRecuperacao = this.email
+    this.erroModalRecuperacao = ''
+    this.novaSenhaGerada = ''
+    this.exibirModalEsqueciSenha = true
+  }
+
+  public fecharModalEsqueciSenha(): void {
+    this.exibirModalEsqueciSenha = false
+    this.emailRecuperacao = ''
+    this.erroModalRecuperacao = ''
+    this.novaSenhaGerada = ''
+  }
+
+  // FUNÇÃO AUXILIAR PARA BUSCAR E ATUALIZAR SENHA
+  private redefinirSenha(chaveLocalStorage: string, emailDigitado: string): string | null {
+    const lista = JSON.parse(localStorage.getItem(chaveLocalStorage) || '[]')
+    const index = lista.findIndex((item: any) => item.email && item.email.toLowerCase() === emailDigitado)
+
+    if (index === -1) return null;
+
+    //nova senha
+    const novaSenha = Math.floor(1000 + Math.random() * 9000).toString()
+
+    //atualiza no array e grava de volta no localStorage
+    lista[index].senha = novaSenha
+    localStorage.setItem(chaveLocalStorage, JSON.stringify(lista)) 
+
+    return novaSenha;
+  }
+
+  //FUNCAO ESQUECEU SENHA
+  public esqueceuSenha(): void {
+    const emailDigitado = this.emailRecuperacao.trim().toLowerCase();
+    if (!emailDigitado) {
+      this.erroModalRecuperacao = 'Por favor, informe o e-mail.';
+      return;
+    }
+
+    if (!emailDigitado.includes('@') || !emailDigitado.includes('.')) {
+      this.erroModalRecuperacao = 'Informe um e-mail válido.';
+      return;
+    }
+
+    // tenta em clientes e se não achar tenta em funcionários
+    const novaSenha = this.redefinirSenha('clientes', emailDigitado) ?? this.redefinirSenha('funcionarios', emailDigitado);
+
+    if (!novaSenha) {
+      this.erroModalRecuperacao = 'E-mail não cadastrado no sistema.';
+      return;
+    }
+
+    this.novaSenhaGerada = novaSenha; 
   }
 }
