@@ -1,7 +1,7 @@
 import { Component, inject,  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 //Chave para o localStorage
@@ -15,6 +15,7 @@ const LS_CHAVE_CLIENTES = 'clientes';
 })
 
 export class Cadastro {
+  private router = inject(Router);
   public etapaAtual: number = 1; //CONTROLE DE ETAPAS (1-DADOS PESSOAIS / 2- ENDEREÇO)
   public erroEtapa1: string = ''; // mensagem de erro exibida se a validação falhar
   
@@ -221,6 +222,21 @@ export class Cadastro {
     return Math.floor(1000 + Math.random() * 9000).toString();
   }
 
+  //MODAL PARA EXIBIR A SENHA GERADA
+  public exibirModalSenhaGerada: boolean = false;
+  public senhaGerada: string = '';
+
+  public abrirModalSenhaGerada(senha: string): void{
+    this.senhaGerada = senha;
+    this.exibirModalSenhaGerada = true;
+  }
+
+  public fecharModalSenhaGerada(): void{
+    this.exibirModalSenhaGerada = false;
+    this.senhaGerada = '';
+    this.router.navigate(['/login']);
+  }
+
   // CADASTRAR DE FATO E CONFERIR DADOS
   public cadastrar(): void {
     /*CONFERIR ENDEREÇO ANTES DE CADASTRAR DE FATO*/
@@ -274,6 +290,6 @@ export class Cadastro {
       this.btnCadastroAnimacao();
 
       // Para mostrar a senha gerada
-      setTimeout(() => {alert(`Sua senha é: ${senha}`);}, 2000);
+      setTimeout(() => {this.abrirModalSenhaGerada(senha)}, 2000);
   }
 }
