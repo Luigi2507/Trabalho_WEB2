@@ -1,4 +1,4 @@
-import { Component, inject,  } from '@angular/core';
+import { ChangeDetectorRef, Component, inject,  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
@@ -18,6 +18,7 @@ export class Cadastro {
   private router = inject(Router);
   public etapaAtual: number = 1; //CONTROLE DE ETAPAS (1-DADOS PESSOAIS / 2- ENDEREÇO)
   public erroEtapa1: string = ''; // mensagem de erro exibida se a validação falhar
+  private cdr = inject(ChangeDetectorRef);
   
   //DADOS PESSOAIS
   public cpf : string = '';
@@ -203,12 +204,14 @@ export class Cadastro {
     this.carregandoDados = true;
     this.bloqueado = true;
     this.btnCadastroTexto = 'Cadastro em andamento...';
+    this.cdr.detectChanges();
 
     setTimeout(() =>{
       this.carregandoDados = false;
       this.bloqueado = false;
       this.btnCadastroTexto = 'Cadastrar-se';
-    },2000);
+      this.cdr.detectChanges();
+    },500);
   }
 
   public resetBtnCadastro(): void{
@@ -239,6 +242,7 @@ export class Cadastro {
 
   // CADASTRAR DE FATO E CONFERIR DADOS
   public cadastrar(): void {
+    if(this.bloqueado) return; //trava clique duplo
     /*CONFERIR ENDEREÇO ANTES DE CADASTRAR DE FATO*/
       const cepLimpo = this.cep.replace(/\D/g, '');
 
@@ -258,6 +262,11 @@ export class Cadastro {
       }
 
       this.mensagemCEP = '';
+
+      this.carregandoDados = true;
+      this.bloqueado = true;
+      this.btnCadastroTexto = 'Cadastro em Andamento...';
+      this.cdr.detectChanges();
 
       //busca clientes já cadastrados
       const clientesSalvos = localStorage.getItem(LS_CHAVE_CLIENTES);
@@ -287,9 +296,16 @@ export class Cadastro {
       //por enquanto vamos salvar no localStorage
       localStorage.setItem(LS_CHAVE_CLIENTES, JSON.stringify(clientes));
       
-      this.btnCadastroAnimacao();
+      
 
       // Para mostrar a senha gerada
-      setTimeout(() => {this.abrirModalSenhaGerada(senha)}, 2000);
+      setTimeout(() => {
+        this.carregandoDados = false;
+        this.bloqueado = false;
+        this.btnCadastroTexto = 'Cadastrar-se';
+        this.abrirModalSenhaGerada(senha);
+        this.cdr.detectChanges();
+      }, 500);
+      
   }
 }

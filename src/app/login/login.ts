@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 
 export class Login {
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
   //ANIMAÇÃO DOS BOTOES
   public btnCarregando: boolean = false;
   public btnLoginTexto: string = 'Entrar';
@@ -122,6 +123,7 @@ export class Login {
       // Se não encontrou ninguém
       this.resetBtnEstado();
       this.mensagemStatus = 'E-mail ou senha incorretos.';
+      this.cdr.detectChanges();
 
     }, 500);
   }
