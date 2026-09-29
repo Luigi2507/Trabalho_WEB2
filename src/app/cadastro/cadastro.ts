@@ -3,13 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NumericoDirective } from '../shared/directives/numerico.directive';
 
 //Chave para o localStorage
 const LS_CHAVE_CLIENTES = 'clientes';
 
 @Component({
   selector: 'app-cadastro',
-  imports: [FormsModule, RouterLink, CommonModule],
+  imports: [FormsModule, RouterLink, CommonModule, NumericoDirective],
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.css',
 })
@@ -47,48 +48,6 @@ export class Cadastro {
   public mensagemEmail: string = '';
   public mensagemCPF: string = '';
   
-  //MÁSCARAS
-  public formatarCPF(): void {
-    let cpf = this.cpf.replace(/\D/g, '');
-    cpf = cpf.substring(0,11);
-
-    if (cpf.length > 9) {
-      cpf = cpf.replace(
-            /^(\d{3})(\d{3})(\d{3})(\d{2})$/,
-            '$1.$2.$3-$4'
-      );
-    } else if (cpf.length > 6) {
-      cpf = cpf.replace(
-            /^(\d{3})(\d{3})(\d{1,3})$/,
-            '$1.$2.$3'
-      );
-    } else if (cpf.length > 3) {
-      cpf = cpf.replace(
-            /^(\d{3})(\d{1,3})$/,
-            '$1.$2'
-      );
-    }
-    this.cpf = cpf;
-  }
-
-  public formatarTelefone(): void {
-    let telefone = this.telefone.replace(/\D/g, '');
-    telefone = telefone.substring(0, 11);
-
-    if (telefone.length > 7) {
-      telefone = telefone.replace(
-                  /^(\d{2})(\d{5})(\d{1,4})$/,
-                 '($1) $2-$3'
-      );
-    } else if (telefone.length > 2) {
-        telefone = telefone.replace(
-                    /^(\d{2})(\d{1,5})$/,
-                    '($1) $2'
-        )
-    }
-    this.telefone = telefone;
-  }
-
   public formatarCEP(): void {
     let cep = this.cep.replace(/\D/g, '');
     cep = cep.substring(0, 8);
@@ -144,9 +103,6 @@ export class Cadastro {
 
   //VALIDAR CAMPOS
   public proximaEtapa(): void {
-    this.formatarCPF();       
-    this.formatarTelefone(); 
-
     this.erroEtapa1 = '';
     this.mensagemCPF = '';
     this.mensagemEmail = '';
