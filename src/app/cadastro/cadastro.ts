@@ -4,13 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { NumericoDirective } from '../shared/directives/numerico.directive';
 import { NgxMaskDirective } from 'ngx-mask';
+import { CpfValidoDirective } from '../shared/directives/cpf-valido.directive';
 
 //Chave para o localStorage
 const LS_CHAVE_CLIENTES = 'clientes';
 
 @Component({
   selector: 'app-cadastro',
-  imports: [FormsModule, RouterLink, NgxMaskDirective, NumericoDirective],
+  imports: [FormsModule, RouterLink, NgxMaskDirective, NumericoDirective, CpfValidoDirective],
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.css',
 })
@@ -47,25 +48,6 @@ export class Cadastro {
   //MENSAGENS DE ERRO
   public mensagemEmail: string = '';
   public mensagemCPF: string = '';
-  
-  public formatarCEP(): void {
-    let cep = this.cep.replace(/\D/g, '');
-    cep = cep.substring(0, 8);
-
-    if (cep.length > 5) {
-      cep = cep.replace(
-              /^(\d{5})(\d{1,3})$/,
-              '$1-$2'
-      )
-    }
-    this.cep = cep;
-
-    this.buscarCEP();
-  }
-
-  public somenteNumeros() {
-    this.numero = this.numero.replace(/\D/g, '');
-  }
 
   //AUTOCOMPLETAR VIACEP
   public mensagemCEP: string = '';
@@ -102,7 +84,7 @@ export class Cadastro {
   }
 
   //VALIDAR CAMPOS
-  public proximaEtapa(): void {
+  public proximaEtapa(cpfInvalido: boolean | null): void {
     this.erroEtapa1 = '';
     this.mensagemCPF = '';
     this.mensagemEmail = '';
@@ -113,7 +95,7 @@ export class Cadastro {
       this.erroEtapa1 = 'Informe seu nome completo.';
       return;
     }
-    if (this.cpf.length !== 14) { 
+    if (this.cpf.length !== 14 || cpfInvalido) {
       this.erroEtapa1 = 'CPF inválido.';
       return;
     }
