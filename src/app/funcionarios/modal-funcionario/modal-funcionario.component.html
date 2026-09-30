@@ -1,0 +1,20 @@
+<h2>Funcionário</h2>
+<p class="subtitulo">Dados cadastrados</p>
+
+<div class="campo">
+    <span class="rotulo">Nome</span>
+    <span class="valor"> {{ funcionario.nome }}</span>
+</div>
+<div class="campo">
+     <span class="rotulo">E-mail</span>
+    <span class="valor"> {{ funcionario.email }}</span>
+</div>
+<div class="campo">
+     <span class="rotulo">Data de nascimento</span>
+    <span class="valor"> {{ funcionario.dataNascimento }}</span>
+</div>
+
+<div class="modalAcoes">
+    <button type="button" class="botaoCancelar"
+            (click)="activeModal.close()">Fechar</button>
+</div>

@@ -29,6 +29,10 @@
                     <th>{{funcionario.email}}</th>
                     <th>{{funcionario.dataNascimento}}</th>
                     <td class="text-center">
+                        <button type="button" class="btn btn-xs btn-ver"
+                                (click)="abrirModalFuncionario(funcionario)">
+                            <i class="fa fa-eye" aria-hidden="true"></i> Ver
+                        </button>
                         <a class="btn btn-xs btn-warning" 
                             (click)="$event.preventDefault(); editar(funcionario)">Editar</a>
                         <a class="btn btn-xs btn-danger"

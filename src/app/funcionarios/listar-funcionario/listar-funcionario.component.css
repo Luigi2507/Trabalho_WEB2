@@ -218,3 +218,16 @@
   box-shadow: none;
   transform: none;
 }
+
+.btn-ver {
+  background: transparent;
+  border: none;
+  color: #5a3b2e;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-ver:hover {
+  background: rgba(90, 59, 46, 0.08);
+  color: #5a3b2e;
+}

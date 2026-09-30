@@ -1,10 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { Funcionario } from '../../shared/models/funcionario.model';
 import { FuncionarioService } from '../../services/funcionario.service';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalFuncionarioComponent } from '../modal-funcionario/modal-funcionario.component';
+
+
 
 @Component({
   selector: 'app-listar-funcionario',
@@ -16,12 +20,15 @@ import { FormsModule } from '@angular/forms';
 export class ListarFuncionarioComponent implements OnInit {
   private funcionarioService = inject(FuncionarioService);
   private router = inject(Router);
+  private modalService = inject(NgbModal);
+  private platformId = inject(PLATFORM_ID);
 
   funcionarios: Funcionario[] = [];
   funcionarioLogado: any = null;
 
   //CARREGAR SESSAO
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.funcionarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado') || '{}');
     this.carregar();
   }
@@ -50,5 +57,10 @@ export class ListarFuncionarioComponent implements OnInit {
     $event.preventDefault();
     sessionStorage.removeItem('usuarioLogado');
     this.router.navigate(['/login']);
+  }
+
+  abrirModalFuncionario(funcionario: Funcionario) {
+    const modalRef = this.modalService.open(ModalFuncionarioComponent);
+    modalRef.componentInstance.funcionario = funcionario;
   }
 }
