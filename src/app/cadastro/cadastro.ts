@@ -2,15 +2,15 @@ import { ChangeDetectorRef, Component, inject,  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { NumericoDirective } from '../shared/directives/numerico.directive';
+import { NgxMaskDirective } from 'ngx-mask';
 
 //Chave para o localStorage
 const LS_CHAVE_CLIENTES = 'clientes';
 
 @Component({
   selector: 'app-cadastro',
-  imports: [FormsModule, RouterLink, CommonModule, NumericoDirective],
+  imports: [FormsModule, RouterLink, NgxMaskDirective, NumericoDirective],
   templateUrl: './cadastro.html',
   styleUrl: './cadastro.css',
 })
