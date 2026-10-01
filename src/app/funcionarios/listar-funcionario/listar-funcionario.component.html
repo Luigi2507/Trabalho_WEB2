@@ -25,9 +25,9 @@
 
             @for (funcionario of funcionarios; track funcionario.id) {
                 <tr>
-                    <th>{{funcionario.nome}}</th>
+                    <th>{{funcionario.nome | caixaAlta}}</th>
                     <th>{{funcionario.email}}</th>
-                    <th>{{funcionario.dataNascimento}}</th>
+                    <th>{{funcionario.dataNascimento | date:'dd/MM/yyyy'}}</th>
                     <td class="text-center">
                         <button type="button" class="btn btn-xs btn-ver"
                                 (click)="abrirModalFuncionario(funcionario)">

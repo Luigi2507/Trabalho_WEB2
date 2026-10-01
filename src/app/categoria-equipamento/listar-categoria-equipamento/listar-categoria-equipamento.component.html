@@ -28,7 +28,7 @@
             <tbody>
                 <tr *ngFor="let categoria of categorias">
                     <td>{{ categoria.id }}</td>
-                    <td>{{ categoria.nome }}</td>
+                    <td>{{ categoria.nome | caixaAlta}}</td>
                     <td class="text-center">
                         <a [routerLink]="['/categorias/editar', categoria.id]" class="btn-secondary">Editar</a>
                         <a href="#" (click)="remover($event, categoria)" class="link-remover">Remover</a>

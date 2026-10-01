@@ -3,10 +3,11 @@ import { CategoriaEquipamento } from '../../shared/models/categoria-equipamento.
 import { CategoriaEquipamentoService } from '../../services/categoria-equipamento.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { CaixaAltaPipe } from '../../shared/pipes';
 
 @Component({
   selector: 'app-listar-categoria-equipamento',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, CaixaAltaPipe],
   templateUrl: './listar-categoria-equipamento.component.html',
   styleUrl: './listar-categoria-equipamento.component.css',
 })

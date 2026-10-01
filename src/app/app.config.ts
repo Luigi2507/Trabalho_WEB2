@@ -19,5 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideNgxMask(),
     importProvidersFrom(NgbModule),
+    importProvidersFrom(NgbModule),
   ],
 };

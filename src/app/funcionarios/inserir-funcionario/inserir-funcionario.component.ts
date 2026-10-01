@@ -31,14 +31,28 @@ export class InserirFuncionarioComponent {
         return;
       }
       
-      alert(`Funcionário cadastrado! Senha: ${senha}`);
-      this.router.navigate(["/funcionarios/listar"]);
+      this.abrirModalSenhaGerada(senha);
     }
   }
 
   //gerar senha
   private gerarSenha(): string {
     return Math.floor(1000 + Math.random() * 9000).toString();
+  }
+
+  //Modal para exibir senha do funcionário
+  public exibirModalSenhaGerada: boolean = false;
+  public senhaGerada: string = '';
+
+  public abrirModalSenhaGerada(senha: string): void{
+     this.senhaGerada = senha;
+     this.exibirModalSenhaGerada = true;
+  }
+
+  public fecharModalSenhaGerada(): void{
+    this.exibirModalSenhaGerada = false;
+    this.senhaGerada = '';
+    this.router.navigate(["/funcionarios/listar"]);
   }
 
   sair($event: any): void {

@@ -7,12 +7,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalFuncionarioComponent } from '../modal-funcionario/modal-funcionario.component';
-
+import { CaixaAltaPipe } from '../../shared/pipes';
 
 
 @Component({
   selector: 'app-listar-funcionario',
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, CaixaAltaPipe],
   templateUrl: './listar-funcionario.component.html',
   styleUrl: './listar-funcionario.component.css',
 })

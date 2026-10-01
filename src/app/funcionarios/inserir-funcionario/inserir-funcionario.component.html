@@ -42,5 +42,19 @@
                 <button type="button" class="btn btn-success" (click)="inserir()">Cadastrar</button>
             </div>
         </form>
+
+        <!-- MODAL PARA EXIBIR A SENHA GERADA -->
+        @if(exibirModalSenhaGerada){
+            <div class="modalOverlay">
+                <div class="modalCaixa">
+                    <h2>Funcionário cadastrado!</h2>
+                    <p>Senha: </p>
+                    <div class="senha">{{ senhaGerada }}</div>
+                    <div class="modalAcoes">
+                      <button type="button" class="btn botaoOk" (click)="fecharModalSenhaGerada()">OK</button>  
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>

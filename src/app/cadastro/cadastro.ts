@@ -244,6 +244,6 @@ export class Cadastro {
         this.abrirModalSenhaGerada(senha);
         this.cdr.detectChanges();
       }, 500);
-      
   }
+  
 }

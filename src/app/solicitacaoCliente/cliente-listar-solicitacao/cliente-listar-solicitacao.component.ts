@@ -3,11 +3,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
+import { CaixaAltaPipe } from '../../shared/pipes';
 
 @Component({
   selector: 'app-cliente-listar-solicitacao',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, CaixaAltaPipe],
   templateUrl: './cliente-listar-solicitacao.component.html',
   styleUrl: './cliente-listar-solicitacao.component.css',
 })
