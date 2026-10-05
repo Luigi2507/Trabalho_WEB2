@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LoginService } from '../services/login.service';
 
 
 @Component({
@@ -11,9 +12,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.css',
 })
 
-export class Login {
+export class Login implements OnInit {
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
+  private loginService = inject(LoginService);
+
   //ANIMAÇÃO DOS BOTOES
   public btnCarregando: boolean = false;
   public btnLoginTexto: string = 'Entrar';
@@ -103,8 +107,8 @@ export class Login {
       const cliente = this.clientes.find((obj: any) => obj.email?.toLowerCase() === emailDigitado && obj.senha === this.senha)
       
       if (cliente) {
-        sessionStorage.setItem('usuarioLogado', JSON.stringify(cliente))
-        this.resetBtnEstado()
+        this.loginService.usuarioLogado = { ...cliente, perfil: 'CLIENTE' };
+        this.resetBtnEstado();
         this.router.navigate(['/solicitacaoCliente']);
         return
       }
@@ -113,7 +117,7 @@ export class Login {
       const funcionario = this.funcionarios.find((obj: any) => obj.email?.toLowerCase() === emailDigitado && obj.senha === this.senha)
           
       if (funcionario) {
-        sessionStorage.setItem('usuarioLogado', JSON.stringify(funcionario));
+        this.loginService.usuarioLogado = { ...funcionario, perfil: 'FUNCIONARIO' };       
         this.resetBtnEstado();
         this.router.navigate(['/solicitacaoFuncionario/listar']);
 
@@ -195,5 +199,14 @@ export class Login {
     }
 
     this.novaSenhaGerada = novaSenha; 
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['error']) {
+        this.mensagemStatus = params['error'];
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

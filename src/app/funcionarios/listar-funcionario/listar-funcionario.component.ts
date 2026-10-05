@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalFuncionarioComponent } from '../modal-funcionario/modal-funcionario.component';
 import { CaixaAltaPipe } from '../../shared/pipes';
+import { LoginService } from '../../services/login.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class ListarFuncionarioComponent implements OnInit {
   private router = inject(Router);
   private modalService = inject(NgbModal);
   private platformId = inject(PLATFORM_ID);
+  private loginService = inject(LoginService);
 
   funcionarios: Funcionario[] = [];
   funcionarioLogado: any = null;
@@ -29,7 +31,7 @@ export class ListarFuncionarioComponent implements OnInit {
   //CARREGAR SESSAO
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.funcionarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado') || '{}');
+    this.funcionarioLogado = this.loginService.usuarioLogado ?? {};
     this.carregar();
   }
   
@@ -55,7 +57,7 @@ export class ListarFuncionarioComponent implements OnInit {
 
   sair($event: any): void {
     $event.preventDefault();
-    sessionStorage.removeItem('usuarioLogado');
+    this.loginService.logout();
     this.router.navigate(['/login']);
   }
 
