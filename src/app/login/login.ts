@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Login as LoginModel } from '../shared/models/login.model';
 import { LoginService } from '../services/login.service';
 
 
@@ -48,15 +49,6 @@ export class Login implements OnInit {
   public erroModalRecuperacao: string = ''
   public novaSenhaGerada: string = ''
 
-  // BUSCA PELO LOCALSTOREGE COM OS DADOS ATUALIZADOS
-  private get clientes(): any[] {
-    return JSON.parse(localStorage.getItem('clientes') || '[]')
-  }
-
-  private get funcionarios(): any[] {
-    return JSON.parse(localStorage.getItem('funcionarios') || '[]')
-  }
-
   //VALIDÇÃO DO CAMPO EMAIL
   public validarEmail(): boolean{
     if (!this.email){
@@ -101,33 +93,16 @@ export class Login implements OnInit {
     this.btnLoginTexto = 'Aguarde...';
     
     setTimeout(() => {
-      const emailDigitado = this.email.toLowerCase()
-
-      // Procura primeiro o cliente no LocalStorange
-      const cliente = this.clientes.find((obj: any) => obj.email?.toLowerCase() === emailDigitado && obj.senha === this.senha)
-      
-      if (cliente) {
-        this.loginService.usuarioLogado = { ...cliente, perfil: 'CLIENTE' };
+      this.loginService.login(new LoginModel(this.email, this.senha)).subscribe(usu => {
         this.resetBtnEstado();
-        this.router.navigate(['/solicitacaoCliente']);
-        return
-      }
-
-      //Procura o funcionario
-      const funcionario = this.funcionarios.find((obj: any) => obj.email?.toLowerCase() === emailDigitado && obj.senha === this.senha)
-          
-      if (funcionario) {
-        this.loginService.usuarioLogado = { ...funcionario, perfil: 'FUNCIONARIO' };       
-        this.resetBtnEstado();
-        this.router.navigate(['/solicitacaoFuncionario/listar']);
-
-        return;
-      }
-
-      // Se não encontrou ninguém
-      this.resetBtnEstado();
-      this.mensagemStatus = 'E-mail ou senha incorretos.';
-      this.cdr.detectChanges();
+        if (usu) {
+          this.loginService.usuarioLogado = usu;
+          this.router.navigate([usu.perfil === 'FUNCIONARIO' ? '/solicitacaoFuncionario/listar' : '/solicitacaoCliente']);
+        } else {
+          this.mensagemStatus = 'E-mail ou senha incorretos.';
+        }
+        this.cdr.detectChanges();
+      });
 
     }, 500);
   }

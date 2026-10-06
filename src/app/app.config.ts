@@ -20,5 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideNgxMask(),
     importProvidersFrom(NgbModule),
     importProvidersFrom(NgbModule),
+    importProvidersFrom(NgbModule),
   ],
 };
