@@ -1,16 +1,3 @@
-<header class="cabecalho-funcionario">
-  <div class="logo">
-    <img src="images/logoWT.png" alt="logo WebTech" class="logo-icone">
-  </div>
-
-  <span class="funcionario-nome">Olá, {{ funcionarioLogado?.nome }}</span>
-  <a [routerLink]="['/funcionarios/listar']" class="menu-item">Cadastrar Funcionario</a>
-  <a [routerLink]="['/categorias/listar']" class="menu-item">Cadastrar equipamentos</a>
-  <a [routerLink]="['/relatorios']" class="menu-item">Relatórios</a>
-  <a href="#" class="botao-sair" (click)="sair($event)">Sair</a>
-
-</header>
-
 <div class="conteudo-central">
   <h1>Solicitações</h1>
 

@@ -5,6 +5,7 @@ import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LoginService } from '../../services/login.service';
 
 //tipos de filtros possiveis
 type Filtro = 'HOJE' | 'PERIODO' | 'TODAS';
@@ -18,7 +19,9 @@ type Filtro = 'HOJE' | 'PERIODO' | 'TODAS';
 
 export class FuncionarioListarSolicitacaoComponent implements OnInit {
   private solicitacaoService = inject(SolicitacaoService)
+  private loginService = inject(LoginService);
   private router = inject(Router)
+
   todasSolicitacoes: Solicitacao[] = []
   solicitacoes: Solicitacao[] = [] //solici. depois q o filtro é aplicado
   funcionarioLogado: any = null //dados do func logado
@@ -144,13 +147,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.funcionarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado') || '{}');
+    this.funcionarioLogado = this.loginService.usuarioLogado;
     this.carregar()  
-  }
-
-  sair($event: any): void {
-    $event.preventDefault();
-    sessionStorage.removeItem('usuarioLogado');
-    this.router.navigate(['/login']);
   }
 }
