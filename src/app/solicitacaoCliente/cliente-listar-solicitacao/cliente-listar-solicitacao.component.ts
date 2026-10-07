@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
 import { CaixaAltaPipe } from '../../shared/pipes';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-cliente-listar-solicitacao',
@@ -15,6 +16,7 @@ import { CaixaAltaPipe } from '../../shared/pipes';
 
 export class ClienteListarSolicitacaoComponent implements OnInit {
   private solicitacaoService = inject(SolicitacaoService);
+  private loginService = inject(LoginService);
   private router = inject(Router);
 
   solicitacoes: Solicitacao[] = [];
@@ -26,9 +28,9 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
 
   //busca e mostra somente as solicitaçoes do cliente logado
   carregarSolicitacoes(): void {
-    const usuarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado') || '{}');
+    const usuarioLogado = this.loginService.usuarioLogado;
 
-    const cpfCliente = usuarioLogado.cpf;
+    const cpfCliente = usuarioLogado?.cpf;
   
     //ordena as solicitações
     this.solicitacoes = this.solicitacaoService.listarTodos().filter(solicitacao => solicitacao.clienteCpf === cpfCliente).sort((a, b) => { //organiza as solicitacoes em ordem antiga pra mais nova
@@ -108,11 +110,5 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
       this.solicitacaoService.atualizar(solicitacao);
       this.carregarSolicitacoes();
     }
-  }
-
-  sair($event: any): void {
-    $event.preventDefault();
-    sessionStorage.removeItem('usuarioLogado');
-    this.router.navigate(['/login']);
   }
 }
