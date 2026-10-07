@@ -1,0 +1,9 @@
+<h2>Atenção</h2>
+<p class="subtitulo">Tem certeza que deseja remover {{ funcionario.nome }}?</p>
+
+<div class="modalAcoes">
+    <button type="button" class="botaoCancelar"
+            (click)="confirmarRemocao(false)">Cancelar</button>
+        <button type="button" class="botaoConfirmar"
+            (click)="confirmarRemocao(true)">Remover</button>
+</div>

@@ -7,6 +7,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalFuncionarioComponent } from '../modal-funcionario/modal-funcionario.component';
+import { ModalRemoverFuncionarioComponent } from '../modal-remover-funcionario/modal-remover-funcionario.component';
 import { CaixaAltaPipe } from '../../shared/pipes';
 import { LoginService } from '../../services/login.service';
 
@@ -43,9 +44,11 @@ export class ListarFuncionarioComponent implements OnInit {
     this.router.navigate(['/funcionarios/editar', funcionario.id]);
   }
 
-  remover(funcionario: Funcionario): void {
-    if (!confirm(`Deseja remover o funcionário "${funcionario.nome}"?`)) return;
- 
+  async remover(funcionario: Funcionario): Promise<void> {
+    let confirmar = await this.abrirModalRemoverFuncionario(funcionario);
+
+    if(!confirmar) return;
+
     const erro = this.funcionarioService.remover(funcionario.id, this.funcionarioLogado.id);
     if (erro) {
       alert(erro);
@@ -64,5 +67,15 @@ export class ListarFuncionarioComponent implements OnInit {
   abrirModalFuncionario(funcionario: Funcionario) {
     const modalRef = this.modalService.open(ModalFuncionarioComponent);
     modalRef.componentInstance.funcionario = funcionario;
+  }
+
+  abrirModalRemoverFuncionario(funcionario: Funcionario) : Promise<boolean>{
+    const modalRef = this.modalService.open(ModalRemoverFuncionarioComponent);
+    modalRef.componentInstance.funcionario = funcionario;
+
+    return modalRef.result.then(
+      (resultado : boolean) => resultado,
+      () => false
+    );
   }
 }
