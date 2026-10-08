@@ -15,7 +15,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     const roles: string | undefined = route.data?.['role'];
     if (roles && roles.indexOf(usuarioLogado.perfil) === -1) {
       router.navigate(['/login'], {
-        queryParams: { error: 'Proibido o acesso a ' + url }
+        queryParams: { error: 'Você não tem permissão para acessar esta página.' }
       });
       return false;
     }
@@ -23,7 +23,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
   
   router.navigate(['/login'], {
-    queryParams: { error: 'Deve fazer o login antes de acessar ' + url }
+    queryParams: { error: 'Faça login para acessar esta página.'}
   });
   return false;
 };

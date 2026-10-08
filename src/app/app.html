@@ -7,6 +7,8 @@
                 class="logo-icone">
         </div>
 
+    <span class="usuario-menu">Olá, {{ usuarioLogado.nome }}</span>
+
     @if (temPermissao('CLIENTE')) {
         <nav class="menu">
             <a
@@ -51,15 +53,9 @@
         </nav>
     }
 
-    <div class="usuario-menu">
-        <span>Olá, {{ usuarioLogado.nome }}</span>
-            <a
-                href="#"
-                class="botao-sair"
-                (click)="logout()">
-                Sair
-            </a>
-    </div>
+
+    <a href="#" class="botao-sair" (click)="logout($event)">Sair</a>
+
   </header>
 }
 

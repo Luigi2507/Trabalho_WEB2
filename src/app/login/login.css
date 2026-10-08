@@ -346,6 +346,18 @@
   padding: 14px;
 }
 
+.mensagem-status {
+  background: #ffdfcd;
+  color: #c22d08;
+  border: 1px solid #f5c2c0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
 @keyframes modalFade {
   from { opacity: 0; }
   to   { opacity: 1; }
