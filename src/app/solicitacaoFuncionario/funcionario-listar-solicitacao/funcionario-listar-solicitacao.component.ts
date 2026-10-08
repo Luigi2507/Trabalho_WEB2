@@ -27,7 +27,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   funcionarioLogado: any = null //dados do func logado
   
   //FILTROS
-  visualizacao: 'NOVAS' | 'TODAS' = 'TODAS';
+  visualizacao: 'TODAS' | 'NOVAS' = 'NOVAS';
   filtroAtivo: Filtro = 'HOJE' 
   dataInicio: string = ''
   dataFim: string = ''

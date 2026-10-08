@@ -2,11 +2,11 @@
   <h1>Solicitações</h1>
 
   <div class="abas-filtro abas-vizualizacao">
-    <button type="button" [class.ativo]="visualizacao === 'TODAS'" (click)="selecionarVisualizacao('TODAS')">
-      Todas as Solicitações
-    </button>
     <button type="button" [class.ativo]="visualizacao === 'NOVAS'" (click)="selecionarVisualizacao('NOVAS')">
       Novas Solicitações
+    </button>
+    <button type="button" [class.ativo]="visualizacao === 'TODAS'" (click)="selecionarVisualizacao('TODAS')">
+      Todas as Solicitações
     </button>
   </div>
 
