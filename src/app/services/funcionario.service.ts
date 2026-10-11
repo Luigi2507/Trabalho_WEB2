@@ -1,75 +1,59 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Funcionario } from '../shared/models/funcionario.model';
 
-const LS_CHAVE = "funcionarios";
+@Injectable({ providedIn: 'root' })
+  export class FuncionarioService {
+    BASE_URL = "http://localhost:3000/funcionarios";
+    httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
 
-@Injectable({
-  providedIn: 'root'
-})
+    private httpClient = inject(HttpClient);
 
-export class FuncionarioService {
-  private platformId = inject(PLATFORM_ID);
-
-  private get isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
-  }
-
-  listarTodos(): Funcionario[] {
-    if (!this.isBrowser) return [];
-    const funcionarios = localStorage[LS_CHAVE];
-    return funcionarios ? JSON.parse(funcionarios) : [];
-  }
-
-  inserir(funcionario: Funcionario): string | null {
-    if (!this.isBrowser) return null;
-
-    const funcionarios = this.listarTodos();
-
-    const emailExiste = funcionarios.some(
-      f => f.email.toLowerCase() === funcionario.email.toLowerCase()
-    );
-    if (emailExiste) {
-      return 'Este e-mail já está cadastrado.';
+    listarTodos(): Observable<Funcionario[]> {
+      return this.httpClient.get<Funcionario[]>(this.BASE_URL, this.httpOptions);
     }
 
-    funcionario.id = new Date().getTime();
-    funcionarios.push(funcionario);
-    localStorage[LS_CHAVE] = JSON.stringify(funcionarios);
-    return null;
-  }
-
-  buscarPorID(id: number): Funcionario | undefined {
-    return this.listarTodos().find(f => f.id === id);
-  }
-
-  atualizar(funcionario: Funcionario): void {
-    if (!this.isBrowser) return;
-
-    const funcionarios = this.listarTodos();
-    funcionarios.forEach((obj, index, objs) => {
-      if (funcionario.id === obj.id) {
-        objs[index] = funcionario;
-      }
-    });
-    localStorage[LS_CHAVE] = JSON.stringify(funcionarios);
-  }
-
-  remover(id: number, idLogado: number): string | null {
-    if (!this.isBrowser) return null;
-
-    const funcionarios = this.listarTodos();
-
-    if (id === idLogado) {
-      return 'Você não pode remover a si mesmo.';
+    buscarPorID(id: number): Observable<Funcionario> {
+      return this.httpClient.get<Funcionario>(this.BASE_URL + "/" + id, this.httpOptions);
     }
 
-    if (funcionarios.length <= 1) {
-      return 'Não é possível remover o único funcionário cadastrado.';
+    inserir(funcionario: Funcionario): Observable<string | null> {
+      return this.listarTodos().pipe(
+        switchMap(funcionarios => {
+          const emailExiste = funcionarios.some(
+            f => f.email.toLowerCase() === funcionario.email.toLowerCase()
+          );
+          if (emailExiste) return of('Este e-mail já está cadastrado.');
+
+          // o id é gerado pelo json-server
+          const { id, ...dados } = funcionario;
+          return this.httpClient.post<Funcionario>(this.BASE_URL, JSON.stringify(dados), this.httpOptions)
+            .pipe(map(() => null));
+        })
+      );
     }
 
-    const novaLista = funcionarios.filter(f => f.id !== id);
-    localStorage[LS_CHAVE] = JSON.stringify(novaLista);
-    return null;
-  }
+    atualizar(funcionario: Funcionario): Observable<Funcionario> {
+      return this.httpClient.put<Funcionario>(this.BASE_URL + "/" + funcionario.id,
+        JSON.stringify(funcionario), this.httpOptions);
+    }
+
+    remover(id: number, idLogado: number): Observable<string | null> {
+      return this.listarTodos().pipe(
+        switchMap(funcionarios => {
+          if (id === idLogado) return of('Você não pode remover a si mesmo.');
+          if (funcionarios.length <= 1) {
+            return of('Não é possível remover o único funcionário cadastrado.');
+          }
+          return this.httpClient.delete<Funcionario>(this.BASE_URL + "/" + id, this.httpOptions)
+            .pipe(map(() => null));
+        })
+      );
+    }
 }

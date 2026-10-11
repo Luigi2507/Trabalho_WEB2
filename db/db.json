@@ -1,0 +1,23 @@
+{
+  "clientes": [],
+
+  "funcionarios": [
+    {
+      "id": 1,
+      "nome": "Administrador",
+      "email": "admin@webtech.com",
+      "dataNascimento": "1990-01-01",
+      "senha": "1234"
+    }
+  ],
+
+  "categorias": [
+    { "id": 1, "nome": "Notebook" },
+    { "id": 2, "nome": "Desktop" },
+    { "id": 3, "nome": "Impressora" },
+    { "id": 4, "nome": "Mouse" },
+    { "id": 5, "nome": "Teclado" }
+  ],
+  
+  "solicitacoes": []
+}

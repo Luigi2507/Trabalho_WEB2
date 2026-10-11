@@ -1,56 +1,40 @@
-import { Injectable, Inject, PLATFORM_ID} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { CategoriaEquipamento } from '../shared/models/categoria-equipamento.model';
 
 const CHAVE = 'categoriasEquipamento';
 
 @Injectable({ providedIn: 'root' })
 export class CategoriaEquipamentoService {
+    BASE_URL = "http://localhost:3000/categorias";
+    httpOptions = {
+        headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+        })
+    };
+    private httpClient = inject(HttpClient);
 
-    private isBrowser: boolean;
-
-    constructor(@Inject(PLATFORM_ID) platformId: Object) {
-        this.isBrowser = isPlatformBrowser(platformId);
+    listarTodos(): Observable<CategoriaEquipamento[]> {
+        return this.httpClient.get<CategoriaEquipamento[]>(this.BASE_URL, this.httpOptions);
     }
 
-    listarTodos(): CategoriaEquipamento[] {
-        if (!this.isBrowser) return [];
-
-        const dados = localStorage.getItem(CHAVE);
-        return dados ? JSON.parse(dados) : [];
+    buscarPorId(id: number): Observable<CategoriaEquipamento> {
+        return this.httpClient.get<CategoriaEquipamento>(this.BASE_URL + "/" + id, this.httpOptions);
     }
 
-    buscarPorId(id: number): CategoriaEquipamento | undefined {
-        return this.listarTodos().find(c => c.id === id);
+    inserir(categoria: CategoriaEquipamento): Observable<CategoriaEquipamento> {
+        // o id é gerado pelo json-server
+        const { id, ...dados } = categoria;
+        return this.httpClient.post<CategoriaEquipamento>(this.BASE_URL, JSON.stringify(dados), this.httpOptions);
     }
 
-    inserir(categoria: CategoriaEquipamento): void {
-        if (!this.isBrowser) return;
-        if (!categoria.nome || categoria.nome.trim() === '') {
-            throw new Error('O nome da categoria é obrigatório.');
-        }
-        const lista = this.listarTodos();
-        categoria.id = Date.now();
-        lista.push(categoria);
-        localStorage.setItem(CHAVE, JSON.stringify(lista));
+    remover(id: number): Observable<CategoriaEquipamento> {
+        return this.httpClient.delete<CategoriaEquipamento>(this.BASE_URL + "/" + id, this.httpOptions);
     }
 
-    alterar(categoria: CategoriaEquipamento): void {
-        if (!this.isBrowser) return;
-        if (!categoria.nome || categoria.nome.trim() === '') {
-            throw new Error('O nome da categoria é obrigatório.');
-        }
-        const lista = this.listarTodos();
-        const index = lista.findIndex(c => c.id === categoria.id);
-        if (index !== -1) {
-            lista[index] = categoria;
-            localStorage.setItem(CHAVE, JSON.stringify(lista));
-        }
-    }
-
-    remover(id: number): void {
-        if (!this.isBrowser) return;
-        const lista = this.listarTodos().filter(c => c.id !== id);
-        localStorage.setItem(CHAVE, JSON.stringify(lista));
+    alterar(categoria: CategoriaEquipamento): Observable<CategoriaEquipamento> {
+        return this.httpClient.put<CategoriaEquipamento>(this.BASE_URL + "/" + categoria.id,
+        JSON.stringify(categoria), this.httpOptions);
     }
 }
