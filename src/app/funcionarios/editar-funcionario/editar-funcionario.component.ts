@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Funcionario } from '../../shared/models/funcionario.model';
@@ -13,30 +13,29 @@ import { FuncionarioService } from '../../services/funcionario.service';
 
 export class EditarFuncionarioComponent implements OnInit {
   @ViewChild('formFuncionario') formulario! : NgForm;
-  funcionario: Funcionario = new Funcionario();
+  funcionario = signal(new Funcionario());
 
   private funcionarioService = inject(FuncionarioService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  mensagemErro: string = '';
+  mensagemErro = signal('');
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.params['id']);
-    const funcionarioEncontrado = this.funcionarioService.buscarPorID(id); //PROCURA O FUNCIONARIO
 
-    if (funcionarioEncontrado) {
-      this.funcionario = funcionarioEncontrado;
-    } else {
-      this.mensagemErro = 'Funcionário não encontrado.';
-    }
+    this.funcionarioService.buscarPorID(id).subscribe({
+      next: (data: Funcionario) => this.funcionario.set(data),
+      error: () => this.mensagemErro.set('Funcionário não encontrado.')
+    })
   }    
 
   //ATUALIZAR CADASTRO
   editar(): void {
     if (this.formulario.valid) {
-      this.funcionarioService.atualizar(this.funcionario);
-      this.router.navigate(['/funcionarios/listar'])
+      this.funcionarioService.atualizar(this.funcionario()).subscribe({
+        complete: () => this.router.navigate(['/funcionarios/listar'])
+      });
     }
   }
 

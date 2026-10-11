@@ -93,18 +93,24 @@ export class Login implements OnInit {
     this.btnLoginTexto = 'Aguarde...';
     
     setTimeout(() => {
-      this.loginService.login(new LoginModel(this.email, this.senha)).subscribe(usu => {
-        this.resetBtnEstado();
-        if (usu) {
-          this.loginService.usuarioLogado = usu;
-          this.router.navigate([usu.perfil === 'FUNCIONARIO' ? '/solicitacaoFuncionario/listar' : '/solicitacaoCliente']);
-        } else {
-          this.mensagemStatus = 'E-mail ou senha incorretos.';
+      this.loginService.login(new LoginModel(this.email, this.senha)).subscribe({
+        next: usu => {
+          this.resetBtnEstado();
+          if (usu) {
+            this.loginService.usuarioLogado = usu;
+            this.router.navigate([usu.perfil === 'FUNCIONARIO' ? '/solicitacaoFuncionario/listar' : '/solicitacaoCliente']);
+          } else {
+            this.mensagemStatus = 'E-mail ou senha incorretos.';
+          }
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.resetBtnEstado();
+          this.mensagemStatus = 'Não foi possível conectar ao servidor. Tente novamente.';
+          this.cdr.detectChanges();
         }
-        this.cdr.detectChanges();
-      });
-
-    }, 500);
+    });
+  }, 500);
   }
   
   //ANIMAÇÃO BOTÃO
@@ -135,23 +141,6 @@ export class Login implements OnInit {
     this.novaSenhaGerada = ''
   }
 
-  // FUNÇÃO AUXILIAR PARA BUSCAR E ATUALIZAR SENHA
-  private redefinirSenha(chaveLocalStorage: string, emailDigitado: string): string | null {
-    const lista = JSON.parse(localStorage.getItem(chaveLocalStorage) || '[]')
-    const index = lista.findIndex((item: any) => item.email && item.email.toLowerCase() === emailDigitado)
-
-    if (index === -1) return null;
-
-    //nova senha
-    const novaSenha = Math.floor(1000 + Math.random() * 9000).toString()
-
-    //atualiza no array e grava de volta no localStorage
-    lista[index].senha = novaSenha
-    localStorage.setItem(chaveLocalStorage, JSON.stringify(lista)) 
-
-    return novaSenha;
-  }
-
   //FUNCAO ESQUECEU SENHA
   public esqueceuSenha(): void {
     const emailDigitado = this.emailRecuperacao.trim().toLowerCase();
@@ -164,16 +153,22 @@ export class Login implements OnInit {
       this.erroModalRecuperacao = 'Informe um e-mail válido.';
       return;
     }
+  
 
-    // tenta em clientes e se não achar tenta em funcionários
-    const novaSenha = this.redefinirSenha('clientes', emailDigitado) ?? this.redefinirSenha('funcionarios', emailDigitado);
-
-    if (!novaSenha) {
-      this.erroModalRecuperacao = 'E-mail não cadastrado no sistema.';
-      return;
-    }
-
-    this.novaSenhaGerada = novaSenha; 
+    this.loginService.redefinirSenha(emailDigitado).subscribe({
+      next: novaSenha => {
+        if (!novaSenha) {
+          this.erroModalRecuperacao = 'E-mail não cadastrado no sistema.';
+        } else {
+          this.novaSenhaGerada = novaSenha;
+        }
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.erroModalRecuperacao = 'Não foi possível conectar ao servidor.';
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   ngOnInit(): void {

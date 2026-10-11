@@ -13,7 +13,7 @@
                 <th class="text-center">Ação</th>
             </tr>
 
-            @for (funcionario of funcionarios; track funcionario.id) {
+            @for (funcionario of funcionarios(); track funcionario.id) {
                 <tr>
                     <th>{{funcionario.nome | caixaAlta}}</th>
                     <th>{{funcionario.email}}</th>

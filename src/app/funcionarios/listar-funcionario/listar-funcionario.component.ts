@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Funcionario } from '../../shared/models/funcionario.model';
 import { FuncionarioService } from '../../services/funcionario.service';
@@ -26,7 +26,7 @@ export class ListarFuncionarioComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private loginService = inject(LoginService);
 
-  funcionarios: Funcionario[] = [];
+  funcionarios = signal<Funcionario[]>([]);
   funcionarioLogado: any = null;
 
   //CARREGAR SESSAO
@@ -37,7 +37,9 @@ export class ListarFuncionarioComponent implements OnInit {
   }
   
   carregar(): void {
-    this.funcionarios = this.funcionarioService.listarTodos();
+    this.funcionarioService.listarTodos().subscribe({
+      next: (data : Funcionario[]) => this.funcionarios.set(data ?? [])
+    });
   }
 
   editar(funcionario: Funcionario): void {
@@ -49,14 +51,17 @@ export class ListarFuncionarioComponent implements OnInit {
 
     if(!confirmar) return;
 
-    const erro = this.funcionarioService.remover(funcionario.id, this.funcionarioLogado.id);
-    if (erro) {
-      alert(erro);
-      return;
-    }
- 
-    this.carregar();
+    this.funcionarioService.remover(funcionario.id, this.funcionarioLogado.id).subscribe({
+      next: erro => {
+        if (erro) {
+          alert(erro);
+          return;
+        }
+        this.carregar();
+      }
+    });
   }
+
 
   sair($event: any): void {
     $event.preventDefault();

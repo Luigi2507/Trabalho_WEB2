@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, signal } from '@angular/core';
 import { Funcionario } from '../../shared/models/funcionario.model';
 import { FuncionarioService } from '../../services/funcionario.service';
 import { RouterModule, Router } from '@angular/router';
@@ -25,13 +25,15 @@ export class InserirFuncionarioComponent {
       const senha = this.gerarSenha();
       this.funcionario.senha = senha;
       
-      const erro = this.funcionarioService.inserir(this.funcionario);
-      if (erro) {
-        alert(erro);
-        return;
-      }
-      
-      this.abrirModalSenhaGerada(senha);
+      this.funcionarioService.inserir(this.funcionario).subscribe({
+        next: erro => {
+          if (erro) {
+            alert(erro);
+            return;
+          }
+          this.abrirModalSenhaGerada(senha);
+        }
+      });
     }
   }
 
@@ -41,16 +43,16 @@ export class InserirFuncionarioComponent {
   }
 
   //Modal para exibir senha do funcionário
-  public exibirModalSenhaGerada: boolean = false;
+  public exibirModalSenhaGerada = signal(false);
   public senhaGerada: string = '';
 
   public abrirModalSenhaGerada(senha: string): void{
      this.senhaGerada = senha;
-     this.exibirModalSenhaGerada = true;
+     this.exibirModalSenhaGerada.set(true);
   }
 
   public fecharModalSenhaGerada(): void{
-    this.exibirModalSenhaGerada = false;
+    this.exibirModalSenhaGerada.set(false);
     this.senhaGerada = '';
     this.router.navigate(["/funcionarios/listar"]);
   }

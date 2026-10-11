@@ -12,7 +12,6 @@ import { CategoriaEquipamentoService } from '../../services/categoria-equipament
   styleUrl: './inserir-categoria-equipamento.component.css',
 })
 export class InserirCategoriaEquipamentoComponent {
-
   categoria: CategoriaEquipamento = new CategoriaEquipamento();
 
   constructor(
@@ -25,7 +24,8 @@ export class InserirCategoriaEquipamentoComponent {
       return;
     }
 
-    this.categoriaEquipamentoService.inserir(this.categoria);
-    this.router.navigate(['/categorias/listar']);
+    this.categoriaEquipamentoService.inserir(this.categoria).subscribe({
+      complete: () => this.router.navigate(['/categorias/listar'])
+    });
   }
 }
