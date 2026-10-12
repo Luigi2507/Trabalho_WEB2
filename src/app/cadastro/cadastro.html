@@ -17,12 +17,12 @@
 
     <!--BARRA DE DADOS E ENDEREÇO-->
     <div class="progressoEtapas">
-        <div class="etapa" [class.ativa]="etapaAtual === 1" [class.concluida]="etapaAtual === 2">
+        <div class="etapa" [class.ativa]="etapaAtual() === 1" [class.concluida]="etapaAtual() === 2">
             <span class="etapaNumero">1</span>
             <span class="etapaNome">Dados pessoais</span>
         </div>
-        <div class="etapaLinha" [class.ativa]="etapaAtual === 2"></div>
-        <div class="etapa" [class.ativa]="etapaAtual === 2">
+        <div class="etapaLinha" [class.ativa]="etapaAtual() === 2"></div>
+        <div class="etapa" [class.ativa]="etapaAtual() === 2">
             <span class="etapaNumero">2</span>
             <span class="etapaNome">Endereço</span>
         </div>
@@ -32,7 +32,7 @@
         <main>
             <!--DADOS PESSOAIS-->
             <form class="row g-4 formEtapas" (ngSubmit)="cadastrar()">
-                @if (etapaAtual === 1) {
+                @if (etapaAtual() === 1) {
                     <section class="col-12">
                         <p class="textoPreencha">Preencha seus dados para realizar o cadastro.</p>
                         <h2>Dados pessoais</h2>
@@ -61,16 +61,16 @@
                         </div>
 
                         <!--MENSAGENS DE ERRO-->
-                        @if (erroEtapa1) {
-                            <p class="erro-etapa">{{erroEtapa1}}</p>
+                        @if (erroEtapa1()) {
+                            <p class="erro-etapa">{{erroEtapa1()}}</p>
                         }
 
-                        @if (mensagemCPF) {
-                            <p class="erro-etapa">{{mensagemCPF}}</p>
+                        @if (mensagemCPF()) {
+                            <p class="erro-etapa">{{mensagemCPF()}}</p>
                         }
                             
-                        @if (mensagemEmail) {
-                            <p class="erro-etapa">{{mensagemEmail}}</p>
+                        @if (mensagemEmail()) {
+                            <p class="erro-etapa">{{mensagemEmail()}}</p>
                         }
 
                         <div class="d-flex justify-content-center mt-4">
@@ -83,7 +83,7 @@
                 }
                 
                 <!--DADOS DE ENDEREÇO-->
-                @if (etapaAtual === 2) {
+                @if (etapaAtual() === 2) {
                     <section class="col-12">
                         <h2>Endereço</h2>
                         <div class="row g-3 mb-3">
@@ -103,8 +103,8 @@
                         </div>
                           
                         <!--MENSAGEM DE ERRO CEP-->
-                        @if (mensagemCEP) {
-                            <p class="erro-etapa">{{mensagemCEP}}</p>
+                        @if (mensagemCEP()) {
+                            <p class="erro-etapa">{{mensagemCEP()}}</p>
                         }
                         
                         <div class="mb-3">
@@ -143,8 +143,8 @@
                         <button type="button" class="botao-voltar" (click)="voltarEtapa()">Voltar</button>
                         <button type="submit"
                         class="botao-cadastrar"
-                        [disabled]="bloqueado">
-                        {{btnCadastroTexto}}
+                        [disabled]="bloqueado()">
+                        {{btnCadastroTexto()}}
                         </button>
 
                         </div>
@@ -160,12 +160,12 @@
         </main>
 
         <!-- MODAL PARA EXIBIR A SENHA GERADA -->
-        @if(exibirModalSenhaGerada){
+        @if(exibirModalSenhaGerada()){
             <div class="modalOverlay">
                 <div class="modalCaixa">
                     <h2>Cadastro realizado com sucesso!</h2>
                     <p>Sua senha é:</p>
-                    <div class="senha">{{ senhaGerada }}</div>
+                    <div class="senha">{{ senhaGerada() }}</div>
                     <div class="modalAcoes">
                       <button type="button" class="btn botaoOk" (click)="fecharModalSenhaGerada()">OK</button>  
                     </div>

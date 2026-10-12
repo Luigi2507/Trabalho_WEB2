@@ -1,9 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Router } from '@angular/router';
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 
@@ -21,9 +21,10 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   private solicitacaoService = inject(SolicitacaoService)
   private loginService = inject(LoginService);
   private router = inject(Router)
+  private platformId = inject(PLATFORM_ID);
 
   todasSolicitacoes: Solicitacao[] = []
-  solicitacoes: Solicitacao[] = [] //solici. depois q o filtro é aplicado
+  solicitacoes = signal<Solicitacao[]>([]) //solici. depois q o filtro é aplicado
   funcionarioLogado: any = null //dados do func logado
   
   //FILTROS
@@ -67,16 +68,18 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
     }
 
     //todas n filtra nada 
-    this.solicitacoes = lista.sort((a, b) =>
-      new Date(a.dataHora).getTime() - new Date(b.dataHora).getTime());
-  
+    this.solicitacoes.set(lista.sort((a, b) =>
+      new Date(a.dataHora).getTime() - new Date(b.dataHora).getTime()));
   }
 
   //carrega solicitacoes 
   carregar() : void {
     //solic 'redicerionadas' so aparecem para o func q foi definido como destino
-    this.todasSolicitacoes = this.solicitacaoService.listarTodos().filter(s => s.status != 'REDIRECIONADA' || s.funcionarioAtual === this.funcionarioLogado.nome)
-    this.aplicarFiltro()      
+    this.solicitacaoService.listarTodos().subscribe({next: (lista: Solicitacao[]) => {
+        this.todasSolicitacoes = (lista ?? []).filter(s => s.status != 'REDIRECIONADA' || s.funcionarioAtual === this.funcionarioLogado?.nome)
+        this.aplicarFiltro()
+      }
+    });    
   }
 
   //altera o filtro e atualiza  a lista
@@ -99,8 +102,9 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
       solicitacao.dataFinalizacao = new Date();
       //adicona alterecao no historico
       solicitacao.historico.push({dataHora: new Date(), status: 'FINALIZADA', funcionario: `${this.funcionarioLogado.nome} (Funcionário)`});
-      this.solicitacaoService.atualizar(solicitacao);
-      this.carregar();
+      this.solicitacaoService.atualizar(solicitacao).subscribe({
+        next: () => this.carregar()
+      });
     }
   }
   
@@ -147,7 +151,8 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.funcionarioLogado = this.loginService.usuarioLogado;
-    this.carregar()  
+    this.carregar()
   }
 }

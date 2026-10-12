@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild, OnInit} from '@angular/core';
+import { Component, inject, ViewChild, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { CategoriaEquipamento } from '../../shared/models/categoria-equipamento.model';
 import { CategoriaEquipamentoService } from '../../services/categoria-equipamento.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-cliente-inserir-solicitacao',
@@ -16,16 +17,19 @@ import { CategoriaEquipamentoService } from '../../services/categoria-equipament
 
 export class ClienteInserirSolicitacaoComponent implements OnInit {
 
-  categorias: CategoriaEquipamento[] = [];
+  categorias = signal<CategoriaEquipamento[]>([]);
 
   @ViewChild('formSolicitacao') formulario!: NgForm;
   solicitacao : Solicitacao = new Solicitacao();
   private solicitacaoService = inject(SolicitacaoService);
   private categoriaEquipamentoService = inject(CategoriaEquipamentoService);
   private router = inject(Router);
-
+  private loginService = inject(LoginService);
+  
   ngOnInit(): void {
-    this.categorias = this.categoriaEquipamentoService.listarTodos();
+     this.categoriaEquipamentoService.listarTodos().subscribe({
+      next: (data: CategoriaEquipamento[]) => this.categorias.set(data ?? [])
+    });
   }
 
   //CRIAR UMA SOLICITAÇÃO
@@ -37,16 +41,17 @@ export class ClienteInserirSolicitacaoComponent implements OnInit {
       );
 
       //associa solicitacao com cpf
-      this.solicitacao.clienteCpf = usuarioLogado.cpf;
-      this.solicitacao.clienteNome = usuarioLogado.nome;
-      this.solicitacaoService.inserir(this.solicitacao)
-      this.router.navigate(['/solicitacaoCliente/listar'])
+      this.solicitacao.clienteCpf = usuarioLogado?.cpf ?? '';
+      this.solicitacao.clienteNome = usuarioLogado?.nome ?? '';
+      this.solicitacaoService.inserir(this.solicitacao).subscribe({
+        next: () => this.router.navigate(['/solicitacaoCliente/listar'])
+      });
     }
   }
 
   sair($event: any): void {
     $event.preventDefault();
-    sessionStorage.removeItem('usuarioLogado');
+    this.loginService.logout();
     this.router.navigate(['/login']);
   }
 }

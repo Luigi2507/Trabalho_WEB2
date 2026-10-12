@@ -1,5 +1,5 @@
 <div class="conteudo-central">
-  @if (solicitacao) {
+  @if (solicitacao(); as solicitacao) {
     <h1>Orçamento do Serviço</h1>
     <div class="card">
       <div class="form-group">

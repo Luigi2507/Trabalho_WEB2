@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser  } from '@angular/common';
+import { Component, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
@@ -15,17 +15,22 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
   private solicitacaoService = inject(SolicitacaoService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-
-  solicitacao: Solicitacao | undefined;
+  private platformId = inject(PLATFORM_ID);
+  
+  solicitacao = signal<Solicitacao | undefined>(undefined);
   
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+ 
     const id = +this.route.snapshot.params['id'];
-    this.solicitacao = this.solicitacaoService.buscarPorID(id);
-
-    if (this.solicitacao === undefined) {
-      alert('Solicitação não encontrada.');
-      this.router.navigate(['/solicitacaoCliente/listar']);
-    }
+ 
+    this.solicitacaoService.buscarPorID(id).subscribe({
+      next: (s: Solicitacao) => this.solicitacao.set(s),
+      error: () => {
+        alert('Solicitação não encontrada.');
+        this.router.navigate(['/solicitacaoCliente/listar']);
+      }
+    });
   }
 
   // define botao de acordo com o status
@@ -53,18 +58,20 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
 
   // cliente resgatar 
   resgatar(): void {
-    if (!this.solicitacao) return;
-    if (!confirm(`Deseja resgatar a solicitação "${this.solicitacao.descricaoEquipamento}"?`)) return;
-
-    this.solicitacao.status = 'APROVADA';
-    if (!this.solicitacao.historico) {
-      this.solicitacao.historico = [];
+    const s = this.solicitacao();
+    if (!s) return;
+    if (!confirm(`Deseja resgatar a solicitação "${s.descricaoEquipamento}"?`)) return;
+ 
+    s.status = 'APROVADA';
+    if (!s.historico) {
+      s.historico = [];
     }
-
-    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${this.solicitacao.clienteNome} (Cliente - resgate)`)
-    );
-    this.solicitacaoService.atualizar(this.solicitacao);
-    this.router.navigate(['/solicitacaoCliente/listar']);
+ 
+    s.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${s.clienteNome} (Cliente - resgate)`));
+ 
+    this.solicitacaoService.atualizar(s).subscribe({
+      next: () => this.router.navigate(['/solicitacaoCliente/listar'])
+    });
   }
       
   sair($event: any): void {

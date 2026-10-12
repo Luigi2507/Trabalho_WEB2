@@ -7,14 +7,14 @@
   </div>
 
   <div class="abas-filtro">
-    <button [class.ativa]="abaAtiva === 'TODAS'" (click)="mudarAba('TODAS')">Todas</button>
-    <button [class.ativa]="abaAtiva === 'PENDENTES'" (click)="mudarAba('PENDENTES')">Em Análise</button>
-    <button [class.ativa]="abaAtiva === 'EM_ANDAMENTO'" (click)="mudarAba('EM_ANDAMENTO')">Em Andamento</button>
-    <button [class.ativa]="abaAtiva === 'CONCLUIDAS'" (click)="mudarAba('CONCLUIDAS')">Concluídas</button>
+    <button [class.ativa]="abaAtiva() === 'TODAS'" (click)="mudarAba('TODAS')">Todas</button>
+    <button [class.ativa]="abaAtiva() === 'PENDENTES'" (click)="mudarAba('PENDENTES')">Em Análise</button>
+    <button [class.ativa]="abaAtiva() === 'EM_ANDAMENTO'" (click)="mudarAba('EM_ANDAMENTO')">Em Andamento</button>
+    <button [class.ativa]="abaAtiva() === 'CONCLUIDAS'" (click)="mudarAba('CONCLUIDAS')">Concluídas</button>
   </div>
 
   <div class="cards-grid">
-     @for (solicitacao of solicitacoesFiltradas; track solicitacao.id) {
+      @for (solicitacao of solicitacoesFiltradas(); track solicitacao.id) {
         <div class="card-solicitacao">
           <div class="card-cabecalho">
             <span class="card-data">{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</span>

@@ -35,7 +35,7 @@
         <th class="text-center">Ação</th>
       </tr>
 
-      @for (solicitacao of solicitacoes; track solicitacao.id) {
+      @for (solicitacao of solicitacoes(); track solicitacao.id) {
         <tr>
           <td>{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</td>
           <td>{{ solicitacao.clienteNome }}</td>

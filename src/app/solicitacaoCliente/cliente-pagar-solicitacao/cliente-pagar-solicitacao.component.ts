@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao, HistoricoItem } from '../../shared/models/solicitacao.model';
@@ -15,36 +15,38 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
   private solicitacaoService = inject(SolicitacaoService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
-  solicitacao: Solicitacao | undefined;
+  solicitacao = signal<Solicitacao | undefined>(undefined);
 
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+ 
     const id = +this.route.snapshot.params['id'];
-    this.solicitacao = this.solicitacaoService.buscarPorID(id);
-
-    if (this.solicitacao === undefined) {
+ 
+    this.solicitacaoService.buscarPorID(id).subscribe({next: (s: Solicitacao) => this.solicitacao.set(s), error: () => {
       alert('Solicitação não encontrada.');
-      this.router.navigate(['/solicitacaoCliente/listar']);
-    }
+      this.router.navigate(['/solicitacaoCliente/listar']);}
+    });
   }
 
 //confirma pagamento e altera status
   confirmarPagamento(): void {
-    if (!this.solicitacao) return;
-
-    this.solicitacao.status = 'PAGA';
-    this.solicitacao.dataPagamento = new Date();
-
-    if (!this.solicitacao.historico) {
-      this.solicitacao.historico = [];
+    const s = this.solicitacao();
+    if (!s) return;
+ 
+    s.status = 'PAGA';
+    s.dataPagamento = new Date();
+ 
+    if (!s.historico) {
+      s.historico = [];
     }
-    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'PAGA', `${this.solicitacao.clienteNome} (Cliente)`)
-    );
+    s.historico.push(new HistoricoItem(new Date(), 'PAGA', `${s.clienteNome} (Cliente)`));
     
-    this.solicitacaoService.atualizar(this.solicitacao);
-
-    alert('Pagamento confirmado!');
-    this.router.navigate(['/solicitacaoCliente/listar']);
+    this.solicitacaoService.atualizar(s).subscribe({next: () => {
+      alert('Pagamento confirmado!');
+      this.router.navigate(['/solicitacaoCliente/listar']);}
+    });
   }
 
   sair($event: any): void {

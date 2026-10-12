@@ -22,7 +22,7 @@
         <label for="categoria">Categoria do Equipamento:</label>
         <select class="form-control" id="categoria" name="categoria" [(ngModel)]="solicitacao.categoria" #categoria="ngModel" required>
           <option value="" disabled selected>Selecione uma categoria</option>
-          @for (cat of categorias; track cat.id) {
+          @for (cat of categorias(); track cat.id) {
             <option [value]="cat.nome">{{ cat.nome }}</option>
           }
         </select>

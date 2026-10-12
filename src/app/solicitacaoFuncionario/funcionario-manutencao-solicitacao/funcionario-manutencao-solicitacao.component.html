@@ -1,5 +1,5 @@
 <div class="conteudo-central">
-  @if (solicitacao) {
+  @if (solicitacao(); as solicitacao) {
     <h1>Efetuar Manutenção</h1>
     <div class="card">
       <h3>Dados da Solicitação</h3>
@@ -37,7 +37,7 @@
           <label for="destino">Redirecionar para:</label>
           <select id="destino" class="form-control" [(ngModel)]="funcionarioDestinoId" name="destino">
             <option [ngValue]="0" disabled selected>Selecione um funcionário</option>
-            @for (f of funcionariosDisponiveis; track f.id) {
+            @for (f of funcionariosDisponiveis(); track f.id) {
               <option [ngValue]="f.id">{{ f.nome }}</option>
             }
           </select>

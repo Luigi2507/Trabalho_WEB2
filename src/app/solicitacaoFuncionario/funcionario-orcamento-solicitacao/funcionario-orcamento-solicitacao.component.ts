@@ -1,9 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-funcionario-orcamento-solicitacao',
@@ -15,37 +16,42 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
   private solicitacaoService = inject(SolicitacaoService)
   private route = inject(ActivatedRoute)
   private router = inject(Router)
+  private loginService = inject(LoginService)
+  private platformId = inject(PLATFORM_ID)
 
-  solicitacao: Solicitacao | undefined
+  solicitacao = signal<Solicitacao | undefined>(undefined)
   funcionarioLogado: any = null
   valorOrcamento: number = 0
   
   ngOnInit(): void {
-    this.funcionarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado') || '{}');
+    if (!isPlatformBrowser(this.platformId)) return;
+ 
+    this.funcionarioLogado = this.loginService.usuarioLogado;
     const id = +this.route.snapshot.params['id']
-    this.solicitacao = this.solicitacaoService.buscarPorID(id)
-
-    if(this.solicitacao === undefined){
-      alert('Solicitação não encontrada.');
-      this.router.navigate(['/solicitacaoFuncionario/listar']);
-    }
+ 
+    this.solicitacaoService.buscarPorID(id).subscribe({next: (s: Solicitacao) => this.solicitacao.set(s),
+      error: () => {
+        alert('Solicitação não encontrada.');
+        this.router.navigate(['/solicitacaoFuncionario/listar']);
+      }
+    });
   }
 
   salvarOrcamento() : void {
-    if(!this.solicitacao || this.valorOrcamento <= 0) return;
-
-    this.solicitacao.orcamento = this.valorOrcamento;
-    this.solicitacao.funcionarioOrcamento = this.funcionarioLogado.nome;
-    this.solicitacao.status = 'ORCADA';
-
-    if (!this.solicitacao.historico) {
-      this.solicitacao.historico = [];
+   const s = this.solicitacao();
+    if(!s || this.valorOrcamento <= 0) return;
+ 
+    s.orcamento = this.valorOrcamento;
+    s.funcionarioOrcamento = this.funcionarioLogado.nome;
+    s.status = 'ORCADA';
+ 
+    if (!s.historico) {
+      s.historico = [];
     }
-
-    this.solicitacao.historico.push(new HistoricoItem(new Date(), 'ORCADA', `${this.funcionarioLogado.nome} (Funcionário)`)
-    );
-    this.solicitacaoService.atualizar(this.solicitacao);
-
-    this.router.navigate(['/solicitacaoFuncionario/listar']);
+ 
+    s.historico.push(new HistoricoItem(new Date(), 'ORCADA', `${this.funcionarioLogado.nome} (Funcionário)`));
+ 
+    this.solicitacaoService.atualizar(s).subscribe({next: () => this.router.navigate(['/solicitacaoFuncionario/listar'])
+    });
   }
 }

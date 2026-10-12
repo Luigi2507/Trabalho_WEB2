@@ -1,15 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
-import { CaixaAltaPipe } from '../../shared/pipes';
 import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-cliente-listar-solicitacao',
   standalone: true,
-  imports: [RouterModule, CommonModule, CaixaAltaPipe],
+  imports: [RouterModule, CommonModule],
   templateUrl: './cliente-listar-solicitacao.component.html',
   styleUrl: './cliente-listar-solicitacao.component.css',
 })
@@ -18,32 +17,28 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
   private solicitacaoService = inject(SolicitacaoService);
   private loginService = inject(LoginService);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
-  solicitacoes: Solicitacao[] = [];
-  abaAtiva: string = 'TODAS';
+  solicitacoes = signal<Solicitacao[]>([]);
+  abaAtiva = signal('TODAS');
 
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.carregarSolicitacoes();
   }
-
   //busca e mostra somente as solicitaçoes do cliente logado
   carregarSolicitacoes(): void {
-    const usuarioLogado = this.loginService.usuarioLogado;
+    const cpfCliente = this.loginService.usuarioLogado?.cpf;
 
-    const cpfCliente = usuarioLogado?.cpf;
-  
     //ordena as solicitações
-    this.solicitacoes = this.solicitacaoService.listarTodos().filter(solicitacao => solicitacao.clienteCpf === cpfCliente).sort((a, b) => { //organiza as solicitacoes em ordem antiga pra mais nova
-      const dataA = a.dataHora instanceof Date ? a.dataHora.getTime() : new Date(a.dataHora).getTime();
-      const dataB = b.dataHora instanceof Date ? b.dataHora.getTime() : new Date(b.dataHora).getTime();
-      return dataA - dataB;
+    this.solicitacaoService.listarTodos().subscribe({next: (lista: Solicitacao[]) => {this.solicitacoes.set((lista ?? []).filter(solicitacao => solicitacao.clienteCpf === cpfCliente).sort((a, b) => new Date(a.dataHora).getTime() - new Date(b.dataHora).getTime()));}
     });
   }
 
   //filtro de solicitações 
-  get solicitacoesFiltradas(): Solicitacao[] {
-    return this.solicitacoes.filter(s => {
-      switch (this.abaAtiva) {
+  solicitacoesFiltradas = computed(() =>
+    this.solicitacoes().filter(s => {
+      switch (this.abaAtiva()) {
         case 'PENDENTES':
           return ['ABERTA', 'ORCADA'].includes(s.status);
         case 'EM_ANDAMENTO':
@@ -53,11 +48,11 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
         default:
           return true;
       }
-    });
-  }
+    })
+  )
 
   mudarAba(aba: string): void {
-    this.abaAtiva = aba;
+    this.abaAtiva.set(aba);
   }
 
   descricaoResumida(descricao: string): string {
@@ -107,8 +102,9 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
       solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${solicitacao.clienteNome} (Cliente / resgate)`)
       );
       
-      this.solicitacaoService.atualizar(solicitacao);
-      this.carregarSolicitacoes();
+      this.solicitacaoService.atualizar(solicitacao).subscribe({
+        next: () => this.carregarSolicitacoes()
+      })
     }
   }
 }

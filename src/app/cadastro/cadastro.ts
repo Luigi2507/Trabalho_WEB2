@@ -1,13 +1,11 @@
-import { ChangeDetectorRef, Component, inject,  } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { NumericoDirective } from '../shared/directives/numerico.directive';
 import { NgxMaskDirective } from 'ngx-mask';
 import { CpfValidoDirective } from '../shared/directives/cpf-valido.directive';
-
-//Chave para o localStorage
-const LS_CHAVE_CLIENTES = 'clientes';
+import { ClienteService } from '../services/cliente.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -18,9 +16,9 @@ const LS_CHAVE_CLIENTES = 'clientes';
 
 export class Cadastro {
   private router = inject(Router);
-  public etapaAtual: number = 1; //CONTROLE DE ETAPAS (1-DADOS PESSOAIS / 2- ENDEREÇO)
-  public erroEtapa1: string = ''; // mensagem de erro exibida se a validação falhar
-  private cdr = inject(ChangeDetectorRef);
+  public etapaAtual = signal(1); //CONTROLE DE ETAPAS (1-DADOS PESSOAIS / 2- ENDEREÇO)
+  public erroEtapa1 = signal(''); // mensagem de erro exibida se a validação falhar
+  private clienteService = inject(ClienteService);
   
   //DADOS PESSOAIS
   public cpf : string = '';
@@ -30,132 +28,121 @@ export class Cadastro {
   
   //DADOS DE ENDEREÇO
   public cep : string = '';
-  public logradouro : string = '';
   public numero : string = '';
   public complemento : string = '';
-  public bairro : string = '';
-  public cidade : string = '';
-  public estado : string = '';
+  public logradouro = signal('');
+  public bairro = signal('');
+  public cidade = signal('');
+  public estado = signal('');
   
   //VIACEP -> requisição HTTP
   private http = inject(HttpClient);
 
   //BOTÃO CADASTRAR-SE
   public carregandoDados: boolean = false;
-  public bloqueado: boolean = false;
-  public btnCadastroTexto: string = 'Cadastrar-se';
+  public bloqueado = signal(false);
+  public btnCadastroTexto = signal('Cadastrar-se');
 
   //MENSAGENS DE ERRO
-  public mensagemEmail: string = '';
-  public mensagemCPF: string = '';
-
+  public mensagemEmail = signal('');
+  public mensagemCPF = signal('');
+ 
   //AUTOCOMPLETAR VIACEP
-  public mensagemCEP: string = '';
+  public mensagemCEP = signal('');
 
   public buscarCEP(): void {
     const cepLimpo = this.cep.replace(/\D/g, '');
 
     if (cepLimpo.length != 8) {
-      this.mensagemCEP = '';
+      this.mensagemCEP.set('');
       return;
     }
 
     this.http.get<any>(`https://viacep.com.br/ws/${cepLimpo}/json/`)
       .subscribe({next: dados => {
         if (dados.erro) {
-          this.mensagemCEP = 'CEP não encontrado.';
-          this.logradouro = '';
-          this.bairro = '';
-          this.cidade = '';
-          this.estado = '';
+          this.mensagemCEP.set('CEP não encontrado.');
+          this.logradouro.set('');
+          this.bairro.set('');
+          this.cidade.set('');
+          this.estado.set('');
           return;
         } 
-
-        this.mensagemCEP = '';
-        this.logradouro = dados.logradouro;
-        this.bairro = dados.bairro;
-        this.cidade = dados.localidade;
-        this.estado = dados.uf;
+ 
+        this.mensagemCEP.set('');
+        this.logradouro.set(dados.logradouro);
+        this.bairro.set(dados.bairro);
+        this.cidade.set(dados.localidade);
+        this.estado.set(dados.uf);
       },
       error: () => {
-        this.mensagemCEP = 'CEP inválido';
+        this.mensagemCEP.set('CEP inválido');
       }
     });
   }
 
   //VALIDAR CAMPOS
   public proximaEtapa(cpfInvalido: boolean | null): void {
-    this.erroEtapa1 = '';
-    this.mensagemCPF = '';
-    this.mensagemEmail = '';
-
+    this.erroEtapa1.set('');
+    this.mensagemCPF.set('');
+    this.mensagemEmail.set('');
+ 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email);
-
+ 
     if (!this.nome.trim()) {
-      this.erroEtapa1 = 'Informe seu nome completo.';
+      this.erroEtapa1.set('Informe seu nome completo.');
       return;
     }
     if (this.cpf.length !== 14 || cpfInvalido) {
-      this.erroEtapa1 = 'CPF inválido.';
+      this.erroEtapa1.set('CPF inválido.');
       return;
     }
     if (!emailValido) {
-      this.erroEtapa1 = 'Informe um e-mail válido.';
+      this.erroEtapa1.set('Informe um e-mail válido.');
       return;
     }
     if (this.telefone.length < 14) {
-      this.erroEtapa1 = 'Telefone inválido.';
+      this.erroEtapa1.set('Telefone inválido.');
       return;
     }
-
-    const clientesSalvos = localStorage.getItem(LS_CHAVE_CLIENTES);
-      const clientes = clientesSalvos ? JSON.parse(clientesSalvos) : [];
-
-      const emailExiste = clientes.some(
-        (cliente: any) => cliente.email.toLowerCase() === this.email.toLowerCase()
-      );
-
-      if (emailExiste) {
-        this.mensagemEmail = 'Este e-mail já está cadastrado.';
-        return;
+ 
+    // confere no json-server se e-mail e CPF já estão cadastrados
+    this.clienteService.listarTodos().subscribe({
+      next: clientes => {
+        const emailExiste = clientes.some(
+          cliente => cliente.email.toLowerCase() === this.email.toLowerCase()
+        );
+ 
+        if (emailExiste) {
+          this.mensagemEmail.set('Este e-mail já está cadastrado.');
+          return;
+        }
+ 
+        const cpfExiste = clientes.some(
+          cliente => cliente.cpf === this.cpf
+        );
+ 
+        if (cpfExiste) {
+          this.mensagemCPF.set('Este CPF já está cadastrado.');
+          return;
+        }
+ 
+        this.etapaAtual.set(2);
+      },
+      error: () => {
+        this.erroEtapa1.set('Não foi possível conectar ao servidor. Tente novamente.');
       }
-
-      const cpfExiste = clientes.some(
-        (cliente: any) => cliente.cpf === this.cpf
-      );
-
-      if (cpfExiste) {
-        this.mensagemCPF = 'Este CPF já está cadastrado.';
-        return;
-      }
-
-      this.etapaAtual = 2;
+    });
   }
 
   //VOLTA PRA ETAPA DE DADOS PESSOAIS
   public voltarEtapa(): void {
-    this.etapaAtual = 1;
-  }
-
-  //MÉTODOS DO BOTÃO CADASTRAR-SE
-  public btnCadastroAnimacao(): void{
-    this.carregandoDados = true;
-    this.bloqueado = true;
-    this.btnCadastroTexto = 'Cadastro em andamento...';
-    this.cdr.detectChanges();
-
-    setTimeout(() =>{
-      this.carregandoDados = false;
-      this.bloqueado = false;
-      this.btnCadastroTexto = 'Cadastrar-se';
-      this.cdr.detectChanges();
-    },500);
+    this.etapaAtual.set(1);
   }
 
   public resetBtnCadastro(): void{
-    this.carregandoDados = false;
-    this.bloqueado = false;
-    this.btnCadastroTexto = 'Cadastrar-se';
+    this.bloqueado.set(false);
+    this.btnCadastroTexto.set('Cadastrar-se');
   }
 
   /* GERAR SENHA */
@@ -164,86 +151,75 @@ export class Cadastro {
   }
 
   //MODAL PARA EXIBIR A SENHA GERADA
-  public exibirModalSenhaGerada: boolean = false;
-  public senhaGerada: string = '';
-
+  public exibirModalSenhaGerada = signal(false);
+  public senhaGerada = signal('');
+ 
   public abrirModalSenhaGerada(senha: string): void{
-    this.senhaGerada = senha;
-    this.exibirModalSenhaGerada = true;
+    this.senhaGerada.set(senha);
+    this.exibirModalSenhaGerada.set(true);
   }
-
+ 
   public fecharModalSenhaGerada(): void{
-    this.exibirModalSenhaGerada = false;
-    this.senhaGerada = '';
+    this.exibirModalSenhaGerada.set(false);
+    this.senhaGerada.set('');
     this.router.navigate(['/login']);
   }
 
   // CADASTRAR DE FATO E CONFERIR DADOS
   public cadastrar(): void {
-    if(this.bloqueado) return; //trava clique duplo
+   if(this.bloqueado()) return; //trava clique duplo
     /*CONFERIR ENDEREÇO ANTES DE CADASTRAR DE FATO*/
       const cepLimpo = this.cep.replace(/\D/g, '');
-
+ 
       if (cepLimpo.length !== 8) {
-          this.mensagemCEP = 'Informe um CEP válido.';
+          this.mensagemCEP.set('Informe um CEP válido.');
           return;
       }
-
+ 
       if (!this.numero.trim()) {
-          this.mensagemCEP = 'Informe o número do endereço.';
+          this.mensagemCEP.set('Informe o número do endereço.');
           return;
       }
-
-      if (!this.logradouro || !this.bairro || !this.cidade || !this.estado ) {
-          this.mensagemCEP = 'Consulte um CEP válido.';
+ 
+      if (!this.logradouro() || !this.bairro() || !this.cidade() || !this.estado() ) {
+          this.mensagemCEP.set('Consulte um CEP válido.');
           return;
       }
-
-      this.mensagemCEP = '';
-
-      this.carregandoDados = true;
-      this.bloqueado = true;
-      this.btnCadastroTexto = 'Cadastro em Andamento...';
-      this.cdr.detectChanges();
-
-      //busca clientes já cadastrados
-      const clientesSalvos = localStorage.getItem(LS_CHAVE_CLIENTES);
-
-      const clientes = clientesSalvos ? JSON.parse(clientesSalvos) : [];
-
+ 
+      this.mensagemCEP.set('');
+ 
+      this.bloqueado.set(true);
+      this.btnCadastroTexto.set('Cadastro em Andamento...');
+ 
       const senha = this.gerarSenha();
-
+ 
+      // o id é gerado pelo json-server
       const cliente = {
         cpf: this.cpf,
         nome: this.nome,
         email: this.email,
         telefone: this.telefone,
         cep: this.cep,
-        logradouro: this.logradouro,
+        logradouro: this.logradouro(),
         numero: this.numero,
         complemento: this.complemento,
-        bairro: this.bairro,
-        cidade: this.cidade,
-        estado: this.estado,
+        bairro: this.bairro(),
+        cidade: this.cidade(),
+        estado: this.estado(),
         senha: senha,
         perfil: 'CLIENTE'
       };
-
-      clientes.push(cliente);
-      
-      //por enquanto vamos salvar no localStorage
-      localStorage.setItem(LS_CHAVE_CLIENTES, JSON.stringify(clientes));
-      
-      
-
-      // Para mostrar a senha gerada
-      setTimeout(() => {
-        this.carregandoDados = false;
-        this.bloqueado = false;
-        this.btnCadastroTexto = 'Cadastrar-se';
-        this.abrirModalSenhaGerada(senha);
-        this.cdr.detectChanges();
-      }, 500);
-  }
-  
+ 
+      // grava o cliente no json-server e, se deu certo, mostra a senha gerada
+      this.clienteService.inserir(cliente).subscribe({
+        next: () => {
+          this.resetBtnCadastro();
+          this.abrirModalSenhaGerada(senha);
+        },
+        error: () => {
+          this.resetBtnCadastro();
+          this.mensagemCEP.set('Não foi possível concluir o cadastro. Tente novamente.');
+        }
+      });
+    }
 }

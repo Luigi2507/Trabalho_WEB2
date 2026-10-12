@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
+import { Solicitacao } from '../../shared/models/solicitacao.model';
 
 //Biblioteca para gerar o PDF
 import jsPDF from 'jspdf';
@@ -23,7 +24,12 @@ export class RelatorioComponent {
   dataFim: string = '';
 
   gerarPdf(): void {
-    const solicitacoes = this.solicitacaoService.listarTodos();
+    this.solicitacaoService.listarTodos().subscribe({
+      next: (solicitacoes: Solicitacao[]) => this.montarPdf(solicitacoes ?? [])
+    });
+  }
+
+  private montarPdf(solicitacoes: Solicitacao[]): void {
     let receitas = solicitacoes.filter(s => s.dataPagamento !== null);
     const pdf = new jsPDF();
 
