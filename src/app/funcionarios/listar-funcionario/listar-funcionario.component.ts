@@ -62,7 +62,6 @@ export class ListarFuncionarioComponent implements OnInit {
     });
   }
 
-
   sair($event: any): void {
     $event.preventDefault();
     this.loginService.logout();

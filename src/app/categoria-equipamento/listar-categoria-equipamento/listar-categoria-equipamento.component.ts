@@ -1,9 +1,11 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CategoriaEquipamento } from '../../shared/models/categoria-equipamento.model';
 import { CategoriaEquipamentoService } from '../../services/categoria-equipamento.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CaixaAltaPipe } from '../../shared/pipes';
+import { ModalRemoverCategoriaComponent } from '../modal-remover-categoria/modal-remover-categoria.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-listar-categoria-equipamento',
@@ -14,6 +16,7 @@ import { CaixaAltaPipe } from '../../shared/pipes';
 
 export class ListarCategoriaEquipamentoComponent implements OnInit {
   categorias = signal<CategoriaEquipamento[]>([]);
+  private modalService = inject(NgbModal);
 
   constructor(private categoriaEquipamentoService: CategoriaEquipamentoService) { }
 
@@ -33,12 +36,24 @@ export class ListarCategoriaEquipamentoComponent implements OnInit {
     });
   }
 
-  remover($event: any, categoria: CategoriaEquipamento): void {
+  async remover($event: any, categoria: CategoriaEquipamento): Promise<void> {
     $event.preventDefault();
-    if (confirm(`Deseja realmente remover a categoria ${categoria.nome}?`)) {
-      this.categoriaEquipamentoService.remover(categoria.id!).subscribe({
-        complete: () => { this.listarTodos(); }
-      });
-    }
+
+    let confirmar = await this.abrirModalRemoverCategoria(categoria);
+    if(!confirmar) return;
+
+    this.categoriaEquipamentoService.remover(categoria.id!).subscribe({
+      complete: () => { this.listarTodos(); }
+    });
+  }
+
+  abrirModalRemoverCategoria(categoria : CategoriaEquipamento) : Promise<boolean>{
+    const modalRef = this.modalService.open(ModalRemoverCategoriaComponent);
+    modalRef.componentInstance.categoria = categoria;
+
+    return modalRef.result.then(
+      (resultado : boolean) => resultado,
+      () => false
+    );
   }
 }

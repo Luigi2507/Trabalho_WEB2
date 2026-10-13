@@ -14,12 +14,12 @@
       "estado": "PR",
       "senha": "7643",
       "perfil": "CLIENTE",
-      "id": 1
+      "id": "1"
     }
   ],
   "funcionarios": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "Administrador",
       "email": "admin@webtech.com",
       "dataNascimento": "1990-01-01",
@@ -30,33 +30,33 @@
       "email": "ketxuxu@gmail.com",
       "dataNascimento": "2007-02-18",
       "senha": "7146",
-      "id": 2
+      "id": "2"
     }
   ],
   "categorias": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "Notebook"
     },
     {
-      "id": 2,
+      "id": "2",
       "nome": "Desktop"
     },
     {
-      "id": 3,
+      "id": "3",
       "nome": "Impressora"
     },
     {
-      "id": 4,
+      "id": "4",
       "nome": "Mouse"
     },
     {
-      "id": 5,
+      "id": "5",
       "nome": "Teclado"
     },
     {
       "nome": "ket",
-      "id": 6
+      "id": "6"
     }
   ],
   "solicitacoes": [
@@ -110,7 +110,7 @@
       "funcionarioAtual": "Ketlyn Gomes",
       "funcionarioFinalizacao": "Ketlyn Gomes",
       "dataFinalizacao": "2026-10-12T02:32:29.685Z",
-      "id": 1
+      "id": "1"
     },
     {
       "clienteCpf": "529.982.247-25",
@@ -167,7 +167,8 @@
       "funcionarioAtual": "Ket xuxu",
       "funcionarioFinalizacao": "Ket xuxu",
       "dataFinalizacao": "2026-10-12T03:13:46.729Z",
-      "id": 2
+      "id": "2"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
