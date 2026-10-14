@@ -1,174 +1,97 @@
 {
   "clientes": [
     {
-      "cpf": "529.982.247-25",
+      "cpf": "367.138.980-09",
       "nome": "Ketlyn Gomes",
       "email": "ketlyngomes212@gmail.com",
-      "telefone": "(41) 99572-2000",
+      "telefone": "(41) 99572-0000",
       "cep": "80010-000",
       "logradouro": "Rua José Loureiro",
-      "numero": "95",
-      "complemento": "apartsmento 9",
+      "numero": "9",
+      "complemento": "",
       "bairro": "Centro",
       "cidade": "Curitiba",
       "estado": "PR",
-      "senha": "7643",
+      "senha": "5423",
       "perfil": "CLIENTE",
-      "id": "1"
+      "id": 1
     }
   ],
   "funcionarios": [
     {
-      "id": "1",
+      "id": 1,
       "nome": "Administrador",
       "email": "admin@webtech.com",
       "dataNascimento": "1990-01-01",
       "senha": "1234"
     },
     {
-      "nome": "Ket xuxu",
-      "email": "ketxuxu@gmail.com",
-      "dataNascimento": "2007-02-18",
-      "senha": "7146",
-      "id": "2"
+      "nome": "ket xuxu",
+      "email": "kexuxu212@gmail.com",
+      "dataNascimento": "2007-02-10",
+      "senha": "2449",
+      "id": 2
     }
   ],
   "categorias": [
     {
-      "id": "1",
+      "id": 1,
       "nome": "Notebook"
     },
     {
-      "id": "2",
+      "id": 2,
       "nome": "Desktop"
     },
     {
-      "id": "3",
+      "id": 3,
       "nome": "Impressora"
     },
     {
-      "id": "4",
+      "id": 4,
       "nome": "Mouse"
     },
     {
-      "id": "5",
+      "id": 5,
       "nome": "Teclado"
-    },
-    {
-      "nome": "ket",
-      "id": "6"
     }
   ],
   "solicitacoes": [
     {
-      "clienteCpf": "135.848.409-02",
+      "clienteCpf": "367.138.980-09",
       "clienteNome": "Ketlyn Gomes",
-      "descricaoEquipamento": "dwqwd",
-      "categoria": "Notebook",
-      "descricaoDefeito": "aaaaaaaaaaaaaaaaa",
-      "dataHora": "2026-10-12T01:35:02.049Z",
-      "status": "FINALIZADA",
-      "orcamento": 150,
-      "motivoRejeicao": "",
-      "dataPagamento": "2026-10-12T02:32:08.479Z",
+      "descricaoEquipamento": "Ta bugado essa porra",
+      "categoria": "boliche",
+      "descricaoDefeito": "qaaaaaaaaaaaa",
+      "dataHora": "2026-10-14T20:54:32.507Z",
+      "status": "REJEITADA",
+      "orcamento": 15000,
+      "motivoRejeicao": "aaaaaaaaa",
+      "dataPagamento": null,
       "historico": [
         {
-          "dataHora": "2026-10-12T01:35:02.049Z",
+          "dataHora": "2026-10-14T20:54:32.507Z",
           "status": "ABERTA",
           "funcionario": "Ketlyn Gomes (Cliente)"
         },
         {
-          "dataHora": "2026-10-12T02:09:37.870Z",
+          "dataHora": "2026-10-14T20:55:07.387Z",
           "status": "ORCADA",
           "funcionario": "Administrador (Funcionário)"
         },
         {
-          "dataHora": "2026-10-12T02:11:12.672Z",
-          "status": "APROVADA",
+          "dataHora": "2026-10-14T20:55:49.413Z",
+          "status": "REJEITADA",
           "funcionario": "Ketlyn Gomes (Cliente)"
-        },
-        {
-          "dataHora": "2026-10-12T02:31:48.684Z",
-          "status": "ARRUMADA",
-          "funcionario": "Ketlyn Gomes (Funcionário)"
-        },
-        {
-          "dataHora": "2026-10-12T02:32:08.479Z",
-          "status": "PAGA",
-          "funcionario": "Ketlyn Gomes (Cliente)"
-        },
-        {
-          "dataHora": "2026-10-12T02:32:29.685Z",
-          "status": "FINALIZADA",
-          "funcionario": "Ketlyn Gomes (Funcionário)"
         }
       ],
       "funcionarioOrcamento": "Administrador",
-      "descricaoManutencao": "zz\\aaaaaaaa",
-      "orientacoesCliente": "aaaaaaaaaaaaaaaa",
-      "funcionarioManutencao": "Ketlyn Gomes",
-      "funcionarioAtual": "Ketlyn Gomes",
-      "funcionarioFinalizacao": "Ketlyn Gomes",
-      "dataFinalizacao": "2026-10-12T02:32:29.685Z",
-      "id": "1"
-    },
-    {
-      "clienteCpf": "529.982.247-25",
-      "clienteNome": "Ketlyn Gomes",
-      "descricaoEquipamento": "abacaxi",
-      "categoria": "ket",
-      "descricaoDefeito": "lllllllllllllllllll",
-      "dataHora": "2026-10-12T03:10:27.392Z",
-      "status": "FINALIZADA",
-      "orcamento": 5555555555555,
-      "motivoRejeicao": "mjjjjjjjjj",
-      "dataPagamento": "2026-10-12T03:13:24.221Z",
-      "historico": [
-        {
-          "dataHora": "2026-10-12T03:10:27.392Z",
-          "status": "ABERTA",
-          "funcionario": "Ketlyn Gomes (Cliente)"
-        },
-        {
-          "dataHora": "2026-10-12T03:10:39.582Z",
-          "status": "ORCADA",
-          "funcionario": "Ket xuxu (Funcionário)"
-        },
-        {
-          "dataHora": "2026-10-12T03:10:51.380Z",
-          "status": "REJEITADA",
-          "funcionario": "Ketlyn Gomes (Cliente)"
-        },
-        {
-          "dataHora": "2026-10-12T03:13:01.736Z",
-          "status": "APROVADA",
-          "funcionario": "Ketlyn Gomes (Cliente / resgate)"
-        },
-        {
-          "dataHora": "2026-10-12T03:13:19.831Z",
-          "status": "ARRUMADA",
-          "funcionario": "Ket xuxu (Funcionário)"
-        },
-        {
-          "dataHora": "2026-10-12T03:13:24.221Z",
-          "status": "PAGA",
-          "funcionario": "Ketlyn Gomes (Cliente)"
-        },
-        {
-          "dataHora": "2026-10-12T03:13:46.729Z",
-          "status": "FINALIZADA",
-          "funcionario": "Ket xuxu (Funcionário)"
-        }
-      ],
-      "funcionarioOrcamento": "Ket xuxu",
-      "descricaoManutencao": "ssssssssss",
-      "orientacoesCliente": "sssss",
-      "funcionarioManutencao": "Ket xuxu",
-      "funcionarioAtual": "Ket xuxu",
-      "funcionarioFinalizacao": "Ket xuxu",
-      "dataFinalizacao": "2026-10-12T03:13:46.729Z",
-      "id": "2"
+      "descricaoManutencao": "",
+      "orientacoesCliente": "",
+      "funcionarioManutencao": "",
+      "funcionarioAtual": "",
+      "funcionarioFinalizacao": "",
+      "dataFinalizacao": null,
+      "id": 1
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }
