@@ -15,6 +15,38 @@
       "senha": "5423",
       "perfil": "CLIENTE",
       "id": 1
+    },
+    {
+      "cpf": "975.407.089-05",
+      "nome": "Daniela Souza",
+      "email": "danitina.souza@gmail.com",
+      "telefone": "(41) 98786-9298",
+      "cep": "81520-260",
+      "logradouro": "Rua Doutor Alcides Vieira Arco-Verde",
+      "numero": "22",
+      "complemento": "",
+      "bairro": "Guabirotuba",
+      "cidade": "Curitiba",
+      "estado": "PR",
+      "senha": "6707",
+      "perfil": "CLIENTE",
+      "id": 2
+    },
+    {
+      "cpf": "240.230.080-95",
+      "nome": "Daniela Cristina",
+      "email": "danitina@gmail.com",
+      "telefone": "(41) 98786-9298",
+      "cep": "81520-260",
+      "logradouro": "Rua Doutor Alcides Vieira Arco-Verde",
+      "numero": "32",
+      "complemento": "",
+      "bairro": "Guabirotuba",
+      "cidade": "Curitiba",
+      "estado": "PR",
+      "senha": "6546",
+      "perfil": "CLIENTE",
+      "id": 3
     }
   ],
   "funcionarios": [
@@ -92,6 +124,169 @@
       "funcionarioFinalizacao": "",
       "dataFinalizacao": null,
       "id": 1
+    },
+    {
+      "clienteCpf": "975.407.089-05",
+      "clienteNome": "Daniela Souza",
+      "descricaoEquipamento": "notebook",
+      "categoria": "Notebook",
+      "descricaoDefeito": "estragou\n",
+      "dataHora": "2026-10-14T23:28:58.195Z",
+      "status": "APROVADA",
+      "orcamento": 2.13,
+      "motivoRejeicao": "nao quero",
+      "dataPagamento": null,
+      "historico": [
+        {
+          "dataHora": "2026-10-14T23:28:58.195Z",
+          "status": "ABERTA",
+          "funcionario": "Daniela Souza (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-14T23:31:15.118Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-14T23:32:00.259Z",
+          "status": "REJEITADA",
+          "funcionario": "Daniela Souza (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-14T23:32:25.150Z",
+          "status": "APROVADA",
+          "funcionario": "Daniela Souza (Cliente / resgate)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "",
+      "orientacoesCliente": "",
+      "funcionarioManutencao": "",
+      "funcionarioAtual": "",
+      "funcionarioFinalizacao": "",
+      "dataFinalizacao": null,
+      "id": 2
+    },
+    {
+      "clienteCpf": "975.407.089-05",
+      "clienteNome": "Daniela Souza",
+      "descricaoEquipamento": "fias",
+      "categoria": "Desktop",
+      "descricaoDefeito": "dkskjd",
+      "dataHora": "2026-10-14T23:32:35.974Z",
+      "status": "REJEITADA",
+      "orcamento": 212,
+      "motivoRejeicao": "123",
+      "dataPagamento": null,
+      "historico": [
+        {
+          "dataHora": "2026-10-14T23:32:35.974Z",
+          "status": "ABERTA",
+          "funcionario": "Daniela Souza (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-14T23:32:47.244Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-14T23:33:01.995Z",
+          "status": "REJEITADA",
+          "funcionario": "Daniela Souza (Cliente)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "",
+      "orientacoesCliente": "",
+      "funcionarioManutencao": "",
+      "funcionarioAtual": "",
+      "funcionarioFinalizacao": "",
+      "dataFinalizacao": null,
+      "id": 3
+    },
+    {
+      "clienteCpf": "975.407.089-05",
+      "clienteNome": "Daniela Souza",
+      "descricaoEquipamento": "kjih",
+      "categoria": "Desktop",
+      "descricaoDefeito": "jjbhj",
+      "dataHora": "2026-10-14T23:41:16.735Z",
+      "status": "REJEITADA",
+      "orcamento": 3540,
+      "motivoRejeicao": "caro",
+      "dataPagamento": null,
+      "historico": [
+        {
+          "dataHora": "2026-10-14T23:41:16.735Z",
+          "status": "ABERTA",
+          "funcionario": "Daniela Souza (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-14T23:41:22.653Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-14T23:41:32.460Z",
+          "status": "REJEITADA",
+          "funcionario": "Daniela Souza (Cliente)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "",
+      "orientacoesCliente": "",
+      "funcionarioManutencao": "",
+      "funcionarioAtual": "",
+      "funcionarioFinalizacao": "",
+      "dataFinalizacao": null,
+      "id": 4
+    },
+    {
+      "clienteCpf": "975.407.089-05",
+      "clienteNome": "Daniela Souza",
+      "descricaoEquipamento": "d,wl",
+      "categoria": "Mouse",
+      "descricaoDefeito": "emwkn",
+      "dataHora": "2026-10-15T00:22:36.298Z",
+      "status": "REJEITADA",
+      "orcamento": 334,
+      "motivoRejeicao": "rtg",
+      "dataPagamento": null,
+      "historico": [
+        {
+          "dataHora": "2026-10-15T00:22:36.298Z",
+          "status": "ABERTA",
+          "funcionario": "Daniela Souza (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-15T00:23:17.349Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-15T00:23:26.149Z",
+          "status": "REJEITADA",
+          "funcionario": "Daniela Souza (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-15T00:24:35.685Z",
+          "status": "REJEITADA",
+          "funcionario": "Daniela Souza (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-15T00:25:44.066Z",
+          "status": "REJEITADA",
+          "funcionario": "Daniela Souza (Cliente)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "",
+      "orientacoesCliente": "",
+      "funcionarioManutencao": "",
+      "funcionarioAtual": "",
+      "funcionarioFinalizacao": "",
+      "dataFinalizacao": null,
+      "id": 5
     }
   ]
 }
