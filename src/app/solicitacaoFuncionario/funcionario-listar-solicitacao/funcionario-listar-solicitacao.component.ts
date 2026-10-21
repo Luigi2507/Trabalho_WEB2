@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalFinalizarSolicitacaoComponent } from '../modal-finalizar-solicitacao/modal-finalizar-solicitacao.component';
 
 //tipos de filtros possiveis
 type Filtro = 'HOJE' | 'PERIODO' | 'TODAS';
@@ -18,10 +20,11 @@ type Filtro = 'HOJE' | 'PERIODO' | 'TODAS';
 })
 
 export class FuncionarioListarSolicitacaoComponent implements OnInit {
-  private solicitacaoService = inject(SolicitacaoService)
+  private solicitacaoService = inject(SolicitacaoService);
   private loginService = inject(LoginService);
-  private router = inject(Router)
+  private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
+  private modalService = inject(NgbModal);
 
   todasSolicitacoes: Solicitacao[] = []
   solicitacoes = signal<Solicitacao[]>([]) //solici. depois q o filtro é aplicado
@@ -94,9 +97,10 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   }
 
   //fincalizar uma solicitacao =
-  finalizar(solicitacao: Solicitacao): void {
+  async finalizar(solicitacao: Solicitacao): Promise<void> {
     //pede confirmacao
-    if (confirm(`Finalizar a solicitação "${solicitacao.descricaoEquipamento}"?`)) {
+    let confirmar = await this.abrirModalFinalizarSolicitacao(solicitacao);
+    if (confirmar) {
       solicitacao.status = 'FINALIZADA';
       solicitacao.funcionarioFinalizacao = this.funcionarioLogado.nome;
       solicitacao.dataFinalizacao = new Date();
@@ -106,6 +110,20 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
         next: () => this.carregar()
       });
     }
+    else{
+      return;
+    }
+  }
+
+  //Modal para confirmar finalização
+  abrirModalFinalizarSolicitacao(solicitacao : Solicitacao) : Promise<boolean>{
+    const modalRef = this.modalService.open(ModalFinalizarSolicitacaoComponent);
+    modalRef.componentInstance.solicitacao = solicitacao;
+
+    return modalRef.result.then(
+      (resultado : boolean) => resultado,
+      () => false
+    );
   }
   
   // Cores de cada botão apartir do status

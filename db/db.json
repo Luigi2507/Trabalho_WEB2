@@ -287,6 +287,370 @@
       "funcionarioFinalizacao": "",
       "dataFinalizacao": null,
       "id": 5
+    },
+    {
+      "clienteCpf": "367.138.980-09",
+      "clienteNome": "Ketlyn Gomes",
+      "descricaoEquipamento": "Teclado Mecanico Gamer",
+      "categoria": "Teclado",
+      "descricaoDefeito": "Teclas x e backspace não funcionam mais.",
+      "dataHora": "2026-10-21T03:20:26.005Z",
+      "status": "FINALIZADA",
+      "orcamento": 100,
+      "motivoRejeicao": "",
+      "dataPagamento": "2026-10-21T03:23:10.060Z",
+      "historico": [
+        {
+          "dataHora": "2026-10-21T03:20:26.005Z",
+          "status": "ABERTA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T03:21:28.532Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T03:21:45.534Z",
+          "status": "APROVADA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T03:22:50.084Z",
+          "status": "ARRUMADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T03:23:10.060Z",
+          "status": "PAGA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T16:11:24.393Z",
+          "status": "FINALIZADA",
+          "funcionario": "Administrador (Funcionário)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "Teclas x e backspace foram trocadas.",
+      "orientacoesCliente": "Manter o equipamento limpo.",
+      "funcionarioManutencao": "Administrador",
+      "funcionarioAtual": "Administrador",
+      "funcionarioFinalizacao": "Administrador",
+      "dataFinalizacao": "2026-10-21T16:11:24.393Z",
+      "id": 6
+    },
+    {
+      "clienteCpf": "367.138.980-09",
+      "clienteNome": "Ketlyn Gomes",
+      "descricaoEquipamento": "Mouse HP",
+      "categoria": "Mouse",
+      "descricaoDefeito": "Não funciona.",
+      "dataHora": "2026-10-21T03:24:30.436Z",
+      "status": "FINALIZADA",
+      "orcamento": 1000,
+      "motivoRejeicao": "",
+      "dataPagamento": "2026-10-21T14:51:43.779Z",
+      "historico": [
+        {
+          "dataHora": "2026-10-21T03:24:30.436Z",
+          "status": "ABERTA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T03:25:48.067Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T03:26:19.474Z",
+          "status": "APROVADA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T03:28:12.290Z",
+          "status": "ARRUMADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T14:51:43.779Z",
+          "status": "PAGA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T17:10:51.384Z",
+          "status": "FINALIZADA",
+          "funcionario": "Administrador (Funcionário)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "wqeqweqwe",
+      "orientacoesCliente": "qweqweqwe",
+      "funcionarioManutencao": "Administrador",
+      "funcionarioAtual": "Administrador",
+      "funcionarioFinalizacao": "Administrador",
+      "dataFinalizacao": "2026-10-21T17:10:51.384Z",
+      "id": 7
+    },
+    {
+      "clienteCpf": "367.138.980-09",
+      "clienteNome": "Ketlyn Gomes",
+      "descricaoEquipamento": "Pc Gamer",
+      "categoria": "Desktop",
+      "descricaoDefeito": "Não funciona.",
+      "dataHora": "2026-10-21T03:24:55.219Z",
+      "status": "FINALIZADA",
+      "orcamento": 300,
+      "motivoRejeicao": "",
+      "dataPagamento": "2026-10-21T16:00:47.048Z",
+      "historico": [
+        {
+          "dataHora": "2026-10-21T03:24:55.219Z",
+          "status": "ABERTA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T03:25:55.179Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T03:25:56.795Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T03:26:23.707Z",
+          "status": "APROVADA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T03:28:23.914Z",
+          "status": "ARRUMADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T03:28:25.226Z",
+          "status": "ARRUMADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T16:00:47.048Z",
+          "status": "PAGA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T17:28:07.327Z",
+          "status": "FINALIZADA",
+          "funcionario": "Administrador (Funcionário)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "thtrutyrurtyu",
+      "orientacoesCliente": "yghhjtfy",
+      "funcionarioManutencao": "Administrador",
+      "funcionarioAtual": "Administrador",
+      "funcionarioFinalizacao": "Administrador",
+      "dataFinalizacao": "2026-10-21T17:28:07.327Z",
+      "id": 8
+    },
+    {
+      "clienteCpf": "367.138.980-09",
+      "clienteNome": "Ketlyn Gomes",
+      "descricaoEquipamento": "Impressora 2000",
+      "categoria": "Impressora",
+      "descricaoDefeito": "Não funciona.",
+      "dataHora": "2026-10-21T03:25:23.331Z",
+      "status": "FINALIZADA",
+      "orcamento": 2676,
+      "motivoRejeicao": "",
+      "dataPagamento": "2026-10-21T17:30:59.996Z",
+      "historico": [
+        {
+          "dataHora": "2026-10-21T03:25:23.331Z",
+          "status": "ABERTA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T03:26:08.466Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T03:26:28.339Z",
+          "status": "APROVADA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T03:28:41.266Z",
+          "status": "ARRUMADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T17:30:59.996Z",
+          "status": "PAGA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T17:31:28.894Z",
+          "status": "FINALIZADA",
+          "funcionario": "Administrador (Funcionário)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "rtertertert",
+      "orientacoesCliente": "dfgdfghfghjvbn",
+      "funcionarioManutencao": "Administrador",
+      "funcionarioAtual": "Administrador",
+      "funcionarioFinalizacao": "Administrador",
+      "dataFinalizacao": "2026-10-21T17:31:28.894Z",
+      "id": 9
+    },
+    {
+      "clienteCpf": "367.138.980-09",
+      "clienteNome": "Ketlyn Gomes",
+      "descricaoEquipamento": "wqwqwqw",
+      "categoria": "Mouse",
+      "descricaoDefeito": "qwqwqwqw",
+      "dataHora": "2026-10-21T03:38:18.846Z",
+      "status": "REJEITADA",
+      "orcamento": 32434,
+      "motivoRejeicao": "sasasasasas",
+      "dataPagamento": null,
+      "historico": [
+        {
+          "dataHora": "2026-10-21T03:38:18.846Z",
+          "status": "ABERTA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T03:38:36.037Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T03:38:50.310Z",
+          "status": "REJEITADA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "",
+      "orientacoesCliente": "",
+      "funcionarioManutencao": "",
+      "funcionarioAtual": "",
+      "funcionarioFinalizacao": "",
+      "dataFinalizacao": null,
+      "id": 10
+    },
+    {
+      "clienteCpf": "367.138.980-09",
+      "clienteNome": "Ketlyn Gomes",
+      "descricaoEquipamento": "Notebook Dell",
+      "categoria": "Notebook",
+      "descricaoDefeito": "Não liga.",
+      "dataHora": "2026-10-21T17:32:32.475Z",
+      "status": "FINALIZADA",
+      "orcamento": 230,
+      "motivoRejeicao": "",
+      "dataPagamento": "2026-10-21T17:35:17.257Z",
+      "historico": [
+        {
+          "dataHora": "2026-10-21T17:32:32.475Z",
+          "status": "ABERTA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T17:33:16.554Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T17:33:16.979Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T17:33:18.515Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T17:33:37.531Z",
+          "status": "APROVADA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T17:34:39.450Z",
+          "status": "ARRUMADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T17:35:17.257Z",
+          "status": "PAGA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T17:38:16.962Z",
+          "status": "FINALIZADA",
+          "funcionario": "Administrador (Funcionário)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "Troca dos componentes que alimentam a placa mãe.",
+      "orientacoesCliente": "Agora liga",
+      "funcionarioManutencao": "Administrador",
+      "funcionarioAtual": "Administrador",
+      "funcionarioFinalizacao": "Administrador",
+      "dataFinalizacao": "2026-10-21T17:38:16.962Z",
+      "id": 11
+    },
+    {
+      "clienteCpf": "367.138.980-09",
+      "clienteNome": "Ketlyn Gomes",
+      "descricaoEquipamento": "Thinkpad",
+      "categoria": "Notebook",
+      "descricaoDefeito": "Não desliga.",
+      "dataHora": "2026-10-21T17:32:49.931Z",
+      "status": "PAGA",
+      "orcamento": 240,
+      "motivoRejeicao": "",
+      "dataPagamento": "2026-10-21T17:35:20.578Z",
+      "historico": [
+        {
+          "dataHora": "2026-10-21T17:32:49.931Z",
+          "status": "ABERTA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T17:33:26.371Z",
+          "status": "ORCADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T17:33:41.027Z",
+          "status": "APROVADA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-21T17:35:01.697Z",
+          "status": "ARRUMADA",
+          "funcionario": "Administrador (Funcionário)"
+        },
+        {
+          "dataHora": "2026-10-21T17:35:20.578Z",
+          "status": "PAGA",
+          "funcionario": "Ketlyn Gomes (Cliente)"
+        }
+      ],
+      "funcionarioOrcamento": "Administrador",
+      "descricaoManutencao": "Lorem ipsun",
+      "orientacoesCliente": "Agora desliga.",
+      "funcionarioManutencao": "Administrador",
+      "funcionarioAtual": "Administrador",
+      "funcionarioFinalizacao": "",
+      "dataFinalizacao": null,
+      "id": 12
     }
   ]
 }

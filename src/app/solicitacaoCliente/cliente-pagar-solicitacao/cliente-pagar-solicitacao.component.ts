@@ -3,6 +3,8 @@ import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao, HistoricoItem } from '../../shared/models/solicitacao.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalPagamentoConfirmadoComponent } from '../modal-pagamento-confirmado/modal-pagamento-confirmado.component';
 
 @Component({
   selector: 'app-cliente-pagar-solicitacao',
@@ -16,6 +18,7 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
+  private modalService = inject(NgbModal);
 
   solicitacao = signal<Solicitacao | undefined>(undefined);
 
@@ -44,8 +47,10 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
     s.historico.push(new HistoricoItem(new Date(), 'PAGA', `${s.clienteNome} (Cliente)`));
     
     this.solicitacaoService.atualizar(s).subscribe({next: () => {
-      alert('Pagamento confirmado!');
-      this.router.navigate(['/solicitacaoCliente/listar']);}
+      const modalRef = this.modalService.open(ModalPagamentoConfirmadoComponent, {
+          centered: true
+      });
+    }
     });
   }
 

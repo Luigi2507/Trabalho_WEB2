@@ -1,0 +1,8 @@
+<h2>Finalizar a solicitação {{ solicitacao.descricaoEquipamento }}?</h2>
+
+<div class="modalAcoes">
+    <button type="button" class="botaoCancelar"
+            (click)="confirmarFinalizacao(false)">Cancelar</button>
+        <button type="button" class="botaoConfirmar"
+            (click)="confirmarFinalizacao(true)">Finalizar</button>
+</div>
