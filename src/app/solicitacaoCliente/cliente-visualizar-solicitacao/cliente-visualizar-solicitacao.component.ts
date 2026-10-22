@@ -3,6 +3,8 @@ import { Component, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalResgatarServicoComponent } from '../modal-resgatar-servico/modal-resgatar-servico.component';
 
 @Component({
   selector: 'app-cliente-visualizar-solicitacao',
@@ -16,6 +18,7 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
+  private modalService = inject(NgbModal);
   
   solicitacao = signal<Solicitacao | undefined>(undefined);
   
@@ -60,15 +63,27 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
   resgatar(): void {
     const s = this.solicitacao();
     if (!s) return;
-    if (!confirm(`Deseja resgatar a solicitação "${s.descricaoEquipamento}"?`)) return;
- 
+
+    const modalRef = this.modalService.open(ModalResgatarServicoComponent, {
+      centered: true,
+      windowClass: 'modal-resgatar-servico'
+    });
+    modalRef.componentInstance.descricao = s.descricaoEquipamento;
+    modalRef.result.then (
+      () => this.confirmarResgate(),
+      () => {}
+    );
+  }
+
+  confirmarResgate(): void {
+    const s = this.solicitacao();
+    if (!s) return;
+    
     s.status = 'APROVADA';
     if (!s.historico) {
       s.historico = [];
     }
- 
     s.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${s.clienteNome} (Cliente - resgate)`));
- 
     this.solicitacaoService.atualizar(s).subscribe({
       next: () => this.router.navigate(['/solicitacaoCliente/listar'])
     });

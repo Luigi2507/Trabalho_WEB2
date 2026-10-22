@@ -4,6 +4,9 @@ import { Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
 import { LoginService } from '../../services/login.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalResgatarServicoComponent } from '../modal-resgatar-servico/modal-resgatar-servico.component';
+
 
 @Component({
   selector: 'app-cliente-listar-solicitacao',
@@ -18,7 +21,7 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
   private loginService = inject(LoginService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
-
+  private modalService = inject(NgbModal);
   solicitacoes = signal<Solicitacao[]>([]);
   abaAtiva = signal('TODAS');
 
@@ -92,19 +95,29 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
   //resgatar a solicitacao reprovada
   resgatar($event: any, solicitacao: Solicitacao): void {
     $event.preventDefault();
-    if (confirm(`Deseja resgatar a solicitação "${solicitacao.descricaoEquipamento}"?`)) {
+
+    const modalRef = this.modalService.open(ModalResgatarServicoComponent, {
+      centered: true,
+      windowClass: 'modal-resgatar-servico'
+    });
+    modalRef.componentInstance.descricao = solicitacao.descricaoEquipamento;
+    modalRef.result.then(
+      () => this.confirmarResgate(solicitacao),
+      () => {}
+    );
+  }
+
+  confirmarResgate(solicitacao: Solicitacao): void {
       solicitacao.status = 'APROVADA';
 
       if (!solicitacao.historico) {
         solicitacao.historico = [];
       }
 
-      solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${solicitacao.clienteNome} (Cliente / resgate)`)
-      );
+      solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${solicitacao.clienteNome} (Cliente / resgate)`));
       
       this.solicitacaoService.atualizar(solicitacao).subscribe({
         next: () => this.carregarSolicitacoes()
-      })
+      });
     }
   }
-}

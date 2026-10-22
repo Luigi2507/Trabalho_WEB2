@@ -1,0 +1,9 @@
+<h2>Resgatar Serviço</h2>
+<p class="mensagem">Deseja resgatar a solicitação "{{ descricao }}"?</p>
+
+<div class="modalAcoes">
+    <button type="button" class="botaoCancelar"
+            (click)="activeModal.dismiss()">Cancelar</button>
+    <button type="button" class="botaoConfirmar"
+            (click)="activeModal.close(true)">Resgatar</button>
+</div>
