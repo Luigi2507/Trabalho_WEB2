@@ -661,6 +661,38 @@
       "funcionarioFinalizacao": "",
       "dataFinalizacao": null,
       "id": 12
+    },
+    {
+      "clienteCpf": "",
+      "clienteNome": "João Pereira",
+      "descricaoEquipamento": "teste1234",
+      "categoria": "Impressora",
+      "descricaoDefeito": "aaaaaaaaaa",
+      "dataHora": "2026-10-22T22:36:48.587Z",
+      "status": "ORCADA",
+      "orcamento": 888,
+      "motivoRejeicao": "",
+      "dataPagamento": null,
+      "historico": [
+        {
+          "dataHora": "2026-10-22T22:36:48.587Z",
+          "status": "ABERTA",
+          "funcionario": "João Pereira (Cliente)"
+        },
+        {
+          "dataHora": "2026-10-22T22:45:34.130Z",
+          "status": "ORCADA",
+          "funcionario": "Maria Oliveira (Funcionário)"
+        }
+      ],
+      "funcionarioOrcamento": "Maria Oliveira",
+      "descricaoManutencao": "",
+      "orientacoesCliente": "",
+      "funcionarioManutencao": "",
+      "funcionarioAtual": "",
+      "funcionarioFinalizacao": "",
+      "dataFinalizacao": null,
+      "id": 13
     }
   ]
 }

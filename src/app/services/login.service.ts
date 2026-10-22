@@ -1,8 +1,8 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, forkJoin, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, forkJoin, of, throwError } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { Usuario, Login } from '../shared';
 
 const LS_CHAVE: string = 'usuarioLogado';
@@ -11,6 +11,7 @@ const LS_CHAVE: string = 'usuarioLogado';
     providedIn: 'root'
 })
 export class LoginService {
+    BASE_URL_API = "http://localhost:8080";
     BASE_URL_CLIENTES = "http://localhost:3000/clientes";
     BASE_URL_FUNCIONARIOS = "http://localhost:3000/funcionarios";
     httpOptions = {
@@ -39,19 +40,15 @@ export class LoginService {
     login(login: Login): Observable<Usuario | null> {
         if (!this.browser) return of(null);
 
-        return forkJoin([
-            this.httpClient.get<any[]>(this.BASE_URL_CLIENTES, this.httpOptions),
-            this.httpClient.get<any[]>(this.BASE_URL_FUNCIONARIOS, this.httpOptions)
-        ]).pipe(
-            map(([clientes, funcionarios]) => {
-                const cliente = clientes.find(c => c.email === login.login && c.senha === login.senha);
-                if (cliente) return new Usuario(cliente.id, cliente.nome, cliente.email, 'CLIENTE', cliente.cpf);
-
-                const func = funcionarios.find(f => f.email === login.login && f.senha === login.senha);
-                if (func) return new Usuario(func.id, func.nome, func.email, 'FUNCIONARIO');
-
-                return null;
-            })
+        return this.httpClient.post<Usuario>(
+            this.BASE_URL_API + "/login",
+            JSON.stringify(login),
+            this.httpOptions
+        ).pipe(
+            map(u => new Usuario(u.id, u.nome, u.login, u.perfil, u.cpf ?? '')),
+            catchError((erro: HttpErrorResponse) =>
+                erro.status === 401 ? of(null) : throwError(() => erro)
+            )
         );
     }
 
