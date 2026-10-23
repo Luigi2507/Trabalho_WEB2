@@ -159,15 +159,14 @@
         </form>
         </main>
 
-        <!-- MODAL PARA EXIBIR A SENHA GERADA -->
-        @if(exibirModalSenhaGerada()){
+        <!-- MODAL DE CADASTRO REALIZADO -->
+        @if(exibirModalSucesso()){
             <div class="modalOverlay">
                 <div class="modalCaixa">
                     <h2>Cadastro realizado com sucesso!</h2>
-                    <p>Sua senha é:</p>
-                    <div class="senha">{{ senhaGerada() }}</div>
+                    <p>Sua senha foi enviada no email cadastrado.</p>
                     <div class="modalAcoes">
-                      <button type="button" class="btn botaoOk" (click)="fecharModalSenhaGerada()">OK</button>  
+                      <button type="button" class="btn botaoOk" (click)="fecharModalSucesso()">OK</button>  
                     </div>
                 </div>
             </div>

@@ -17,6 +17,10 @@ public final class senhaUtil {
         return HexFormat.of().formatHex(bytes);
     }
 
+    public static String gerarSenhaNumerica() {
+        return String.format("%04d", random.nextInt(10000));
+    }
+
     public static String gerarHash (String salt, String senha){
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-256"); // Inicializa o gerador de hash usando o algoritmo de criptografia SHA-256.

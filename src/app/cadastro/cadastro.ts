@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { NumericoDirective } from '../shared/directives/numerico.directive';
 import { NgxMaskDirective } from 'ngx-mask';
@@ -106,27 +106,21 @@ export class Cadastro {
       return;
     }
  
-    // confere no json-server se e-mail e CPF já estão cadastrados
-    this.clienteService.listarTodos().subscribe({
-      next: clientes => {
-        const emailExiste = clientes.some(
-          cliente => cliente.email.toLowerCase() === this.email.toLowerCase()
-        );
- 
-        if (emailExiste) {
+    // pergunta ao back-end (API) se o e-mail e o CPF já estão cadastrados
+    this.clienteService.verificar(this.cpf, this.email).subscribe({
+      next: resultado => {
+        if (!resultado) {
+          this.erroEtapa1.set('Não foi possível verificar os dados. Tente novamente.');
+          return;
+        }
+        if (resultado.emailCadastrado) {
           this.mensagemEmail.set('Este e-mail já está cadastrado.');
           return;
         }
- 
-        const cpfExiste = clientes.some(
-          cliente => cliente.cpf === this.cpf
-        );
- 
-        if (cpfExiste) {
+        if (resultado.cpfCadastrado) {
           this.mensagemCPF.set('Este CPF já está cadastrado.');
           return;
         }
- 
         this.etapaAtual.set(2);
       },
       error: () => {
@@ -145,23 +139,15 @@ export class Cadastro {
     this.btnCadastroTexto.set('Cadastrar-se');
   }
 
-  /* GERAR SENHA */
-  public gerarSenha(): string {
-    return Math.floor(1000 + Math.random() * 9000).toString();
+  //MODAL DE CADASTRO REALIZADO (a senha é gerada e enviada por e-mail pelo back-end)
+  public exibirModalSucesso = signal(false);
+
+  public abrirModalSucesso(): void{
+    this.exibirModalSucesso.set(true);
   }
 
-  //MODAL PARA EXIBIR A SENHA GERADA
-  public exibirModalSenhaGerada = signal(false);
-  public senhaGerada = signal('');
- 
-  public abrirModalSenhaGerada(senha: string): void{
-    this.senhaGerada.set(senha);
-    this.exibirModalSenhaGerada.set(true);
-  }
- 
-  public fecharModalSenhaGerada(): void{
-    this.exibirModalSenhaGerada.set(false);
-    this.senhaGerada.set('');
+  public fecharModalSucesso(): void{
+    this.exibirModalSucesso.set(false);
     this.router.navigate(['/login']);
   }
 
@@ -190,10 +176,8 @@ export class Cadastro {
  
       this.bloqueado.set(true);
       this.btnCadastroTexto.set('Cadastro em Andamento...');
- 
-      const senha = this.gerarSenha();
- 
-      // o id é gerado pelo json-server
+
+      // o id e a senha são gerados pelo back-end
       const cliente = {
         cpf: this.cpf,
         nome: this.nome,
@@ -205,20 +189,34 @@ export class Cadastro {
         complemento: this.complemento,
         bairro: this.bairro(),
         cidade: this.cidade(),
-        estado: this.estado(),
-        senha: senha,
-        perfil: 'CLIENTE'
+        estado: this.estado()
       };
  
-      // grava o cliente no json-server e, se deu certo, mostra a senha gerada
+      // envia para a API; se deu certo (201), avisa que a senha foi enviada por e-mail
       this.clienteService.inserir(cliente).subscribe({
         next: () => {
           this.resetBtnCadastro();
-          this.abrirModalSenhaGerada(senha);
+          this.abrirModalSucesso();
         },
-        error: () => {
+        error: (e: HttpErrorResponse) => {
           this.resetBtnCadastro();
-          this.mensagemCEP.set('Não foi possível concluir o cadastro. Tente novamente.');
+          if (e.status === 409) {
+            // alguém cadastrou o mesmo e-mail/CPF enquanto o formulário era preenchido
+            this.etapaAtual.set(1);
+            if (e.error?.campo === 'cpf') {
+              this.mensagemCPF.set('Este CPF já está cadastrado.');
+            } else if (e.error?.campo === 'email') {
+              this.mensagemEmail.set('Este e-mail já está cadastrado.');
+            } else {
+              this.erroEtapa1.set('CPF ou e-mail já cadastrado.');
+            }
+          } else if (e.status === 400) {
+            this.mensagemCEP.set('Dados inválidos. Confira as informações e tente novamente.');
+          } else if (e.status === 0) {
+            this.mensagemCEP.set('Não foi possível conectar ao servidor. Tente novamente.');
+          } else {
+            this.mensagemCEP.set(e.error?.mensagem ?? 'Não foi possível concluir o cadastro. Tente novamente.');
+          }
         }
       });
     }
