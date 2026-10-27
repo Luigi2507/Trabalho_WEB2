@@ -27,7 +27,7 @@ export class ClienteInserirSolicitacaoComponent implements OnInit {
   private loginService = inject(LoginService);
   
   ngOnInit(): void {
-     this.categoriaEquipamentoService.listarTodos().subscribe({
+     this.categoriaEquipamentoService.listarAtivas().subscribe({
       next: (data: CategoriaEquipamento[]) => this.categorias.set(data ?? [])
     });
   }

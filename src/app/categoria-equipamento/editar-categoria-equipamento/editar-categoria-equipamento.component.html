@@ -4,14 +4,23 @@
         <form #categoriaForm="ngForm" (ngSubmit)="salvar(categoriaForm)">
             <div class="form-group">
                 <label class="form-label" for="nome">Nome</label>
-                <input type="text" id="nome" class="form-control" [(ngModel)]="categoria().nome" name="nome" required
-                    minlength="2" #nome="ngModel">
-
-                <div class="alert-danger" *ngIf="nome.invalid && nome.touched">
-                    <div *ngIf="nome.errors?.['required']">O nome da categoria é obrigatório.</div>
-                    <div *ngIf="nome.errors?.['minlength']">O nome da categoria deve ter no mínimo 2 caracteres.</div>
-                </div>
+                <input type="text" id="nome" class="form-control" name="nome" required minlength="2" #nome="ngModel" [(ngModel)]="categoria().nome" (ngModelChange)="categoria.update(c => ({ ...c, nome: $event }))">
+                
+                @if (nome.invalid && nome.touched){
+                    <div class="alert-danger">
+                        @if(nome.errors?.['required']){
+                            <div>O nome da categoria é obrigatório.</div>
+                        }
+                        @if(nome.errors?.['minlength']){
+                            <div>O nome da categoria deve ter no mínimo 2 caracteres.</div>
+                        }
+                    </div>
+                }
             </div>
+
+            @if(mensagem()){
+                <div class="alert-danger">{{ mensagem() }}</div>
+            }
 
             <div class="d-flex justify-content-end mt-3">
                 <button type="submit" class="btn-primary" [disabled]="categoriaForm.invalid">Salvar</button>

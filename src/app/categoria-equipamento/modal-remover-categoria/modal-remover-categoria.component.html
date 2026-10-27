@@ -1,6 +1,10 @@
 <h2>Atenção</h2>
 <p class="subtitulo">Tem certeza que deseja remover {{ categoria.nome }}?</p>
 
+@if(mensagem()){
+    <div class="alert-danger">{{ mensagem() }}</div>
+}
+
 <div class="modalAcoes">
     <button type="button" class="botaoCancelar"
             (click)="confirmarRemocao(false)">Cancelar</button>

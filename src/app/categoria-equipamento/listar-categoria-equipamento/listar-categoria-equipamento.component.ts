@@ -21,11 +21,11 @@ export class ListarCategoriaEquipamentoComponent implements OnInit {
   constructor(private categoriaEquipamentoService: CategoriaEquipamentoService) { }
 
   ngOnInit(): void {
-    this.listarTodos();
+    this.listarAtivas();
   }
 
-  listarTodos(): void {
-    this.categoriaEquipamentoService.listarTodos().subscribe({
+  listarAtivas(): void {
+    this.categoriaEquipamentoService.listarAtivas().subscribe({
       next: (data: CategoriaEquipamento[]) => {
         if (data == null) {
           this.categorias.set([]);
@@ -36,24 +36,19 @@ export class ListarCategoriaEquipamentoComponent implements OnInit {
     });
   }
 
-  async remover($event: any, categoria: CategoriaEquipamento): Promise<void> {
+  remover($event: any, categoria: CategoriaEquipamento): void {
     $event.preventDefault();
 
-    let confirmar = await this.abrirModalRemoverCategoria(categoria);
-    if(!confirmar) return;
-
-    this.categoriaEquipamentoService.remover(categoria.id!).subscribe({
-      complete: () => { this.listarTodos(); }
-    });
-  }
-
-  abrirModalRemoverCategoria(categoria : CategoriaEquipamento) : Promise<boolean>{
     const modalRef = this.modalService.open(ModalRemoverCategoriaComponent);
     modalRef.componentInstance.categoria = categoria;
 
-    return modalRef.result.then(
-      (resultado : boolean) => resultado,
-      () => false
+    modalRef.result.then(
+      (removida : boolean) => {
+        if(removida){
+          this.categorias.update(lista => lista.filter(c => c.id !== categoria.id));
+        }
+      },
+      () => {}
     );
   }
 }

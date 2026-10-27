@@ -12,7 +12,7 @@ h2 {
 
 .subtitulo {
     margin: 0 0 18px;
-    font-size: 14px;
+    font-size: 15px;
     color: #555;
 }
 
@@ -73,6 +73,14 @@ h2 {
 
 .botaoConfirmar:hover {
     background: #c22e08;
+}
+
+.alert-danger {
+  color: #831a00;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-top: 4px;
+  display: block; 
 }
 
 @keyframes modalSobe {
