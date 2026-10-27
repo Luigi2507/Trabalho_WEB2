@@ -52,24 +52,16 @@ export class LoginService {
         );
     }
 
-    redefinirSenha(email: string): Observable<string | null> {
-        const novaSenha = Math.floor(1000 + Math.random() * 9000).toString();
-        const alvo = email.trim().toLowerCase();
-
-        const tentar = (baseUrl: string): Observable<string | null> =>
-            this.httpClient.get<any[]>(baseUrl, this.httpOptions).pipe(
-                switchMap(lista => {
-                    const item = lista.find(i => i.email && i.email.toLowerCase() === alvo);
-                    if (!item) return of(null);
-                    item.senha = novaSenha;
-                    return this.httpClient
-                        .put(baseUrl + "/" + item.id, JSON.stringify(item), this.httpOptions)
-                        .pipe(map(() => novaSenha));
-                })
-            );
-
-        return tentar(this.BASE_URL_CLIENTES).pipe(
-            switchMap(s => (s ? of(s) : tentar(this.BASE_URL_FUNCIONARIOS)))
+    redefinirSenha(email: string): Observable<boolean> {
+        return this.httpClient.post(
+            this.BASE_URL_API + "/senha/redefinir",
+            JSON.stringify({ email: email.trim() }),
+            this.httpOptions
+        ).pipe(
+            map(() => true),
+            catchError((erro: HttpErrorResponse) =>
+                erro.status === 404 ? of(false) : throwError(() => erro)
+            )
         );
     }
 }

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Login as LoginModel } from '../shared/models/login.model';
 import { LoginService } from '../services/login.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -47,7 +48,8 @@ export class Login implements OnInit {
   public exibirModalEsqueciSenha: boolean = false
   public emailRecuperacao: string = ''
   public erroModalRecuperacao: string = ''
-  public novaSenhaGerada: string = ''
+  public senhaEnviada: boolean = false     
+  public enviandoRecuperacao: boolean = false 
 
   //VALIDÇÃO DO CAMPO EMAIL
   public validarEmail(): boolean{
@@ -130,7 +132,8 @@ export class Login implements OnInit {
   public abrirModalEsqueciSenha(): void {
     this.emailRecuperacao = this.email
     this.erroModalRecuperacao = ''
-    this.novaSenhaGerada = ''
+    this.senhaEnviada = false
+    this.enviandoRecuperacao = false
     this.exibirModalEsqueciSenha = true
   }
 
@@ -138,11 +141,14 @@ export class Login implements OnInit {
     this.exibirModalEsqueciSenha = false
     this.emailRecuperacao = ''
     this.erroModalRecuperacao = ''
-    this.novaSenhaGerada = ''
+    this.senhaEnviada = false
+    this.enviandoRecuperacao = false
   }
 
   //FUNCAO ESQUECEU SENHA
   public esqueceuSenha(): void {
+    if (this.enviandoRecuperacao) return; //trava clique duplo
+
     const emailDigitado = this.emailRecuperacao.trim().toLowerCase();
     if (!emailDigitado) {
       this.erroModalRecuperacao = 'Por favor, informe o e-mail.';
@@ -154,20 +160,25 @@ export class Login implements OnInit {
       return;
     }
   
+    this.erroModalRecuperacao = '';
+    this.enviandoRecuperacao = true;
 
     this.loginService.redefinirSenha(emailDigitado).subscribe({
-      next: novaSenha => {
-        if (!novaSenha) {
-          this.erroModalRecuperacao = 'E-mail não cadastrado no sistema.';
+      next: enviada => {
+        this.enviandoRecuperacao = false;
+        if (enviada) {
+          this.senhaEnviada = true;
         } else {
-          this.novaSenhaGerada = novaSenha;
+          this.erroModalRecuperacao = 'E-mail não cadastrado no sistema.';
         }
         this.cdr.detectChanges();
-      },
-      error: () => {
-        this.erroModalRecuperacao = 'Não foi possível conectar ao servidor.';
-        this.cdr.detectChanges();
-      }
+      },error: (e: HttpErrorResponse) => {
+          this.enviandoRecuperacao = false;
+          this.erroModalRecuperacao = e.status === 0
+            ? 'Não foi possível conectar ao servidor.'
+            : 'Não foi possível enviar a senha. Tente novamente.';
+          this.cdr.detectChanges();
+        }
     });
   }
 

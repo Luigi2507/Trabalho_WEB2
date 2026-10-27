@@ -28,4 +28,16 @@ public class EmailService {
                 + "Use o seu e-mail e esta senha para entrar no sistema.");
         mailSender.send(msg);
     }
+
+    public void enviarNovaSenha(String destino, String nome, String senha) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(remetente);
+        msg.setTo(destino);
+        msg.setSubject("WebTech - Sua nova senha");
+        msg.setText("Olá, " + nome + "!\n\n"
+                + "Recebemos um pedido para redefinir a sua senha.\n"
+                + "Sua nova senha de acesso é: " + senha + "\n\n"
+                + "Use o seu e-mail e esta senha para entrar no sistema.");
+        mailSender.send(msg);
+    }
 }

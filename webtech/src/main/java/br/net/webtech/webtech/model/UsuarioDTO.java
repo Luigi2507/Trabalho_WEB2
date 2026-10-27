@@ -5,15 +5,17 @@ public class UsuarioDTO {
     private String nome;
     private String login;
     private String perfil;
+    private String cpf;
  
     public UsuarioDTO() {
     }
  
-    public UsuarioDTO(Integer id, String nome, String login, String perfil) {
+    public UsuarioDTO(Integer id, String nome, String login, String perfil, String cpf) {
         this.id = id;
         this.nome = nome;
         this.login = login;
         this.perfil = perfil;
+        this.cpf = cpf;
     }
  
     public Integer getId() {
@@ -47,4 +49,12 @@ public class UsuarioDTO {
     public void setPerfil(String perfil) {
         this.perfil = perfil;
     }  
+
+    public String getCpf() {
+        return cpf;
+    }
+ 
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 }

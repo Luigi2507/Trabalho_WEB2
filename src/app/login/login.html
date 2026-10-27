@@ -88,7 +88,7 @@
       <div class="modalOverlay">
         <div class="modalCaixa">
   
-          @if (!novaSenhaGerada) {
+          @if (!senhaEnviada) {
             <h2>Recuperar senha</h2>
             <p>Informe o e-mail cadastrado</p>
   
@@ -109,15 +109,19 @@
   
               <div class="modalAcoes">
                 <button type="button" class="botaoCancelar" (click)="fecharModalEsqueciSenha()">Cancelar</button>
-                <button type="submit" class="btn botao-entrar">Redefinir senha</button>
+                <button type="submit" class="btn botao-entrar"> {{ enviandoRecuperacao ? 'Enviando...' : 'Redefinir senha' }}</button>
               </div>
             </form>
           } @else {
             <h2>Senha redefinida!</h2>
-            <p>Sua nova senha é:</p>
-            <div class="novaSenha">{{ novaSenhaGerada }}</div>
+            <p>Sua nova senha foi enviada para o e-mail cadastrado.</p>
             <div class="modalAcoes">
-              <button type="button" class="btn botao-entrar" (click)="fecharModalEsqueciSenha()">Voltar ao login</button>
+              <button
+                type="button"
+                class="btn botao-entrar"
+                (click)="fecharModalEsqueciSenha()">
+                Voltar ao login
+              </button>
             </div>
           }
         </div>
