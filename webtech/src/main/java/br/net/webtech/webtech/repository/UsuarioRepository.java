@@ -13,5 +13,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     /** Usado no cadastro: vale para ativos e inativos (a coluna email é UNIQUE) */
     boolean existsByEmail(String email);
+    boolean existsByEmailAndIdNot(String email, Integer id);
 }
  
