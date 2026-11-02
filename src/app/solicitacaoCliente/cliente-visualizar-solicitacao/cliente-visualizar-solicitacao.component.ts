@@ -6,6 +6,7 @@ import { SolicitacaoClienteService } from '../../services/solicitacao-cliente.se
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalResgatarServicoComponent } from '../modal-resgatar-servico/modal-resgatar-servico.component';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-cliente-visualizar-solicitacao',
@@ -16,6 +17,7 @@ import { ModalResgatarServicoComponent } from '../modal-resgatar-servico/modal-r
 
 export class ClienteVisualizarSolicitacaoComponent implements OnInit{
   private solicitacaoService = inject(SolicitacaoClienteService);
+  private loginService = inject(LoginService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
@@ -27,8 +29,13 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
     if (!isPlatformBrowser(this.platformId)) return;
  
     const id = +this.route.snapshot.params['id'];
+    const clienteId = this.loginService.usuarioLogado?.id;
+    if (!clienteId) {
+      this.router.navigate(['/login']);
+      return;
+    }
  
-    this.solicitacaoService.buscarPorId(id).subscribe({
+    this.solicitacaoService.buscarPorId(id, clienteId).subscribe({
       next: (s: Solicitacao | null) => this.solicitacao.set(s ?? undefined),
       error: (e: HttpErrorResponse) => {
         alert(e.status === 404 ? 'Solicitação não encontrada.' : 'Não foi possível carregar a solicitação.');
@@ -76,12 +83,13 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
     );
   }
 
-   //o back muda para APROVADA e grava no histórico; depois volta para a lista
+  //o back muda para APROVADA e grava no histórico; depois volta para a lista
   confirmarResgate(): void {
     const s = this.solicitacao();
-    if (!s) return;
+    const clienteId = this.loginService.usuarioLogado?.id;
+    if (!s || !clienteId) return;
 
-    this.solicitacaoService.resgatar(s.id).subscribe({
+    this.solicitacaoService.resgatar(s.id, clienteId).subscribe({
       next: () => this.router.navigate(['/solicitacaoCliente/listar']),
       error: (e: HttpErrorResponse) => {
         if (e.status === 409 || e.status === 404) {

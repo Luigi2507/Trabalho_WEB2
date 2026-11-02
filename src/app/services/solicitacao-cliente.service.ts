@@ -34,8 +34,8 @@ export class SolicitacaoClienteService {
   }
 
   // RF005 / RF008 / RF010: uma solicitação com o histórico completo
-  buscarPorId(id: number): Observable<Solicitacao | null> {
-    return this.httpClient.get<any>(`${this.BASE_URL}/solicitacoes/${id}`, this.httpOptions).pipe(
+  buscarPorId(id: number, clienteId: number): Observable<Solicitacao | null> {
+    return this.httpClient.get<any>(`${this.BASE_URL}/solicitacoes/${id}?clienteId=${clienteId}`, this.httpOptions).pipe(
       map((resp: HttpResponse<any>) =>
         resp.status == 200 && resp.body ? this.converter(resp.body) : null),
       catchError((e) => throwError(() => e))
@@ -52,29 +52,29 @@ export class SolicitacaoClienteService {
   }
 
   // RF006
-  aprovar(id: number): Observable<Solicitacao | null> {
-    return this.executarAcao(id, 'aprovar', null);
+  aprovar(id: number, clienteId: number): Observable<Solicitacao | null> {
+    return this.executarAcao(id, clienteId, 'aprovar', null);
   }
 
   // RF007
-  rejeitar(id: number, motivo: string): Observable<Solicitacao | null> {
-    return this.executarAcao(id, 'rejeitar', { motivo });
+  rejeitar(id: number, clienteId: number, motivo: string): Observable<Solicitacao | null> {
+    return this.executarAcao(id, clienteId, 'rejeitar', { motivo });
   }
 
   // RF009
-  resgatar(id: number): Observable<Solicitacao | null> {
-    return this.executarAcao(id, 'resgatar', null);
+  resgatar(id: number, clienteId: number): Observable<Solicitacao | null> {
+    return this.executarAcao(id, clienteId, 'resgatar', null);
   }
 
   // RF010
-  pagar(id: number): Observable<Solicitacao | null> {
-    return this.executarAcao(id, 'pagar', null);
+  pagar(id: number, clienteId: number): Observable<Solicitacao | null> {
+    return this.executarAcao(id, clienteId, 'pagar', null);
   }
 
-  // PUT /solicitacoes/{id}/{acao}: 200 OK | 404 | 409 (a tela trata o erro)
-  private executarAcao(id: number, acao: string, corpo: object | null): Observable<Solicitacao | null> {
+  // PUT /solicitacoes/{id}/{acao}?clienteId=X: 200 OK | 404 | 409 (a tela trata o erro)
+  private executarAcao(id: number, clienteId: number, acao: string, corpo: object | null): Observable<Solicitacao | null> {
     return this.httpClient.put<any>(
-      `${this.BASE_URL}/solicitacoes/${id}/${acao}`,
+      `${this.BASE_URL}/solicitacoes/${id}/${acao}?clienteId=${clienteId}`,
       corpo ? JSON.stringify(corpo) : null,
       this.httpOptions
     ).pipe(

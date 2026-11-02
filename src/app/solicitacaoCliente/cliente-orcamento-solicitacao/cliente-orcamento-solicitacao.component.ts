@@ -7,6 +7,8 @@ import { SolicitacaoClienteService } from '../../services/solicitacao-cliente.se
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalServicoRejeitadoComponent } from '../modal-servico-rejeitado/modal-servico-rejeitado.component';
+import { LoginService } from '../../services/login.service';
+import { Login } from '../../shared';
 
 @Component({
   selector: 'app-cliente-orcamento-solicitacao',
@@ -17,6 +19,7 @@ import { ModalServicoRejeitadoComponent } from '../modal-servico-rejeitado/modal
 
 export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
   private solicitacaoService = inject(SolicitacaoClienteService);
+  private loginService = inject(LoginService);
   private modalService = inject(NgbModal);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -30,8 +33,13 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const id = +this.route.snapshot.params['id'];
+    const clienteId = this.loginService.usuarioLogado?.id;
+    if (!clienteId) {
+      this.router.navigate(['/login']);
+      return;
+    }
 
-    this.solicitacaoService.buscarPorId(id).subscribe({
+    this.solicitacaoService.buscarPorId(id, clienteId).subscribe({
       next: (s: Solicitacao | null) => this.solicitacao.set(s ?? undefined),
       error: (e: HttpErrorResponse) => {
         alert(e.status === 404 ? 'Solicitação não encontrada.' : 'Não foi possível carregar a solicitação.');
@@ -43,9 +51,10 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
   // RF006: o back muda ORCADA -> APROVADA e grava no histórico
   aprovar(): void {
     const s = this.solicitacao();
-    if (!s) return;
+    const clienteId = this.loginService.usuarioLogado?.id;
+    if (!s || !clienteId) return;
 
-    this.solicitacaoService.aprovar(s.id).subscribe({
+    this.solicitacaoService.aprovar(s.id, clienteId).subscribe({
       next: (atualizada: Solicitacao | null) => {
         const valor = (atualizada?.orcamento ?? s.orcamento)
           .toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -64,9 +73,10 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
   // RF007: o back muda ORCADA -> REJEITADA, guarda o motivo e grava no histórico
   confirmarRejeicao(): void {
     const s = this.solicitacao();
-    if (!s || !this.motivoRejeicao.trim()) return;
+    const clienteId = this.loginService.usuarioLogado?.id;
+    if (!s || !clienteId || !this.motivoRejeicao.trim()) return;
 
-    this.solicitacaoService.rejeitar(s.id, this.motivoRejeicao.trim()).subscribe({
+    this.solicitacaoService.rejeitar(s.id, clienteId, this.motivoRejeicao.trim()).subscribe({
       next: () => {
         const modalRef = this.modalService.open(ModalServicoRejeitadoComponent, {
           centered: true,

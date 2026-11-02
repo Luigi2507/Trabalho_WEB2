@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.net.webtech.webtech.model.RejeicaoDTO;
 import br.net.webtech.webtech.model.SolicitacaoNovaDTO;
@@ -38,8 +39,8 @@ public class SolicitacaoREST {
 
     /** RF005 / RF008 / RF010 - 200 OK | 404 NOT FOUND */
     @GetMapping("/solicitacoes/{id}")
-    public ResponseEntity<Object> obterPorId(@PathVariable("id") Integer id) {
-        return executar(() -> solicitacaoService.obterPorId(id), HttpStatus.OK);
+    public ResponseEntity<Object> obterPorId(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId) {
+        return executar(() -> solicitacaoService.obterPorId(id, clienteId), HttpStatus.OK);
     }
 
     /** RF004 - 201 CREATED | 400 dados inválidos | 404 cliente ou categoria não existem */
@@ -50,26 +51,26 @@ public class SolicitacaoREST {
 
     /** RF006 - 200 OK | 404 NOT FOUND | 409 não está ORCADA */
     @PutMapping("/solicitacoes/{id}/aprovar")
-    public ResponseEntity<Object> aprovar(@PathVariable("id") Integer id) {
-        return executar(() -> solicitacaoService.aprovar(id), HttpStatus.OK);
+    public ResponseEntity<Object> aprovar(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId) {
+        return executar(() -> solicitacaoService.aprovar(id, clienteId), HttpStatus.OK);
     }
 
     /** RF007 - 200 OK | 400 sem motivo | 404 NOT FOUND | 409 não está ORCADA */
     @PutMapping("/solicitacoes/{id}/rejeitar")
-    public ResponseEntity<Object> rejeitar(@PathVariable("id") Integer id, @Valid @RequestBody RejeicaoDTO dto) {
-        return executar(() -> solicitacaoService.rejeitar(id, dto.motivo()), HttpStatus.OK);
+    public ResponseEntity<Object> rejeitar(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId ,@Valid @RequestBody RejeicaoDTO dto) {
+        return executar(() -> solicitacaoService.rejeitar(id, clienteId, dto.motivo()), HttpStatus.OK);
     }
 
     /** RF009 - 200 OK | 404 NOT FOUND | 409 não está REJEITADA */
     @PutMapping("/solicitacoes/{id}/resgatar")
-    public ResponseEntity<Object> resgatar(@PathVariable("id") Integer id) {
-        return executar(() -> solicitacaoService.resgatar(id), HttpStatus.OK);
+    public ResponseEntity<Object> resgatar(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId) {
+        return executar(() -> solicitacaoService.resgatar(id, clienteId), HttpStatus.OK);
     }
 
     /** RF010 - 200 OK | 404 NOT FOUND | 409 não está ARRUMADA */
     @PutMapping("/solicitacoes/{id}/pagar")
-    public ResponseEntity<Object> pagar(@PathVariable("id") Integer id) {
-        return executar(() -> solicitacaoService.pagar(id), HttpStatus.OK);
+    public ResponseEntity<Object> pagar(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId ) {
+        return executar(() -> solicitacaoService.pagar(id, clienteId), HttpStatus.OK);
     }
 
     /** Roda a ação e converte as exceções do service em status code (404 / 409). */

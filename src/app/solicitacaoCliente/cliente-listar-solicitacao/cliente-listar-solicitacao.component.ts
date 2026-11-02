@@ -116,7 +116,13 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
 
   //o back muda o estado para APROVADA e grava o passo no histórico
   confirmarResgate(solicitacao: Solicitacao): void {
-    this.solicitacaoService.resgatar(solicitacao.id).subscribe({
+    const clienteId = this.loginService.usuarioLogado?.id;
+    if (!clienteId) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.solicitacaoService.resgatar(solicitacao.id, clienteId).subscribe({
       next: () => this.carregarSolicitacoes(),
       error: (e: HttpErrorResponse) => {
         if (e.status === 409 || e.status === 404) {

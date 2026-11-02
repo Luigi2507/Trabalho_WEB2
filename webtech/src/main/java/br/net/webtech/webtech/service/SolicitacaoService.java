@@ -56,8 +56,8 @@ public class SolicitacaoService {
 
     /** RF005 / RF008 / RF010: uma solicitação com todos os dados e o histórico completo. */
     @Transactional(readOnly = true)
-    public SolicitacaoDTO obterPorId(Integer id) {
-        return paraDTO(buscar(id), true);
+    public SolicitacaoDTO obterPorId(Integer id, Integer clienteId) {
+        return paraDTO(buscarDoCliente(id, clienteId), true);
     }
 
     /** RF004: nasce no estado ABERTA, com data/hora de agora e a 1ª linha do histórico. */
@@ -83,8 +83,8 @@ public class SolicitacaoService {
 
     /** RF006: ORCADA -> APROVADA */
     @Transactional
-    public SolicitacaoDTO aprovar(Integer id) {
-        Solicitacao s = buscar(id);
+    public SolicitacaoDTO aprovar(Integer id, Integer clienteId) {
+        Solicitacao s = buscarDoCliente(id, clienteId);
         exigirStatus(s, "ORCADA");
         mudarStatus(s, "APROVADA");
         return paraDTO(s, true);
@@ -92,8 +92,8 @@ public class SolicitacaoService {
 
     /** RF007: ORCADA -> REJEITADA (guarda o motivo) */
     @Transactional
-    public SolicitacaoDTO rejeitar(Integer id, String motivo) {
-        Solicitacao s = buscar(id);
+    public SolicitacaoDTO rejeitar(Integer id, Integer clienteId, String motivo) {
+        Solicitacao s = buscarDoCliente(id, clienteId);
         exigirStatus(s, "ORCADA");
         s.setMotivoRejeicao(motivo.trim());
         mudarStatus(s, "REJEITADA");
@@ -102,8 +102,8 @@ public class SolicitacaoService {
 
     /** RF009: REJEITADA -> APROVADA (volta para o fluxo; o histórico registra quando) */
     @Transactional
-    public SolicitacaoDTO resgatar(Integer id) {
-        Solicitacao s = buscar(id);
+    public SolicitacaoDTO resgatar(Integer id, Integer clienteId) {
+        Solicitacao s = buscarDoCliente(id, clienteId);
         exigirStatus(s, "REJEITADA");
         mudarStatus(s, "APROVADA");
         return paraDTO(s, true);
@@ -111,8 +111,8 @@ public class SolicitacaoService {
 
     /** RF010: ARRUMADA -> PAGA (registra a data/hora do pagamento) */
     @Transactional
-    public SolicitacaoDTO pagar(Integer id) {
-        Solicitacao s = buscar(id);
+    public SolicitacaoDTO pagar(Integer id, Integer clienteId) {
+        Solicitacao s = buscarDoCliente(id, clienteId);
         exigirStatus(s, "ARRUMADA");
         s.setDataHoraPagamento(LocalDateTime.now());
         mudarStatus(s, "PAGA");
@@ -124,6 +124,15 @@ public class SolicitacaoService {
     private Solicitacao buscar(Integer id) {
         return solicitacaoRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Solicitação não encontrada."));
+    }
+
+    //evitar que outro usuário acesse a solicitação pela URL
+    private Solicitacao buscarDoCliente(Integer id, Integer clienteId) {
+        Solicitacao s = buscar(id);
+        if (!s.getCliente().getId().equals(clienteId)) {
+            throw new RecursoNaoEncontradoException("Solicitação não encontrada.");
+        }
+        return s;
     }
 
     private StatusSolicitacao status(String codigo) {
