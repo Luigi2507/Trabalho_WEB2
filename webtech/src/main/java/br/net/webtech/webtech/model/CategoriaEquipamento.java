@@ -1,51 +1,35 @@
 package br.net.webtech.webtech.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Entity 
+@Entity
 @Table(name = "categoria_equipamento")
-
 public class CategoriaEquipamento {
-    @Id 
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank 
-    @Column(nullable = false)
+    @Column(name = "nome", nullable = false, unique = true, length = 50)
     private String nome;
 
     @Column(name = "ativo", nullable = false)
     private Boolean ativo = true;
 
-    public Boolean getAtivo() {
-        return ativo;
+    public CategoriaEquipamento() {
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public String getNome() {
-        return nome;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-
+    public Boolean getAtivo() { return ativo; }
+    public void setAtivo(Boolean ativo) { this.ativo = ativo; }
 }

@@ -23,7 +23,7 @@ public class CategoriaEquipamentoService {
     }
 
     public List<CategoriaEquipamento> listarAtivas(){
-        return repository.findByAtivoTrue();
+        return repository.findByAtivoTrueOrderByNome();
     }
 
     public Optional<CategoriaEquipamento> buscarPorId(Integer id){
