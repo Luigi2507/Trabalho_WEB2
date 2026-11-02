@@ -1,8 +1,9 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { SolicitacaoService } from '../../services/solicitacao.service';
-import { Solicitacao, HistoricoItem } from '../../shared/models/solicitacao.model';
+import { SolicitacaoClienteService } from '../../services/solicitacao-cliente.service';
+import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalPagamentoConfirmadoComponent } from '../modal-pagamento-confirmado/modal-pagamento-confirmado.component';
 
@@ -14,7 +15,7 @@ import { ModalPagamentoConfirmadoComponent } from '../modal-pagamento-confirmado
 })
 
 export class ClientePagarSolicitacaoComponent implements OnInit{
-  private solicitacaoService = inject(SolicitacaoService);
+  private solicitacaoService = inject(SolicitacaoClienteService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
@@ -27,30 +28,35 @@ export class ClientePagarSolicitacaoComponent implements OnInit{
  
     const id = +this.route.snapshot.params['id'];
  
-    this.solicitacaoService.buscarPorID(id).subscribe({next: (s: Solicitacao) => this.solicitacao.set(s), error: () => {
-      alert('Solicitação não encontrada.');
-      this.router.navigate(['/solicitacaoCliente/listar']);}
+    this.solicitacaoService.buscarPorId(id).subscribe({
+      next: (s: Solicitacao | null) => this.solicitacao.set(s ?? undefined),
+      error: (e: HttpErrorResponse) => {
+        alert(e.status === 404 ? 'Solicitação não encontrada.' : 'Não foi possível carregar a solicitação.');
+        this.router.navigate(['/solicitacaoCliente/listar']);
+      }
     });
   }
 
-//confirma pagamento e altera status
+
+  // RF010: o back muda ARRUMADA -> PAGA, registra a data/hora do pagamento e grava no histórico
   confirmarPagamento(): void {
     const s = this.solicitacao();
     if (!s) return;
- 
-    s.status = 'PAGA';
-    s.dataPagamento = new Date();
- 
-    if (!s.historico) {
-      s.historico = [];
-    }
-    s.historico.push(new HistoricoItem(new Date(), 'PAGA', `${s.clienteNome} (Cliente)`));
-    
-    this.solicitacaoService.atualizar(s).subscribe({next: () => {
-      const modalRef = this.modalService.open(ModalPagamentoConfirmadoComponent, {
+
+    this.solicitacaoService.pagar(s.id).subscribe({
+      next: () => {
+        this.modalService.open(ModalPagamentoConfirmadoComponent, {
           centered: true
-      });
-    }
+        });
+      },
+      error: (e: HttpErrorResponse) => {
+        if (e.status === 409 || e.status === 404) {
+          alert(e.error?.mensagem ?? 'Esta solicitação não pode mais ser paga.');
+          this.router.navigate(['/solicitacaoCliente/listar']);
+        } else {
+          alert('Não foi possível confirmar o pagamento. Tente novamente.');
+        }
+      }
     });
   }
 

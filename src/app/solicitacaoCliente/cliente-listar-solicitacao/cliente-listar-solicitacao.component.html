@@ -13,6 +13,13 @@
     <button [class.ativa]="abaAtiva() === 'CONCLUIDAS'" (click)="mudarAba('CONCLUIDAS')">Concluídas</button>
   </div>
 
+    @if (mensagem()) {
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        {{ mensagem() }}
+        <button type="button" class="btn-close" (click)="mensagem.set('')" aria-label="Fechar"></button>
+      </div>
+  }
+
   <div class="cards-grid">
       @for (solicitacao of solicitacoesFiltradas(); track solicitacao.id) {
         <div class="card-solicitacao">

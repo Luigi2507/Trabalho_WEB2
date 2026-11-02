@@ -1,12 +1,12 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { SolicitacaoService } from '../../services/solicitacao.service';
-import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
+import { SolicitacaoClienteService } from '../../services/solicitacao-cliente.service';
+import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { LoginService } from '../../services/login.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalResgatarServicoComponent } from '../modal-resgatar-servico/modal-resgatar-servico.component';
-
 
 @Component({
   selector: 'app-cliente-listar-solicitacao',
@@ -17,24 +17,31 @@ import { ModalResgatarServicoComponent } from '../modal-resgatar-servico/modal-r
 })
 
 export class ClienteListarSolicitacaoComponent implements OnInit {
-  private solicitacaoService = inject(SolicitacaoService);
+  private solicitacaoService = inject(SolicitacaoClienteService);
   private loginService = inject(LoginService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
   private modalService = inject(NgbModal);
   solicitacoes = signal<Solicitacao[]>([]);
   abaAtiva = signal('TODAS');
+  mensagem = signal('');
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     this.carregarSolicitacoes();
   }
-  //busca e mostra somente as solicitaçoes do cliente logado
-  carregarSolicitacoes(): void {
-    const cpfCliente = this.loginService.usuarioLogado?.cpf;
 
-    //ordena as solicitações
-    this.solicitacaoService.listarTodos().subscribe({next: (lista: Solicitacao[]) => {this.solicitacoes.set((lista ?? []).filter(solicitacao => solicitacao.clienteCpf === cpfCliente).sort((a, b) => new Date(a.dataHora).getTime() - new Date(b.dataHora).getTime()));}
+  //busca e mostra somente as solicitaçoes do cliente logado (o back já ordena por data/hora)
+  carregarSolicitacoes(): void {
+    const clienteId = this.loginService.usuarioLogado?.id;
+    if (!clienteId) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.solicitacaoService.listarPorCliente(clienteId).subscribe({
+      next: (lista: Solicitacao[] | null) => this.solicitacoes.set(lista ?? []),
+      error: () => this.mensagem.set('Não foi possível carregar as solicitações. Tente novamente.')
     });
   }
 
@@ -107,17 +114,18 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
     );
   }
 
+  //o back muda o estado para APROVADA e grava o passo no histórico
   confirmarResgate(solicitacao: Solicitacao): void {
-      solicitacao.status = 'APROVADA';
-
-      if (!solicitacao.historico) {
-        solicitacao.historico = [];
+    this.solicitacaoService.resgatar(solicitacao.id).subscribe({
+      next: () => this.carregarSolicitacoes(),
+      error: (e: HttpErrorResponse) => {
+        if (e.status === 409 || e.status === 404) {
+          this.mensagem.set(e.error?.mensagem ?? 'Esta solicitação não pode mais ser resgatada.');
+          this.carregarSolicitacoes();
+        } else {
+          this.mensagem.set('Não foi possível resgatar o serviço. Tente novamente.');
+        }
       }
-
-      solicitacao.historico.push(new HistoricoItem(new Date(), 'APROVADA', `${solicitacao.clienteNome} (Cliente / resgate)`));
-      
-      this.solicitacaoService.atualizar(solicitacao).subscribe({
-        next: () => this.carregarSolicitacoes()
-      });
-    }
+    });
   }
+}

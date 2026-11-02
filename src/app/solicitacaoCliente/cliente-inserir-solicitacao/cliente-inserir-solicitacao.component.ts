@@ -1,8 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild, OnInit, signal } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, ViewChild, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { SolicitacaoService } from '../../services/solicitacao.service';
+import { SolicitacaoClienteService } from '../../services/solicitacao-cliente.service';
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { CategoriaEquipamento } from '../../shared/models/categoria-equipamento.model';
 import { CategoriaEquipamentoService } from '../../services/categoria-equipamento.service';
@@ -21,32 +22,51 @@ export class ClienteInserirSolicitacaoComponent implements OnInit {
 
   @ViewChild('formSolicitacao') formulario!: NgForm;
   solicitacao : Solicitacao = new Solicitacao();
-  private solicitacaoService = inject(SolicitacaoService);
+  categoriaId: number | null = null;
+  private enviando = false;
+  private solicitacaoService = inject(SolicitacaoClienteService);
   private categoriaEquipamentoService = inject(CategoriaEquipamentoService);
   private router = inject(Router);
   private loginService = inject(LoginService);
+  private platformId = inject(PLATFORM_ID);
   
   ngOnInit(): void {
-     this.categoriaEquipamentoService.listarAtivas().subscribe({
-      next: (data: CategoriaEquipamento[]) => this.categorias.set(data ?? [])
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    this.categoriaEquipamentoService.listarAtivas().subscribe({
+      next: (data: CategoriaEquipamento[] | null) => this.categorias.set(data ?? []),
+      error: () => alert('Não foi possível carregar as categorias. Tente novamente.')
     });
   }
 
   //CRIAR UMA SOLICITAÇÃO
   inserir() : void {
-    if(this.formulario.form.valid){
-      //recupera a sessao do cliente 
-      const usuarioLogado = JSON.parse(
-        sessionStorage.getItem('usuarioLogado') || '{}' 
-      );
+    if (this.enviando || !this.formulario.form.valid || this.categoriaId === null) return;
 
-      //associa solicitacao com cpf
-      this.solicitacao.clienteCpf = usuarioLogado?.cpf ?? '';
-      this.solicitacao.clienteNome = usuarioLogado?.nome ?? '';
-      this.solicitacaoService.inserir(this.solicitacao).subscribe({
-        next: () => this.router.navigate(['/solicitacaoCliente/listar'])
-      });
+    //quem está logado é o cliente dono da solicitação
+    const clienteId = this.loginService.usuarioLogado?.id;
+    if (!clienteId) {
+      this.router.navigate(['/login']);
+      return;
     }
+
+    this.enviando = true;
+    this.solicitacaoService.inserir({
+      clienteId: clienteId,
+      categoriaId: this.categoriaId,
+      descricaoEquipamento: this.solicitacao.descricaoEquipamento,
+      descricaoDefeito: this.solicitacao.descricaoDefeito
+    }).subscribe({
+      next: () => this.router.navigate(['/solicitacaoCliente/listar']),
+      error: (e: HttpErrorResponse) => {
+        this.enviando = false;
+        if (e.status === 400 || e.status === 404) {
+          alert('Dados inválidos. Confira as informações e tente novamente.');
+        } else {
+          alert('Não foi possível registrar a solicitação. Tente novamente.');
+        }
+      }
+    });
   }
 
   sair($event: any): void {
