@@ -7,5 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.net.webtech.webtech.model.Solicitacao;
 
 public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Integer> {
+
     List<Solicitacao> findByClienteIdOrderByDataHoraAbertura(Integer clienteId);
+    List<Solicitacao> findAllByOrderByDataHoraAberturaAsc();
+    List<Solicitacao> findByStatusCodigoOrderByDataHoraAberturaAsc(String codigo);
+
 }

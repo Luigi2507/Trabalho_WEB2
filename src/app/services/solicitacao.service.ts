@@ -6,15 +6,29 @@ import { HistoricoItem, Solicitacao } from '../shared/models/solicitacao.model';
 
 @Injectable({ providedIn: 'root' })
 export class SolicitacaoService {
-    BASE_URL = "http://localhost:3000/solicitacoes";
-    httpOptions = {
-        headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-        })
-    };
+  BASE_URL = "http://localhost:8080";
+  httpOptions = {
+    observe: "response" as "response",
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
     private httpClient = inject(HttpClient);
 
+    listarAbertas(): Observable<Solicitacao[]> {
+        return this.httpClient.get<Solicitacao[]>(`${this.BASE_URL}/solicitacoes`, {params: {status: 'ABERTA'}});
+    }
+
+    listarTodos(): Observable<Solicitacao[]> {
+        return this.httpClient.get<Solicitacao[]>(`${this.BASE_URL}/solicitacoes`);
+    }
+
+    buscarPorIDFuncionario(id: number): Observable<Solicitacao> {
+        return this.httpClient.get<Solicitacao>(`${this.BASE_URL}/funcionario/solicitacoes/${id}`);
+    }
+
+    /*
     listarTodos(): Observable<Solicitacao[]> {
         return this.httpClient.get<any[]>(this.BASE_URL, this.httpOptions).pipe(
         map(lista => lista.map(s => this.reviverDatas(s)))
@@ -49,5 +63,5 @@ export class SolicitacaoService {
         s.dataFinalizacao = s.dataFinalizacao ? new Date(s.dataFinalizacao) : null;
         s.historico = (s.historico || []).map((h: any) => ({ ...h, dataHora: new Date(h.dataHora) }));
         return s;
-    }
+    }*/
 }

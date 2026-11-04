@@ -49,9 +49,9 @@ export class FuncionarioManutencaoSolicitacaoComponent implements OnInit{
     }
     s.historico.push(new HistoricoItem(new Date(), 'ARRUMADA', `${this.funcionarioLogado.nome} (Funcionário)`));
  
-    this.solicitacaoService.atualizar(s).subscribe({
+    /*this.solicitacaoService.atualizar(s).subscribe({
       next: () => this.router.navigate(['/solicitacaoFuncionario/listar'])
-    });
+    });*/
   }
 
   redirecionar(): void {
@@ -71,9 +71,9 @@ export class FuncionarioManutencaoSolicitacaoComponent implements OnInit{
     //registra origem e destino no historico (RF015)
     s.historico.push(new HistoricoItem(new Date(), 'REDIRECIONADA',`${this.funcionarioLogado.nome} (Funcionário) → ${destino.nome}`));
  
-    this.solicitacaoService.atualizar(s).subscribe({
+   /* this.solicitacaoService.atualizar(s).subscribe({
       next: () => this.router.navigate(['/solicitacaoFuncionario/listar'])
-    });
+    });*/
   
   }
 
@@ -83,8 +83,9 @@ export class FuncionarioManutencaoSolicitacaoComponent implements OnInit{
     this.funcionarioLogado = this.loginService.usuarioLogado;
     const id = +this.route.snapshot.params['id'];
  
-    this.solicitacaoService.buscarPorID(id).subscribe({next: (s: Solicitacao) => this.solicitacao.set(s),
-    error: () => {this.router.navigate(['/solicitacaoFuncionario/listar']);}
+    this.solicitacaoService.buscarPorIDFuncionario(id).subscribe({
+      next: (s: Solicitacao) => this.solicitacao.set(s),
+      error: () => {this.router.navigate(['/solicitacaoFuncionario/listar']);}
     });
   
     //funcionarios que podem receber o redirecionamento 

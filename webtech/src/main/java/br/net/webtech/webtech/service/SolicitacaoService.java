@@ -57,7 +57,12 @@ public class SolicitacaoService {
     /** RF005 / RF008 / RF010: uma solicitação com todos os dados e o histórico completo. */
     @Transactional(readOnly = true)
     public SolicitacaoDTO obterPorId(Integer id, Integer clienteId) {
-        return paraDTO(buscarDoCliente(id, clienteId), true);
+        return paraDTO(buscar(clienteId), true);
+    }
+
+    @Transactional(readOnly = true)
+    public SolicitacaoDTO obterParaFuncionario(Integer id) {
+        return paraDTO(buscar(id), true);
     }
 
     /** RF004: nasce no estado ABERTA, com data/hora de agora e a 1ª linha do histórico. */
@@ -117,6 +122,16 @@ public class SolicitacaoService {
         s.setDataHoraPagamento(LocalDateTime.now());
         mudarStatus(s, "PAGA");
         return paraDTO(s, true);
+    }
+
+    /** RF011 / RF013 */
+    @Transactional(readOnly = true)
+    public List<SolicitacaoDTO> listar(String status){
+        List<Solicitacao> lista  = (status == null)
+            ? solicitacaoRepository.findAllByOrderByDataHoraAberturaAsc()
+            : solicitacaoRepository.findByStatusCodigoOrderByDataHoraAberturaAsc(status);
+    
+        return lista.stream().map(s -> paraDTO(s, false)).toList();
     }
 
     // ---------------------------------------------------------------- auxiliares

@@ -73,6 +73,17 @@ public class SolicitacaoREST {
         return executar(() -> solicitacaoService.pagar(id, clienteId), HttpStatus.OK);
     }
 
+    /** RF011 / RF013 - 200 OK */
+    @GetMapping("/solicitacoes")
+    public ResponseEntity<Object> listar(@RequestParam(name = "status", required = false) String status) {
+        return executar(() -> solicitacaoService.listar(status), HttpStatus.OK);
+    }
+
+    @GetMapping("/funcionario/solicitacoes/{id}")
+    public ResponseEntity<Object> obterParaFuncionario(@PathVariable("id") Integer id) {
+        return executar(() -> solicitacaoService.obterParaFuncionario(id), HttpStatus.OK);
+    }
+
     /** Roda a ação e converte as exceções do service em status code (404 / 409). */
     private ResponseEntity<Object> executar(Supplier<?> acao, HttpStatus sucesso) {
         try {
@@ -83,4 +94,5 @@ public class SolicitacaoREST {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("mensagem", e.getMessage()));
         }
     }
+    
 }

@@ -29,7 +29,8 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
     this.funcionarioLogado = this.loginService.usuarioLogado;
     const id = +this.route.snapshot.params['id']
  
-    this.solicitacaoService.buscarPorID(id).subscribe({next: (s: Solicitacao) => this.solicitacao.set(s),
+    this.solicitacaoService.buscarPorIDFuncionario(id).subscribe({
+      next: (s: Solicitacao) => this.solicitacao.set(s),
       error: () => {
         alert('Solicitação não encontrada.');
         this.router.navigate(['/solicitacaoFuncionario/listar']);
@@ -51,7 +52,7 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
  
     s.historico.push(new HistoricoItem(new Date(), 'ORCADA', `${this.funcionarioLogado.nome} (Funcionário)`));
  
-    this.solicitacaoService.atualizar(s).subscribe({next: () => this.router.navigate(['/solicitacaoFuncionario/listar'])
-    });
+    /*this.solicitacaoService.atualizar(s).subscribe({next: () => this.router.navigate(['/solicitacaoFuncionario/listar'])
+    });*/
   }
 }

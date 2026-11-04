@@ -44,30 +44,28 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   //filtro de solicitações
   selecionarVisualizacao(v: 'NOVAS' | 'TODAS'): void {
     this.visualizacao = v;
-    this.aplicarFiltro();
+    this.carregar();
   }
   
   //filtro de data
   aplicarFiltro() : void {
     let lista = [...this.todasSolicitacoes] //cria uma copia da lista
     
-    if (this.visualizacao === 'NOVAS') {
-      lista = lista.filter(s => s.status === 'ABERTA');
-    }
-
-    //solicitaçoes de hoje
-    if(this.filtroAtivo === 'HOJE'){
-      const hoje = new Date()
-      lista = lista.filter(s => this.mesmaData(new Date(s.dataHora), hoje))
-      
-      //de um periodo especifico
-    } else if (this.filtroAtivo === 'PERIODO' && this.dataInicio && this.dataFim) {
-      const inicio = new Date(this.dataInicio)
-      const fim = new Date(this.dataFim)
-      fim.setHours(23, 59, 59, 999) //23h59m59s faz com que o ultimo dia seja incluido tbm
-      lista = lista.filter(s => {const data = new Date(s.dataHora);
-      return data >= inicio && data <= fim;
-      });
+    if (this.visualizacao === 'TODAS') {
+      //solicitaçoes de hoje
+      if(this.filtroAtivo === 'HOJE'){
+        const hoje = new Date()
+        lista = lista.filter(s => this.mesmaData(new Date(s.dataHora), hoje));
+        
+        //de um periodo especifico
+      } else if (this.filtroAtivo === 'PERIODO' && this.dataInicio && this.dataFim) {
+        const inicio = new Date(this.dataInicio)
+        const fim = new Date(this.dataFim)
+        fim.setHours(23, 59, 59, 999) //23h59m59s faz com que o ultimo dia seja incluido tbm
+        lista = lista.filter(s => {const data = new Date(s.dataHora);
+        return data >= inicio && data <= fim;
+        });
+      }
     }
 
     //todas n filtra nada 
@@ -76,13 +74,20 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   }
 
   //carrega solicitacoes 
-  carregar() : void {
-    //solic 'redicerionadas' so aparecem para o func q foi definido como destino
-    this.solicitacaoService.listarTodos().subscribe({next: (lista: Solicitacao[]) => {
-        this.todasSolicitacoes = (lista ?? []).filter(s => s.status != 'REDIRECIONADA' || s.funcionarioAtual === this.funcionarioLogado?.nome)
-        this.aplicarFiltro()
-      }
-    });    
+  carregar(): void {
+    const requisicao = this.visualizacao === 'NOVAS'
+      ? this.solicitacaoService.listarAbertas()
+      : this.solicitacaoService.listarTodos();
+
+    requisicao.subscribe({
+      next: (lista: Solicitacao[]) => {
+        this.todasSolicitacoes = (lista ?? []).filter(
+          s => s.status !== 'REDIRECIONADA' || s.funcionarioAtual === this.funcionarioLogado?.nome
+        );
+        this.aplicarFiltro();
+      },
+      error: (e) => console.error('Erro ao carregar solicitações', e)
+    });
   }
 
   //altera o filtro e atualiza  a lista
@@ -96,6 +101,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
     return descricao.length > 30 ? descricao.substring(0, 30) + "..." : descricao;
   }
 
+  /*
   //fincalizar uma solicitacao =
   async finalizar(solicitacao: Solicitacao): Promise<void> {
     //pede confirmacao
@@ -125,7 +131,8 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
       () => false
     );
   }
-  
+  */
+
   // Cores de cada botão apartir do status
   corStatus(status: string): string {
     switch (status) {
@@ -162,9 +169,9 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
         case 'REDIRECIONADA':
             this.router.navigate(['/solicitacaoFuncionario/manutencao', solicitacao.id]);
         break;
-        case 'PAGA':
+        /*case 'PAGA':
           this.finalizar(solicitacao);
-          break;
+          break;*/
     }
   }
   
