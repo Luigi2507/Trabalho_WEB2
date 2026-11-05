@@ -1,9 +1,10 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
-import { HistoricoItem, Solicitacao } from '../../shared/models/solicitacao.model';
+import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { LoginService } from '../../services/login.service';
 
 @Component({
@@ -39,20 +40,12 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
   }
 
   salvarOrcamento() : void {
-   const s = this.solicitacao();
+    const s = this.solicitacao();
     if(!s || this.valorOrcamento <= 0) return;
  
-    s.orcamento = this.valorOrcamento;
-    s.funcionarioOrcamento = this.funcionarioLogado.nome;
-    s.status = 'ORCADA';
- 
-    if (!s.historico) {
-      s.historico = [];
-    }
- 
-    s.historico.push(new HistoricoItem(new Date(), 'ORCADA', `${this.funcionarioLogado.nome} (Funcionário)`));
- 
-    /*this.solicitacaoService.atualizar(s).subscribe({next: () => this.router.navigate(['/solicitacaoFuncionario/listar'])
-    });*/
+    this.solicitacaoService.orcar(s.id, this.funcionarioLogado.id, this.valorOrcamento).subscribe({
+      next: () => this.router.navigate(['/solicitacaoFuncionario/listar']),
+      error: (e: HttpErrorResponse) => alert(e.error?.mensagem ?? 'Não foi possível salvar o orçamento. Tente novamente.')
+    });
   }
 }

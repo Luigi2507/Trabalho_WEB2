@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.net.webtech.webtech.model.ManutencaoDTO;
+import br.net.webtech.webtech.model.OrcamentoDTO;
+import br.net.webtech.webtech.model.RedirecionamentoDTO;
 import br.net.webtech.webtech.model.RejeicaoDTO;
 import br.net.webtech.webtech.model.SolicitacaoNovaDTO;
 import br.net.webtech.webtech.service.EstadoInvalidoException;
@@ -84,7 +87,36 @@ public class SolicitacaoREST {
         return executar(() -> solicitacaoService.obterParaFuncionario(id), HttpStatus.OK);
     }
 
-    /** Roda a ação e converte as exceções do service em status code (404 / 409). */
+    /** RF012 - 200 OK | 400 valor inválido | 404 | 409 não está ABERTA */
+    @PutMapping("/solicitacoes/{id}/orcamento")
+    public ResponseEntity<Object> orcar(@PathVariable("id") Integer id,
+            @RequestParam("funcionarioId") Integer funcionarioId, @Valid @RequestBody OrcamentoDTO dto) {
+        return executar(() -> solicitacaoService.orcar(id, funcionarioId, dto.valor()), HttpStatus.OK);
+    }
+
+    /** RF014 - 200 OK | 400 | 404 | 409 estado errado ou redirecionada para outro funcionário */
+    @PutMapping("/solicitacoes/{id}/manutencao")
+    public ResponseEntity<Object> manutencao(@PathVariable("id") Integer id,
+            @RequestParam("funcionarioId") Integer funcionarioId, @Valid @RequestBody ManutencaoDTO dto) {
+        return executar(() -> solicitacaoService.efetuarManutencao(id, funcionarioId, dto.descricao(), dto.orientacoes()),
+                HttpStatus.OK);
+    }
+
+    /** RF015 - 200 OK | 400 destino igual a si mesmo | 404 | 409 */
+    @PutMapping("/solicitacoes/{id}/redirecionar")
+    public ResponseEntity<Object> redirecionar(@PathVariable("id") Integer id,
+            @RequestParam("funcionarioId") Integer funcionarioId, @Valid @RequestBody RedirecionamentoDTO dto) {
+        return executar(() -> solicitacaoService.redirecionar(id, funcionarioId, dto.destinoId()), HttpStatus.OK);
+    }
+
+    /** RF016 - 200 OK | 404 | 409 não está PAGA */
+    @PutMapping("/solicitacoes/{id}/finalizar")
+    public ResponseEntity<Object> finalizar(@PathVariable("id") Integer id,
+            @RequestParam("funcionarioId") Integer funcionarioId) {
+        return executar(() -> solicitacaoService.finalizar(id, funcionarioId), HttpStatus.OK);
+    }
+
+    /** Roda a ação e converte as exceções do service em status code (400 / 404 / 409). */
     private ResponseEntity<Object> executar(Supplier<?> acao, HttpStatus sucesso) {
         try {
             return ResponseEntity.status(sucesso).body(acao.get());
@@ -92,6 +124,8 @@ public class SolicitacaoREST {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         } catch (EstadoInvalidoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("mensagem", e.getMessage()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("mensagem", e.getMessage()));
         }
     }
     

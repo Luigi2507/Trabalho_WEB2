@@ -1,5 +1,7 @@
 package br.net.webtech.webtech.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.net.webtech.webtech.model.CategoriaEquipamento;
 import br.net.webtech.webtech.model.Cliente;
+import br.net.webtech.webtech.model.Funcionario;
 import br.net.webtech.webtech.model.HistoricoDTO;
 import br.net.webtech.webtech.model.Solicitacao;
 import br.net.webtech.webtech.model.SolicitacaoDTO;
@@ -17,6 +20,7 @@ import br.net.webtech.webtech.model.StatusSolicitacao;
 import br.net.webtech.webtech.model.Usuario;
 import br.net.webtech.webtech.repository.CategoriaEquipamentoRepository;
 import br.net.webtech.webtech.repository.ClienteRepository;
+import br.net.webtech.webtech.repository.FuncionarioRepository;
 import br.net.webtech.webtech.repository.SolicitacaoHistoricoRepository;
 import br.net.webtech.webtech.repository.SolicitacaoRepository;
 import br.net.webtech.webtech.repository.StatusSolicitacaoRepository;
@@ -29,17 +33,20 @@ public class SolicitacaoService {
     private final StatusSolicitacaoRepository statusRepository;
     private final CategoriaEquipamentoRepository categoriaRepository;
     private final ClienteRepository clienteRepository;
+    private final FuncionarioRepository funcionarioRepository;
 
     public SolicitacaoService(SolicitacaoRepository solicitacaoRepository,
             SolicitacaoHistoricoRepository historicoRepository,
             StatusSolicitacaoRepository statusRepository,
             CategoriaEquipamentoRepository categoriaRepository,
-            ClienteRepository clienteRepository) {
+            ClienteRepository clienteRepository,
+            FuncionarioRepository funcionarioRepository) {
         this.solicitacaoRepository = solicitacaoRepository;
         this.historicoRepository = historicoRepository;
         this.statusRepository = statusRepository;
         this.categoriaRepository = categoriaRepository;
         this.clienteRepository = clienteRepository;
+        this.funcionarioRepository = funcionarioRepository;
     }
 
     /** RF003: lista do cliente, ordem crescente de data/hora (a lista não traz o histórico). */
@@ -54,10 +61,10 @@ public class SolicitacaoService {
                 .toList();
     }
 
-    /** RF005 / RF008 / RF010: uma solicitação com todos os dados e o histórico completo. */
+    /** RF005 / RF008 / RF010: uma solicitação do cliente, com todos os dados e o histórico completo. */
     @Transactional(readOnly = true)
     public SolicitacaoDTO obterPorId(Integer id, Integer clienteId) {
-        return paraDTO(buscar(clienteId), true);
+        return paraDTO(buscarDoCliente(id, clienteId), true);
     }
 
     @Transactional(readOnly = true)
@@ -82,7 +89,7 @@ public class SolicitacaoService {
         s.setDataHoraAbertura(LocalDateTime.now());
         s = solicitacaoRepository.save(s);
 
-        registrarHistorico(s, s.getStatus(), cliente.getUsuario());
+        registrarHistorico(s, s.getStatus(), cliente.getUsuario(), null);
         return paraDTO(s, true);
     }
 
@@ -134,6 +141,68 @@ public class SolicitacaoService {
         return lista.stream().map(s -> paraDTO(s, false)).toList();
     }
 
+    /** RF012: ABERTA -> ORCADA (registra valor, funcionário e data/hora do orçamento) */
+    @Transactional
+    public SolicitacaoDTO orcar(Integer id, Integer funcionarioId, BigDecimal valor) {
+        Funcionario f = buscarFuncionario(funcionarioId);
+        Solicitacao s = buscar(id);
+        exigirStatus(s, "ABERTA");
+
+        s.setValorOrcamento(valor.setScale(2, RoundingMode.HALF_UP));
+        s.setOrcamentoFuncionario(f);
+        s.setDataHoraOrcamento(LocalDateTime.now());
+        mudarStatusPorFuncionario(s, "ORCADA", f, null);
+        return paraDTO(s, true);
+    }
+
+    /** RF014: APROVADA ou REDIRECIONADA (para este funcionário) -> ARRUMADA */
+    @Transactional
+    public SolicitacaoDTO efetuarManutencao(Integer id, Integer funcionarioId, String descricao, String orientacoes) {
+        Funcionario f = buscarFuncionario(funcionarioId);
+        Solicitacao s = buscar(id);
+        exigirStatus(s, "APROVADA", "REDIRECIONADA");
+        exigirResponsavel(s, funcionarioId);
+
+        s.setDescricaoManutencao(descricao.trim());
+        s.setOrientacoesCliente(orientacoes.trim());
+        s.setManutencaoFuncionario(f);
+        s.setDataHoraManutencao(LocalDateTime.now());
+        s.setFuncionarioAtual(f);
+        mudarStatusPorFuncionario(s, "ARRUMADA", f, null);
+        return paraDTO(s, true);
+    }
+
+    /** RF015: APROVADA ou REDIRECIONADA -> REDIRECIONADA para outro funcionário (nunca para si mesmo) */
+    @Transactional
+    public SolicitacaoDTO redirecionar(Integer id, Integer funcionarioId, Integer destinoId) {
+        Funcionario origem = buscarFuncionario(funcionarioId);
+        Solicitacao s = buscar(id);
+        exigirStatus(s, "APROVADA", "REDIRECIONADA");
+        exigirResponsavel(s, funcionarioId);
+
+        if (destinoId.equals(funcionarioId)) {
+            throw new IllegalArgumentException("Não é possível redirecionar para si mesmo.");
+        }
+        Funcionario destino = buscarFuncionario(destinoId);
+
+        s.setFuncionarioAtual(destino);
+        mudarStatusPorFuncionario(s, "REDIRECIONADA", origem, destino);
+        return paraDTO(s, true);
+    }
+
+    /** RF016: PAGA -> FINALIZADA (registra funcionário e data/hora da finalização) */
+    @Transactional
+    public SolicitacaoDTO finalizar(Integer id, Integer funcionarioId) {
+        Funcionario f = buscarFuncionario(funcionarioId);
+        Solicitacao s = buscar(id);
+        exigirStatus(s, "PAGA");
+
+        s.setFinalizacaoFuncionario(f);
+        s.setDataHoraFinalizacao(LocalDateTime.now());
+        mudarStatusPorFuncionario(s, "FINALIZADA", f, null);
+        return paraDTO(s, true);
+    }
+
     // ---------------------------------------------------------------- auxiliares
 
     private Solicitacao buscar(Integer id) {
@@ -150,16 +219,35 @@ public class SolicitacaoService {
         return s;
     }
 
+    private Funcionario buscarFuncionario(Integer id) {
+        return funcionarioRepository.findByIdAndUsuarioAtivoTrue(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Funcionário não encontrado."));
+    }
+
     private StatusSolicitacao status(String codigo) {
         return statusRepository.findByCodigo(codigo)
                 .orElseThrow(() -> new IllegalStateException("Status " + codigo + " não existe no banco."));
     }
 
-    /** Garante que a solicitação está no estado certo antes de mudar (senão vira 409). */
-    private void exigirStatus(Solicitacao s, String esperado) {
-        if (!s.getStatus().getCodigo().equals(esperado)) {
-            throw new EstadoInvalidoException("Esta solicitação está " + s.getStatus().getCodigo()
-                    + " e não pode passar por esta ação (esperado: " + esperado + ").");
+    /** Garante que a solicitação está num dos estados permitidos antes de mudar (senão vira 409). */
+    private void exigirStatus(Solicitacao s, String... permitidos) {
+        String atual = s.getStatus().getCodigo();
+        for (String p : permitidos) {
+            if (p.equals(atual)) {
+                return;
+            }
+        }
+        throw new EstadoInvalidoException("Esta solicitação está " + atual
+                + " e não pode passar por esta ação (esperado: " + String.join(" ou ", permitidos) + ").");
+    }
+
+    /** Se está REDIRECIONADA, só o funcionário de destino pode agir. */
+    private void exigirResponsavel(Solicitacao s, Integer funcionarioId) {
+        boolean redirecionada = "REDIRECIONADA".equals(s.getStatus().getCodigo());
+        boolean ehOResponsavel = s.getFuncionarioAtual() != null
+                && s.getFuncionarioAtual().getId().equals(funcionarioId);
+        if (redirecionada && !ehOResponsavel) {
+            throw new EstadoInvalidoException("Esta solicitação foi redirecionada para outro funcionário.");
         }
     }
 
@@ -168,16 +256,29 @@ public class SolicitacaoService {
         StatusSolicitacao novo = status(codigoNovoStatus);
         s.setStatus(novo);
         solicitacaoRepository.save(s);
-        registrarHistorico(s, novo, s.getCliente().getUsuario());
+        registrarHistorico(s, novo, s.getCliente().getUsuario(), null);
     }
 
-    private void registrarHistorico(Solicitacao s, StatusSolicitacao status, Usuario autor) {
+    /** Igual ao mudarStatus, mas quem fez é um funcionário (e, no redirecionamento, vai o destino). */
+    private void mudarStatusPorFuncionario(Solicitacao s, String codigoNovoStatus, Funcionario autor, Funcionario destino) {
+        StatusSolicitacao novo = status(codigoNovoStatus);
+        s.setStatus(novo);
+        solicitacaoRepository.save(s);
+        registrarHistorico(s, novo, autor.getUsuario(), destino == null ? null : destino.getUsuario());
+    }
+
+    private void registrarHistorico(Solicitacao s, StatusSolicitacao status, Usuario autor, Usuario destino) {
         SolicitacaoHistorico h = new SolicitacaoHistorico();
         h.setSolicitacao(s);
         h.setStatus(status);
         h.setUsuario(autor);
+        h.setUsuarioDestino(destino);
         h.setDataHora(LocalDateTime.now());
         historicoRepository.save(h);
+    }
+
+    private String nome(Funcionario f) {
+        return f == null ? null : f.getUsuario().getNome();
     }
 
     private SolicitacaoDTO paraDTO(Solicitacao s, boolean comHistorico) {
@@ -189,6 +290,7 @@ public class SolicitacaoService {
         return new SolicitacaoDTO(
                 s.getId(),
                 s.getCliente().getId(),
+                s.getCliente().getCpf(),
                 s.getCliente().getUsuario().getNome(),
                 s.getDescricaoEquipamento(),
                 s.getCategoria().getNome(),
@@ -198,13 +300,21 @@ public class SolicitacaoService {
                 s.getValorOrcamento(),
                 s.getMotivoRejeicao(),
                 s.getDataHoraPagamento(),
-                historico);
+                historico,
+                nome(s.getOrcamentoFuncionario()),
+                s.getDescricaoManutencao(),
+                s.getOrientacoesCliente(),
+                nome(s.getManutencaoFuncionario()),
+                nome(s.getFuncionarioAtual()),
+                nome(s.getFinalizacaoFuncionario()),
+                s.getDataHoraFinalizacao());
     }
 
     private HistoricoDTO paraHistoricoDTO(SolicitacaoHistorico h) {
-        String nome = h.getUsuario().getNome();
-        if ("CLIENTE".equals(h.getUsuario().getPerfil().getCodigo())) {
-            nome = nome + " (Cliente)";
+        String perfil = h.getUsuario().getPerfil().getCodigo();
+        String nome = h.getUsuario().getNome() + ("CLIENTE".equals(perfil) ? " (Cliente)" : " (Funcionário)");
+        if (h.getUsuarioDestino() != null) {
+            nome = nome + " → " + h.getUsuarioDestino().getNome();
         }
         return new HistoricoDTO(h.getDataHora(), h.getStatus().getCodigo(), nome);
     }

@@ -45,11 +45,42 @@ public class Solicitacao {
     @Column(name = "valor_orcamento", precision = 10, scale = 2)
     private BigDecimal valorOrcamento;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orcamento_funcionario_id")
+    private Funcionario orcamentoFuncionario;
+
+    @Column(name = "data_hora_orcamento")
+    private LocalDateTime dataHoraOrcamento;
+
     @Column(name = "motivo_rejeicao", length = 500)
     private String motivoRejeicao;
 
+    @Column(name = "descricao_manutencao", length = 1000)
+    private String descricaoManutencao;
+
+    @Column(name = "orientacoes_cliente", length = 1000)
+    private String orientacoesCliente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manutencao_funcionario_id")
+    private Funcionario manutencaoFuncionario;
+
+    @Column(name = "data_hora_manutencao")
+    private LocalDateTime dataHoraManutencao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "funcionario_atual_id")
+    private Funcionario funcionarioAtual;
+
     @Column(name = "data_hora_pagamento")
     private LocalDateTime dataHoraPagamento;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "finalizacao_funcionario_id")
+    private Funcionario finalizacaoFuncionario;
+
+    @Column(name = "data_hora_finalizacao")
+    private LocalDateTime dataHoraFinalizacao;
 
     public Solicitacao() {
     }
@@ -78,9 +109,36 @@ public class Solicitacao {
     public BigDecimal getValorOrcamento() { return valorOrcamento; }
     public void setValorOrcamento(BigDecimal valorOrcamento) { this.valorOrcamento = valorOrcamento; }
 
+    public Funcionario getOrcamentoFuncionario() { return orcamentoFuncionario; }
+    public void setOrcamentoFuncionario(Funcionario orcamentoFuncionario) { this.orcamentoFuncionario = orcamentoFuncionario; }
+
+    public LocalDateTime getDataHoraOrcamento() { return dataHoraOrcamento; }
+    public void setDataHoraOrcamento(LocalDateTime dataHoraOrcamento) { this.dataHoraOrcamento = dataHoraOrcamento; }
+
     public String getMotivoRejeicao() { return motivoRejeicao; }
     public void setMotivoRejeicao(String motivoRejeicao) { this.motivoRejeicao = motivoRejeicao; }
 
+    public String getDescricaoManutencao() { return descricaoManutencao; }
+    public void setDescricaoManutencao(String descricaoManutencao) { this.descricaoManutencao = descricaoManutencao; }
+
+    public String getOrientacoesCliente() { return orientacoesCliente; }
+    public void setOrientacoesCliente(String orientacoesCliente) { this.orientacoesCliente = orientacoesCliente; }
+
+    public Funcionario getManutencaoFuncionario() { return manutencaoFuncionario; }
+    public void setManutencaoFuncionario(Funcionario manutencaoFuncionario) { this.manutencaoFuncionario = manutencaoFuncionario; }
+
+    public LocalDateTime getDataHoraManutencao() { return dataHoraManutencao; }
+    public void setDataHoraManutencao(LocalDateTime dataHoraManutencao) { this.dataHoraManutencao = dataHoraManutencao; }
+
+    public Funcionario getFuncionarioAtual() { return funcionarioAtual; }
+    public void setFuncionarioAtual(Funcionario funcionarioAtual) { this.funcionarioAtual = funcionarioAtual; }
+
     public LocalDateTime getDataHoraPagamento() { return dataHoraPagamento; }
     public void setDataHoraPagamento(LocalDateTime dataHoraPagamento) { this.dataHoraPagamento = dataHoraPagamento; }
+
+    public Funcionario getFinalizacaoFuncionario() { return finalizacaoFuncionario; }
+    public void setFinalizacaoFuncionario(Funcionario finalizacaoFuncionario) { this.finalizacaoFuncionario = finalizacaoFuncionario; }
+
+    public LocalDateTime getDataHoraFinalizacao() { return dataHoraFinalizacao; }
+    public void setDataHoraFinalizacao(LocalDateTime dataHoraFinalizacao) { this.dataHoraFinalizacao = dataHoraFinalizacao; }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 public record SolicitacaoDTO(
         Integer id,
         Integer clienteId,
+        String clienteCpf,
         String clienteNome,
         String descricaoEquipamento,
         String categoria,
@@ -16,5 +17,12 @@ public record SolicitacaoDTO(
         BigDecimal orcamento,
         String motivoRejeicao,
         LocalDateTime dataPagamento,
-        List<HistoricoDTO> historico) {
+        List<HistoricoDTO> historico,
+        String funcionarioOrcamento,
+        String descricaoManutencao,
+        String orientacoesCliente,
+        String funcionarioManutencao,
+        String funcionarioAtual,
+        String funcionarioFinalizacao,
+        LocalDateTime dataFinalizacao) {
 }

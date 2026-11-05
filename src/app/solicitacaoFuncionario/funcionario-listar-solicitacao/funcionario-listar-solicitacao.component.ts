@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -101,24 +102,14 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
     return descricao.length > 30 ? descricao.substring(0, 30) + "..." : descricao;
   }
 
-  /*
-  //fincalizar uma solicitacao =
   async finalizar(solicitacao: Solicitacao): Promise<void> {
-    //pede confirmacao
-    let confirmar = await this.abrirModalFinalizarSolicitacao(solicitacao);
-    if (confirmar) {
-      solicitacao.status = 'FINALIZADA';
-      solicitacao.funcionarioFinalizacao = this.funcionarioLogado.nome;
-      solicitacao.dataFinalizacao = new Date();
-      //adicona alterecao no historico
-      solicitacao.historico.push({dataHora: new Date(), status: 'FINALIZADA', funcionario: `${this.funcionarioLogado.nome} (Funcionário)`});
-      this.solicitacaoService.atualizar(solicitacao).subscribe({
-        next: () => this.carregar()
-      });
-    }
-    else{
-      return;
-    }
+    const confirmar = await this.abrirModalFinalizarSolicitacao(solicitacao);
+    if (!confirmar) return;
+
+    this.solicitacaoService.finalizar(solicitacao.id, this.funcionarioLogado.id).subscribe({
+      next: () => this.carregar(),
+      error: (e: HttpErrorResponse) => alert(e.error?.mensagem ?? 'Não foi possível finalizar a solicitação. Tente novamente.')
+    });
   }
 
   //Modal para confirmar finalização
@@ -131,7 +122,6 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
       () => false
     );
   }
-  */
 
   // Cores de cada botão apartir do status
   corStatus(status: string): string {
@@ -169,9 +159,9 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
         case 'REDIRECIONADA':
             this.router.navigate(['/solicitacaoFuncionario/manutencao', solicitacao.id]);
         break;
-        /*case 'PAGA':
+        case 'PAGA':
           this.finalizar(solicitacao);
-          break;*/
+          break;
     }
   }
   

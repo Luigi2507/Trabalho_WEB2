@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { HistoricoItem, Solicitacao } from '../shared/models/solicitacao.model';
+import { Solicitacao } from '../shared/models/solicitacao.model';
 
 @Injectable({ providedIn: 'root' })
 export class SolicitacaoService {
@@ -28,40 +27,25 @@ export class SolicitacaoService {
         return this.httpClient.get<Solicitacao>(`${this.BASE_URL}/funcionario/solicitacoes/${id}`);
     }
 
-    /*
-    listarTodos(): Observable<Solicitacao[]> {
-        return this.httpClient.get<any[]>(this.BASE_URL, this.httpOptions).pipe(
-        map(lista => lista.map(s => this.reviverDatas(s)))
-        );
+
+    orcar(id: number, funcionarioId: number, valor: number): Observable<Solicitacao> {
+        return this.acaoDoFuncionario(id, funcionarioId, 'orcamento', { valor });
     }
 
-    buscarPorID(id: number): Observable<Solicitacao> {
-        return this.httpClient.get<any>(this.BASE_URL + "/" + id, this.httpOptions).pipe(
-        map(s => this.reviverDatas(s))
-        );
+    efetuarManutencao(id: number, funcionarioId: number, descricao: string, orientacoes: string): Observable<Solicitacao> {
+        return this.acaoDoFuncionario(id, funcionarioId, 'manutencao', { descricao, orientacoes });
     }
 
-    inserir(solicitacao: Solicitacao): Observable<Solicitacao> {
-        const { id, ...dados } = solicitacao;
-        const nova = {
-        ...dados,
-        dataHora: new Date(),
-        status: "ABERTA",
-        historico: [new HistoricoItem(new Date(), "ABERTA", `${solicitacao.clienteNome} (Cliente)`)]
-        };
-        return this.httpClient.post<Solicitacao>(this.BASE_URL, JSON.stringify(nova), this.httpOptions);
+    redirecionar(id: number, funcionarioId: number, destinoId: number): Observable<Solicitacao> {
+        return this.acaoDoFuncionario(id, funcionarioId, 'redirecionar', { destinoId });
     }
 
-    atualizar(solicitacao: Solicitacao): Observable<Solicitacao> {
-        return this.httpClient.put<Solicitacao>(this.BASE_URL + "/" + solicitacao.id,
-        JSON.stringify(solicitacao), this.httpOptions);
+    finalizar(id: number, funcionarioId: number): Observable<Solicitacao> {
+        return this.acaoDoFuncionario(id, funcionarioId, 'finalizar', {});
     }
 
-    private reviverDatas(s: any): Solicitacao {
-        s.dataHora = new Date(s.dataHora);
-        s.dataPagamento = s.dataPagamento ? new Date(s.dataPagamento) : null;
-        s.dataFinalizacao = s.dataFinalizacao ? new Date(s.dataFinalizacao) : null;
-        s.historico = (s.historico || []).map((h: any) => ({ ...h, dataHora: new Date(h.dataHora) }));
-        return s;
-    }*/
+    private acaoDoFuncionario(id: number, funcionarioId: number, acao: string, corpo: object): Observable<Solicitacao> {
+        return this.httpClient.put<Solicitacao>(
+            `${this.BASE_URL}/solicitacoes/${id}/${acao}`, corpo, { params: { funcionarioId } });
+    }
 }
