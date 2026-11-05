@@ -1,60 +1,155 @@
 # WebTech – Sistema de Controle de Manutenção de Equipamentos
- 
-Trabalho da disciplina **Desenvolvimento WEB II** (UFPR – SEPT).
-Sistema web para controle de manutenção de equipamentos, baseado em **solicitações de serviço** que passam por vários estados (aberta, orçada, aprovada, arrumada, paga, finalizada...) e mantêm o **histórico completo** de cada alteração.
- 
-O acesso é feito por dois perfis, **Cliente** e **Funcionário**. Todas as funcionalidades exigem login, exceto o autocadastro de clientes e o próprio login.
- 
-> **Status:** em desenvolvimento. Entrega em **11/11/2026**. Todos os dados do sistema são **fictícios**.
 
- 
-## Tecnologias
- 
+Trabalho desenvolvido para a disciplina **Desenvolvimento Web II**, do curso de Análise e Desenvolvimento de Sistemas da Universidade Federal do Paraná (UFPR – SEPT).
+
+O WebTech é um sistema web destinado ao gerenciamento de solicitações de manutenção de equipamentos. A aplicação permite que clientes registrem equipamentos com defeito, acompanhem seus orçamentos e consultem o andamento dos serviços. Os funcionários podem gerenciar as solicitações, elaborar orçamentos, realizar manutenções e redirecionar serviços.
+
+## 1. Funcionalidades
+
+O sistema possui dois perfis de acesso: **Cliente** e **Funcionário**.
+
+### 1.1. Cliente
+
+O cliente pode:
+
+- Realizar autocadastro no sistema.
+- Efetuar login.
+- Cadastrar solicitações de manutenção.
+- Informar os dados do equipamento e a descrição do defeito.
+- Consultar suas solicitações.
+- Visualizar os orçamentos recebidos.
+- Aprovar ou rejeitar um orçamento.
+- Consultar o histórico de alterações de cada solicitação.
+- Acompanhar o andamento da manutenção.
+- Realizar o pagamento após a conclusão do serviço, conforme o fluxo implementado.
+
+### 1.2. Funcionário
+
+O funcionário pode:
+
+- Efetuar login no sistema.
+- Consultar as solicitações cadastradas.
+- Visualizar os dados dos equipamentos e dos clientes.
+- Elaborar e registrar orçamentos.
+- Registrar informações sobre a manutenção realizada.
+- Adicionar orientações destinadas ao cliente.
+- Redirecionar solicitações para outros funcionários.
+- Consultar o histórico das alterações.
+
+---
+
+## 2. Fluxo das solicitações
+
+As solicitações passam por diferentes estados durante o processo de manutenção:
+
+| Status | Descrição |
+|---|---|
+| ABERTA | Solicitação cadastrada pelo cliente. |
+| ORÇADA | Orçamento elaborado pelo funcionário. |
+| APROVADA | Orçamento aprovado pelo cliente. |
+| REJEITADA | Orçamento rejeitado pelo cliente. |
+| REDIRECIONADA | Solicitação encaminhada para outro funcionário. |
+| ARRUMADA | Manutenção registrada como concluída. |
+| PAGA | Pagamento realizado pelo cliente. |
+| FINALIZADA | Processo de manutenção encerrado. |
+
+Cada alteração de status deve ser registrada no histórico da solicitação, permitindo acompanhar as etapas do atendimento.
+
+---
+
+## 3. Tecnologias utilizadas
+
 | Camada | Tecnologias |
 |---|---|
-| Front-end | Angular (componentes standalone, signals), Bootstrap, ng-bootstrap, ngx-mask, jsPDF, Font Awesome |
-| Back-end | Java 21, Spring Boot 4.1, Spring Web (REST), Spring Data JPA / Hibernate, Bean Validation, Spring Mail |
+| Front-end | Angular, TypeScript, HTML, CSS e Bootstrap |
+| Componentes e interface | Angular Standalone, Signals e ng-bootstrap |
+| Recursos adicionais | ngx-mask, jsPDF e Font Awesome |
+| Back-end | Java, Spring Boot e Spring Web |
+| Persistência | Spring Data JPA e Hibernate |
+| Validação | Jakarta Bean Validation |
+| Comunicação | API REST e JSON |
 | Banco de dados | MySQL 8 |
-| Protótipo (temporário) | json-server 0.17.4, usado até todas as telas serem migradas para a API |
- 
+| Protótipo temporário | json-server 0.17.4 |
 
-## Estrutura do repositório
- 
-```
+---
+
+## 4. Estrutura do repositório
+
+```text
 Trabalho_WEB2/
-|---- banco/              scripts SQL (schema + massa de dados)
-|--src/                   Angular (telas, services, guard, diretivas, pipes)
-|-- webtech/              Back-end Spring Boot
-|   |-- src/main/java/br/net/webtech/webtech/
-|       |-- model/        entidades JPA e DTOs
-|       |-- repository/   acesso ao banco
-|       |-- service/      regras de negócio
-|       |-- rest/         controllers REST
-|       |-- seguranca/    SenhaUtil (salt e hash)
-|
+│
+├── banco/
+│   ├── webtech_schema.sql
+│   └── webtech_massa_dados.sql
+│
+├── src/
+│   ├── app/
+│   │   ├── components/
+│   │   ├── services/
+│   │   ├── shared/
+│   │   ├── guards/
+│   │   └── ...
+│
+├── webtech/
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/br/net/webtech/webtech/
+│   │       │   ├── model/
+│   │       │   ├── repository/
+│   │       │   ├── service/
+│   │       │   ├── rest/
+│   │       │   └── seguranca/
+│   │       └── resources/
+│   │
+│   └── pom.xml
+│
+├── db.json
+├── package.json
+└── README.md
 ```
 
- 
-## Como executar 
- 
-**Pré-requisitos:** Git, JDK 25 LTS, Node.js (LTS), MySQL 8 + Workbench 
+### Organização do back-end
 
-1. **Banco:** no MySQL Workbench, como `root`, execute `banco/webtech_schema.sql` e depois `banco/webtech_massa_dados.sql`. Crie o usuário do sistema:
-```sql
-   CREATE USER IF NOT EXISTS 'webtech'@'localhost' IDENTIFIED BY 'webtech123';
-   GRANT ALL PRIVILEGES ON webtech.* TO 'webtech'@'localhost';
-   FLUSH PRIVILEGES;
-```
-2. **Back-end** (terminal 1, na pasta `webtech`):
-```
-   .\mvnw spring-boot:run
-```
-3. **json-server** (terminal 2, na raiz do repositório):
-```
-   npm install
-   npm run api
-```
-4. **Front-end** (terminal 3, na raiz do repositório):
-```
-   npm start
-```
+- **model:** entidades JPA e DTOs utilizados na comunicação da aplicação.
+- **repository:** interfaces responsáveis pelo acesso e persistência dos dados.
+- **service:** regras de negócio e operações do sistema.
+- **rest:** controladores responsáveis pelos endpoints da API.
+- **seguranca:** recursos relacionados à segurança e ao tratamento de senhas.
+
+### Organização do front-end
+
+- **components:** telas e componentes da interface.
+- **services:** comunicação HTTP com o back-end e demais serviços.
+- **shared:** modelos e recursos compartilhados.
+- **guards:** controle de acesso às rotas.
+- **assets:** imagens e outros arquivos estáticos.
+
+---
+
+## 5. Banco de dados
+
+O sistema utiliza MySQL 8 para armazenar as informações dos clientes, funcionários, equipamentos, solicitações e históricos.
+
+Os scripts SQL estão disponíveis na pasta `banco/`:
+
+- `webtech_schema.sql`: criação da estrutura do banco de dados.
+- `webtech_massa_dados.sql`: inserção dos dados iniciais para testes.
+
+O histórico das solicitações é armazenado separadamente, permitindo registrar as alterações realizadas durante o atendimento.
+
+---
+
+## 6. Como executar o projeto
+
+### 6.1. Pré-requisitos
+
+Antes de executar o projeto, é necessário ter instalado:
+
+- Git.
+- JDK compatível com o projeto.
+- Node.js (versão LTS).
+- Angular CLI.
+- MySQL 8.
+- MySQL Workbench.
+
+### 6.2. Clonar o repositório
