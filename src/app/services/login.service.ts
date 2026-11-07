@@ -12,8 +12,6 @@ const LS_CHAVE: string = 'usuarioLogado';
 })
 export class LoginService {
     BASE_URL_API = "http://localhost:8080";
-    BASE_URL_CLIENTES = "http://localhost:3000/clientes";
-    BASE_URL_FUNCIONARIOS = "http://localhost:3000/funcionarios";
     httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json'

@@ -69,7 +69,6 @@ Cada alteração de status deve ser registrada no histórico da solicitação, p
 | Validação | Jakarta Bean Validation |
 | Comunicação | API REST e JSON |
 | Banco de dados | MySQL 8 |
-| Protótipo temporário | json-server 0.17.4 |
 
 ---
 
@@ -103,7 +102,6 @@ Trabalho_WEB2/
 │   │
 │   └── pom.xml
 │
-├── db.json
 ├── package.json
 └── README.md
 ```
