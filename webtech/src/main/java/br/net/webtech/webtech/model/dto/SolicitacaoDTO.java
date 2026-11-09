@@ -7,8 +7,7 @@ import java.util.List;
 public record SolicitacaoDTO(
         Integer id,
         Integer clienteId,
-        String clienteCpf,
-        String clienteNome,
+        ClienteDTO cliente,
         String descricaoEquipamento,
         String categoria,
         String descricaoDefeito,

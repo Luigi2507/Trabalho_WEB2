@@ -19,12 +19,12 @@ INSERT INTO endereco (id, cep, logradouro, numero, complemento, bairro, cidade, 
  
 -- USUÁRIOS (senha_hash = SHA-256(salt + senha))
 INSERT INTO usuario (id, nome, email, senha_hash, salt, perfil_id) VALUES
-  (1, 'Maria Oliveira', 'maria@gmail.com', 'cd52399461c67b17a62b9e696df6c169b7b4128c65131044cb30c09311de0310', 'ae66928b7b52aafc2c9bed2e6e65cabe', 2),
-  (2, 'Mário Souza', 'mario@gmail.com', 'ebafe7fc645921dacd18434683bfd4bad4d45419c3fc665c7e41995943a56e9a', '569801ba69c4d6ed956329e12c843c14', 2),
-  (3, 'João Pereira', 'joao@gmail.com', '2773b1f9e84446c57f4e9c6783f837e0bb59528ce7e920a85b553b33c5402d13', 'c7ca45ab83406cf15132b74916dea1ac', 1),
-  (4, 'José Almeida', 'jose@email.com', 'aa610345716778826ecae73f7f424255b5ef1c41ff958c9e84782a95ade43d8d', 'dca7ef83a5d6520d7380180fe42947ac', 1),
-  (5, 'Joana Costa', 'joana@email.com', 'd9e07366809840c8a5cc3b86f5a6a1e1f830a03d5f0c5e4d7338b615a22e90ae', '282b84d78ae6cf795515d14be0f691d5', 1),
-  (6, 'Joaquina Ribeiro', 'joaquina@email.com', 'ca1e6fdfbc36bbfd49dffdcc0050762e1cbf1cce1d36e50e0a8e1b00d84377c1', '21b15ae3603dd85efa5b8b5b00aedbb0', 1);
+  (1, 'Maria Oliveira', 'maria@example.com', 'cd52399461c67b17a62b9e696df6c169b7b4128c65131044cb30c09311de0310', 'ae66928b7b52aafc2c9bed2e6e65cabe', 2),
+  (2, 'Mário Souza', 'mario@example.com', 'ebafe7fc645921dacd18434683bfd4bad4d45419c3fc665c7e41995943a56e9a', '569801ba69c4d6ed956329e12c843c14', 2),
+  (3, 'João Pereira', 'joao@example.com', '2773b1f9e84446c57f4e9c6783f837e0bb59528ce7e920a85b553b33c5402d13', 'c7ca45ab83406cf15132b74916dea1ac', 1),
+  (4, 'José Almeida', 'jose@example.com', 'aa610345716778826ecae73f7f424255b5ef1c41ff958c9e84782a95ade43d8d', 'dca7ef83a5d6520d7380180fe42947ac', 1),
+  (5, 'Joana Costa', 'joana@example.com', 'd9e07366809840c8a5cc3b86f5a6a1e1f830a03d5f0c5e4d7338b615a22e90ae', '282b84d78ae6cf795515d14be0f691d5', 1),
+  (6, 'Joaquina Ribeiro', 'joaquina@example.com', 'ca1e6fdfbc36bbfd49dffdcc0050762e1cbf1cce1d36e50e0a8e1b00d84377c1', '21b15ae3603dd85efa5b8b5b00aedbb0', 1);
  
 -- FUNCIONÁRIOS
 INSERT INTO funcionario (usuario_id, data_nascimento) VALUES

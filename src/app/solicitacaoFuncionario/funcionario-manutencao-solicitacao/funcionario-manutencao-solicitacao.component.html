@@ -8,8 +8,39 @@
       <div class="form-group"><label>Defeito:</label><p>{{ solicitacao.descricaoDefeito }}</p></div>
 
       <h3>Dados do Cliente</h3>
-      <div class="form-group"><label>Nome:</label><p>{{ solicitacao.clienteNome }}</p></div>
-      <div class="form-group"><label>CPF:</label><p>{{ solicitacao.clienteCpf }}</p></div>
+      <div class="form-group">
+        <label>Nome:</label><p>{{ solicitacao.cliente.nome }}</p>
+      </div>
+      <div class="form-group">
+        <label>CPF:</label><p>{{ solicitacao.cliente.cpf }}</p>
+      </div>
+      <div class="form-group">
+        <label>E-mail:</label><p>{{ solicitacao.cliente.email }}</p>
+      </div>
+      <div class="form-group">
+        <label>Telefone:</label><p>{{ solicitacao.cliente.telefone }}</p>
+      </div>
+      <div class="form-group">
+        <label>CEP:</label><p>{{ solicitacao.cliente.cep }}</p>
+      </div>
+      <div class="form-group">
+        <label>Logradouro:</label><p>{{ solicitacao.cliente.logradouro }}</p>
+      </div>
+      <div class="form-group">
+        <label>Número:</label><p>{{ solicitacao.cliente.numero }}</p>
+      </div>
+      <div class="form-group">
+        <label>Complemento:</label><p>{{ solicitacao.cliente.complemento || 'Não informado' }}</p>
+      </div>
+      <div class="form-group">
+        <label>Bairro:</label><p>{{ solicitacao.cliente.bairro }}</p>
+      </div>
+      <div class="form-group">
+        <label>Cidade:</label><p>{{ solicitacao.cliente.cidade }}</p>
+      </div>
+      <div class="form-group">
+        <label>Estado:</label><p>{{ solicitacao.cliente.estado }}</p>
+      </div>
 
       <div class="modo-selecao">
         <button type="button" class="modo-btn" [class.ativo]="modo === 'manutencao'" (click)="modo = 'manutencao'">

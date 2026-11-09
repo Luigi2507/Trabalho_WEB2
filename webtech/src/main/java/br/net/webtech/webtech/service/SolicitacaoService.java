@@ -15,6 +15,7 @@ import br.net.webtech.webtech.model.Solicitacao;
 import br.net.webtech.webtech.model.SolicitacaoHistorico;
 import br.net.webtech.webtech.model.StatusSolicitacao;
 import br.net.webtech.webtech.model.Usuario;
+import br.net.webtech.webtech.model.dto.ClienteDTO;
 import br.net.webtech.webtech.model.dto.HistoricoDTO;
 import br.net.webtech.webtech.model.dto.SolicitacaoDTO;
 import br.net.webtech.webtech.model.dto.SolicitacaoNovaDTO;
@@ -287,11 +288,12 @@ public class SolicitacaoService {
                         .stream().map(this::paraHistoricoDTO).toList()
                 : List.of();
 
+        ClienteDTO clienteDTO = ClienteDTO.de(s.getCliente());
+
         return new SolicitacaoDTO(
                 s.getId(),
                 s.getCliente().getId(),
-                s.getCliente().getCpf(),
-                s.getCliente().getUsuario().getNome(),
+                clienteDTO,
                 s.getDescricaoEquipamento(),
                 s.getCategoria().getNome(),
                 s.getDescricaoDefeito(),

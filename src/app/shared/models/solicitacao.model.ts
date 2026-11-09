@@ -1,9 +1,11 @@
+import { Cliente } from './cliente.model';
+
 //solicitação de manutencao
 export class Solicitacao {
   constructor(
     public id: number = 0,
-    public clienteCpf: string = "",
-    public clienteNome: string = "",
+    public clienteId: number = 0,
+    public cliente: Cliente = new Cliente(),
     public descricaoEquipamento: string = "",
     public categoria: string = "",
     public descricaoDefeito: string = "",

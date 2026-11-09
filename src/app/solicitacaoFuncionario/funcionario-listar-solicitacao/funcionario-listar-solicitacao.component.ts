@@ -33,7 +33,7 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   
   //FILTROS
   visualizacao: 'TODAS' | 'NOVAS' = 'NOVAS';
-  filtroAtivo: Filtro = 'HOJE' 
+  filtroAtivo: Filtro = 'TODAS' 
   dataInicio: string = ''
   dataFim: string = ''
   
@@ -60,9 +60,8 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
         
         //de um periodo especifico
       } else if (this.filtroAtivo === 'PERIODO' && this.dataInicio && this.dataFim) {
-        const inicio = new Date(this.dataInicio)
-        const fim = new Date(this.dataFim)
-        fim.setHours(23, 59, 59, 999) //23h59m59s faz com que o ultimo dia seja incluido tbm
+        const inicio = new Date(this.dataInicio + 'T00:00:00');
+        const fim = new Date(this.dataFim + 'T23:59:59.999');
         lista = lista.filter(s => {const data = new Date(s.dataHora);
         return data >= inicio && data <= fim;
         });

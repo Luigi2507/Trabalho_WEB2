@@ -38,7 +38,7 @@
       @for (solicitacao of solicitacoes(); track solicitacao.id) {
         <tr>
           <td>{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</td>
-          <td>{{ solicitacao.clienteNome }}</td>
+          <td>{{ solicitacao.cliente.nome }}</td>
           <td>{{ descricaoResumida(solicitacao.descricaoEquipamento) }}</td>
           <td>
             <span class="badge-status" [class]="'status-' + corStatus(solicitacao.status)">

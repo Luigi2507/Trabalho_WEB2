@@ -6,10 +6,11 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { LoginService } from '../../services/login.service';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-funcionario-orcamento-solicitacao',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, NgxMaskDirective],
   templateUrl: './funcionario-orcamento-solicitacao.component.html',
   styleUrl: './funcionario-orcamento-solicitacao.component.css',
 })
@@ -21,8 +22,8 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
   private platformId = inject(PLATFORM_ID)
 
   solicitacao = signal<Solicitacao | undefined>(undefined)
-  funcionarioLogado: any = null
-  valorOrcamento: number = 0
+  funcionarioLogado: any = null;
+  valorOrcamento: string = '';
   
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -39,11 +40,19 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
     });
   }
 
-  salvarOrcamento() : void {
+  get valorOrcamentoNumerico(): number {
+    const valor = this.valorOrcamento.replace(/\./g, '').replace(',', '.');
+
+    return Number(valor);
+  }
+
+    salvarOrcamento(): void {
     const s = this.solicitacao();
-    if(!s || this.valorOrcamento <= 0) return;
- 
-    this.solicitacaoService.orcar(s.id, this.funcionarioLogado.id, this.valorOrcamento).subscribe({
+    const valor = this.valorOrcamentoNumerico;
+
+    if (!s || !Number.isFinite(valor) || valor <= 0) return;
+
+    this.solicitacaoService.orcar(s.id, this.funcionarioLogado.id, valor).subscribe({
       next: () => this.router.navigate(['/solicitacaoFuncionario/listar']),
       error: (e: HttpErrorResponse) => alert(e.error?.mensagem ?? 'Não foi possível salvar o orçamento. Tente novamente.')
     });
