@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm} from '@angular/forms';
-import { RouterLink, Router} from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { FormsModule, NgForm } from '@angular/forms';
+import { RouterLink, Router } from '@angular/router';
 import { CategoriaEquipamento } from '../../shared/models/categoria-equipamento.model';
 import { CategoriaEquipamentoService } from '../../services/categoria-equipamento.service';
 
@@ -13,19 +14,35 @@ import { CategoriaEquipamentoService } from '../../services/categoria-equipament
 })
 export class InserirCategoriaEquipamentoComponent {
   categoria: CategoriaEquipamento = new CategoriaEquipamento();
+  mensagem = signal('');
+  private enviando = false;
 
   constructor(
-    private categoriaEquipamentoService: CategoriaEquipamentoService, 
+    private categoriaEquipamentoService: CategoriaEquipamentoService,
     private router: Router
   ) {}
 
   salvar(form: NgForm): void {
-    if (form.invalid) {
+    if (form.invalid || this.enviando) {
       return;
     }
+    this.enviando = true;
+    this.mensagem.set('');
 
     this.categoriaEquipamentoService.inserir(this.categoria).subscribe({
-      complete: () => this.router.navigate(['/categorias/listar'])
+      next: () => this.router.navigate(['/categorias/listar']),
+      error: (e: HttpErrorResponse) => {
+        this.enviando = false;
+        if (e.status === 409) {
+          this.mensagem.set('Já existe uma categoria com esse nome.');
+        } else if (e.status === 400) {
+          this.mensagem.set('Nome inválido.');
+        } else if (e.status === 0) {
+          this.mensagem.set('Não foi possível conectar ao servidor.');
+        } else {
+          this.mensagem.set('Erro ao cadastrar categoria.');
+        }
+      }
     });
   }
 }
