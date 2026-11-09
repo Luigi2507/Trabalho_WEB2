@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  
 import br.net.webtech.webtech.model.Login;
 import br.net.webtech.webtech.model.Usuario;
-import br.net.webtech.webtech.model.UsuarioDTO;
+import br.net.webtech.webtech.model.dto.UsuarioDTO;
 import br.net.webtech.webtech.repository.UsuarioRepository;
 import br.net.webtech.webtech.seguranca.senhaUtil;
 import br.net.webtech.webtech.model.Cliente;

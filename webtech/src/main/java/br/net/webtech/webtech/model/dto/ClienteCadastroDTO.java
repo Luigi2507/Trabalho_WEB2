@@ -1,4 +1,4 @@
-package br.net.webtech.webtech.model;
+package br.net.webtech.webtech.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

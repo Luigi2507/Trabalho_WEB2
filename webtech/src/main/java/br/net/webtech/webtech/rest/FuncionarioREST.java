@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.net.webtech.webtech.model.FuncionarioCadastroDTO;
-import br.net.webtech.webtech.model.FuncionarioCriadoDTO;
-import br.net.webtech.webtech.model.FuncionarioRespostaDTO;
+import br.net.webtech.webtech.model.dto.FuncionarioCadastroDTO;
+import br.net.webtech.webtech.model.dto.FuncionarioCriadoDTO;
+import br.net.webtech.webtech.model.dto.FuncionarioRespostaDTO;
 import br.net.webtech.webtech.service.CadastroConflitoException;
 import br.net.webtech.webtech.service.FuncionarioService;
 import br.net.webtech.webtech.service.RegraNegocioException;

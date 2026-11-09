@@ -1,4 +1,4 @@
-package br.net.webtech.webtech.model;
+package br.net.webtech.webtech.model.dto;
 
 public class UsuarioDTO {
     private Integer id;

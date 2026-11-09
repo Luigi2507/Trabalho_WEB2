@@ -4,11 +4,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.net.webtech.webtech.model.Cliente;
-import br.net.webtech.webtech.model.ClienteCadastroDTO;
-import br.net.webtech.webtech.model.ClienteRespostaDTO;
 import br.net.webtech.webtech.model.Endereco;
 import br.net.webtech.webtech.model.Perfil;
 import br.net.webtech.webtech.model.Usuario;
+import br.net.webtech.webtech.model.dto.ClienteCadastroDTO;
+import br.net.webtech.webtech.model.dto.ClienteRespostaDTO;
 import br.net.webtech.webtech.repository.ClienteRepository;
 import br.net.webtech.webtech.repository.PerfilRepository;
 import br.net.webtech.webtech.repository.UsuarioRepository;

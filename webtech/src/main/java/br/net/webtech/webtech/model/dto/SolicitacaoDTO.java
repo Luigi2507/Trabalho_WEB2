@@ -1,4 +1,4 @@
-package br.net.webtech.webtech.model;
+package br.net.webtech.webtech.model.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

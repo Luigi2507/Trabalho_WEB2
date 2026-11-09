@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.mail.MailException;
 
-import br.net.webtech.webtech.model.ClienteCadastroDTO;
+import br.net.webtech.webtech.model.dto.ClienteCadastroDTO;
 import br.net.webtech.webtech.service.CadastroConflitoException;
 import br.net.webtech.webtech.service.ClienteService;
 import jakarta.validation.Valid;

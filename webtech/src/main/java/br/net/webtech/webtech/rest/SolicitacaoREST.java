@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import br.net.webtech.webtech.model.ManutencaoDTO;
-import br.net.webtech.webtech.model.OrcamentoDTO;
-import br.net.webtech.webtech.model.RedirecionamentoDTO;
-import br.net.webtech.webtech.model.RejeicaoDTO;
-import br.net.webtech.webtech.model.SolicitacaoNovaDTO;
+import br.net.webtech.webtech.model.dto.ManutencaoDTO;
+import br.net.webtech.webtech.model.dto.OrcamentoDTO;
+import br.net.webtech.webtech.model.dto.RedirecionamentoDTO;
+import br.net.webtech.webtech.model.dto.RejeicaoDTO;
+import br.net.webtech.webtech.model.dto.SolicitacaoNovaDTO;
 import br.net.webtech.webtech.service.EstadoInvalidoException;
 import br.net.webtech.webtech.service.RecursoNaoEncontradoException;
 import br.net.webtech.webtech.service.SolicitacaoService;

@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.net.webtech.webtech.model.Funcionario;
-import br.net.webtech.webtech.model.FuncionarioCadastroDTO;
-import br.net.webtech.webtech.model.FuncionarioCriadoDTO;
-import br.net.webtech.webtech.model.FuncionarioRespostaDTO;
 import br.net.webtech.webtech.model.Perfil;
 import br.net.webtech.webtech.model.Usuario;
+import br.net.webtech.webtech.model.dto.FuncionarioCadastroDTO;
+import br.net.webtech.webtech.model.dto.FuncionarioCriadoDTO;
+import br.net.webtech.webtech.model.dto.FuncionarioRespostaDTO;
 import br.net.webtech.webtech.repository.FuncionarioRepository;
 import br.net.webtech.webtech.repository.PerfilRepository;
 import br.net.webtech.webtech.repository.UsuarioRepository;
