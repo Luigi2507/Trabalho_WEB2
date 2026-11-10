@@ -41,9 +41,8 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
   }
 
   get valorOrcamentoNumerico(): number {
-    const valor = this.valorOrcamento.replace(/\./g, '').replace(',', '.');
-
-    return Number(valor);
+    const limpo = this.valorOrcamento.replace(/[^\d,]/g, '').replace(',', '.');
+    return Number(limpo);
   }
 
     salvarOrcamento(): void {

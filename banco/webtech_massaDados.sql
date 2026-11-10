@@ -18,13 +18,14 @@ INSERT INTO endereco (id, cep, logradouro, numero, complemento, bairro, cidade, 
   (4, '80040-400', 'Travessa dos Ipês', '310', 'Casa 2', 'Portão', 'Curitiba', 'PR');
  
 -- USUÁRIOS (senha_hash = SHA-256(salt + senha))
+-- USUÁRIOS (senha_hash = SHA-256(salt + senha); senha de todos: 1234)
 INSERT INTO usuario (id, nome, email, senha_hash, salt, perfil_id) VALUES
-  (1, 'Maria Oliveira', 'maria@example.com', 'cd52399461c67b17a62b9e696df6c169b7b4128c65131044cb30c09311de0310', 'ae66928b7b52aafc2c9bed2e6e65cabe', 2),
-  (2, 'Mário Souza', 'mario@example.com', 'ebafe7fc645921dacd18434683bfd4bad4d45419c3fc665c7e41995943a56e9a', '569801ba69c4d6ed956329e12c843c14', 2),
-  (3, 'João Pereira', 'joao@example.com', '2773b1f9e84446c57f4e9c6783f837e0bb59528ce7e920a85b553b33c5402d13', 'c7ca45ab83406cf15132b74916dea1ac', 1),
-  (4, 'José Almeida', 'jose@example.com', 'aa610345716778826ecae73f7f424255b5ef1c41ff958c9e84782a95ade43d8d', 'dca7ef83a5d6520d7380180fe42947ac', 1),
-  (5, 'Joana Costa', 'joana@example.com', 'd9e07366809840c8a5cc3b86f5a6a1e1f830a03d5f0c5e4d7338b615a22e90ae', '282b84d78ae6cf795515d14be0f691d5', 1),
-  (6, 'Joaquina Ribeiro', 'joaquina@example.com', 'ca1e6fdfbc36bbfd49dffdcc0050762e1cbf1cce1d36e50e0a8e1b00d84377c1', '21b15ae3603dd85efa5b8b5b00aedbb0', 1);
+  (1, 'Maria Oliveira', 'maria@example.com', '50615ff9ba4069defde7352f74ba00792cc9c956563d7c860e34b853fdee5047', 'ae66928b7b52aafc2c9bed2e6e65cabe', 2),
+  (2, 'Mário Souza', 'mario@example.com', 'f12bb7d7ca77a93c9cd6973d46315cab7f8f6af4a75ab587154d4deff02200c9', '569801ba69c4d6ed956329e12c843c14', 2),
+  (3, 'João Pereira', 'joao@example.com', '841247fe38d0fcbcce0200ef0b30639584d3789ea9dbae3df628c96ebab306b8', 'c7ca45ab83406cf15132b74916dea1ac', 1),
+  (4, 'José Almeida', 'jose@example.com', '313e94d86b4406faf08747f2eed3c4dba8212f9177cffa7fba88947f91d8e98d', 'dca7ef83a5d6520d7380180fe42947ac', 1),
+  (5, 'Joana Costa', 'joana@example.com', 'b77954ceba9ab896059f12874633a7ca8d5ae84040ab320790d233f55948d32a', '282b84d78ae6cf795515d14be0f691d5', 1),
+  (6, 'Joaquina Ribeiro', 'joaquina@example.com', '1723610c58083dc0da730ee2a267fefb6459305d17841ede31f285f55cb516b2', '21b15ae3603dd85efa5b8b5b00aedbb0', 1);
  
 -- FUNCIONÁRIOS
 INSERT INTO funcionario (usuario_id, data_nascimento) VALUES
