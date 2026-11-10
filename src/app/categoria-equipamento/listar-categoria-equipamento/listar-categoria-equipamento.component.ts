@@ -18,7 +18,7 @@ export class ListarCategoriaEquipamentoComponent implements OnInit {
   categorias = signal<CategoriaEquipamento[]>([]);
   private modalService = inject(NgbModal);
 
-  constructor(private categoriaEquipamentoService: CategoriaEquipamentoService) { }
+  private categoriaEquipamentoService = inject(CategoriaEquipamentoService);
 
   ngOnInit(): void {
     this.listarAtivas();

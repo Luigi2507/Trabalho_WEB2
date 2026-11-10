@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -17,10 +17,9 @@ export class InserirCategoriaEquipamentoComponent {
   mensagem = signal('');
   private enviando = false;
 
-  constructor(
-    private categoriaEquipamentoService: CategoriaEquipamentoService,
-    private router: Router
-  ) {}
+  private categoriaEquipamentoService = inject(CategoriaEquipamentoService);
+  private router = inject(Router);
+
 
   salvar(form: NgForm): void {
     if (form.invalid || this.enviando) {

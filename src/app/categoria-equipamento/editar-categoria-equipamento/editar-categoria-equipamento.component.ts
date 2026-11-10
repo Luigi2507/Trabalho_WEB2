@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule, NgForm} from '@angular/forms';
 import { CategoriaEquipamento } from '../../shared/models/categoria-equipamento.model';
@@ -15,11 +15,9 @@ export class EditarCategoriaEquipamentoComponent implements OnInit {
   categoria = signal(new CategoriaEquipamento());
   mensagem = signal('');
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private categoriaEquipamentoService: CategoriaEquipamentoService
-  ) {}
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private categoriaEquipamentoService = inject(CategoriaEquipamentoService);
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
