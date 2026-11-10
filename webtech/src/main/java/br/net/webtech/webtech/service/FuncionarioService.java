@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.net.webtech.webtech.repository.SolicitacaoRepository;
 
 import br.net.webtech.webtech.model.Funcionario;
 import br.net.webtech.webtech.model.Perfil;
@@ -22,12 +23,13 @@ public class FuncionarioService {
     private final UsuarioRepository usuarioRepository;
     private final FuncionarioRepository funcionarioRepository;
     private final PerfilRepository perfilRepository;
-
+    private final SolicitacaoRepository solicitacaoRepository;
     public FuncionarioService(UsuarioRepository usuarioRepository, FuncionarioRepository funcionarioRepository,
-            PerfilRepository perfilRepository) {
+            PerfilRepository perfilRepository, SolicitacaoRepository solicitacaoRepository) {
         this.usuarioRepository = usuarioRepository;
         this.funcionarioRepository = funcionarioRepository;
         this.perfilRepository = perfilRepository;
+        this.solicitacaoRepository = solicitacaoRepository;
     }
 
     @Transactional(readOnly = true)
@@ -106,6 +108,12 @@ public class FuncionarioService {
         }
         if (funcionarioRepository.countByUsuarioAtivoTrue() <= 1) {
             throw new RegraNegocioException("Não é possível remover o único funcionário cadastrado.");
+        }
+
+        long pendentes = solicitacaoRepository.countByFuncionarioAtualIdAndStatusCodigo(id, "REDIRECIONADA");
+        if (pendentes > 0) {
+            throw new RegraNegocioException("Este funcionário é o responsável por " + pendentes
+                + " solicitação(ões) redirecionada(s). Antes de removê-lo, é necessário deixar outro funcionário responsável por essas solicitações." );
         }
 
         Usuario usuario = encontrado.get().getUsuario();

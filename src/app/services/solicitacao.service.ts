@@ -23,6 +23,10 @@ export class SolicitacaoService {
         return this.httpClient.get<Solicitacao[]>(`${this.BASE_URL}/solicitacoes`);
     }
 
+    listarDoFuncionario(funcionarioID: number): Observable<Solicitacao[]> {
+        return this.httpClient.get<Solicitacao[]>(`${this.BASE_URL}/solicitacoes`, {params: {funcionarioId: funcionarioID}});
+    }
+
     buscarPorIDFuncionario(id: number): Observable<Solicitacao> {
         return this.httpClient.get<Solicitacao>(`${this.BASE_URL}/funcionario/solicitacoes/${id}`);
     }

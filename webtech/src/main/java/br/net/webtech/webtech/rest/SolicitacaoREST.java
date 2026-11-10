@@ -78,8 +78,9 @@ public class SolicitacaoREST {
 
     /** RF011 / RF013 - 200 OK */
     @GetMapping("/solicitacoes")
-    public ResponseEntity<Object> listar(@RequestParam(name = "status", required = false) String status) {
-        return executar(() -> solicitacaoService.listar(status), HttpStatus.OK);
+    public ResponseEntity<Object> listar(@RequestParam(name = "status", required = false) String status,
+            @RequestParam(name = "funcionarioId", required = false) Integer funcionarioId) {
+        return executar(() -> solicitacaoService.listar(status, funcionarioId), HttpStatus.OK);
     }
 
     @GetMapping("/funcionario/solicitacoes/{id}")

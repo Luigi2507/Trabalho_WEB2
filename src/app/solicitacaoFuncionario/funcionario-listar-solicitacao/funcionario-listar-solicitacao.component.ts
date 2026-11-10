@@ -77,13 +77,11 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
   carregar(): void {
     const requisicao = this.visualizacao === 'NOVAS'
       ? this.solicitacaoService.listarAbertas()
-      : this.solicitacaoService.listarTodos();
+      : this.solicitacaoService.listarDoFuncionario(this.funcionarioLogado?.id);
 
     requisicao.subscribe({
       next: (lista: Solicitacao[]) => {
-        this.todasSolicitacoes = (lista ?? []).filter(
-          s => s.status !== 'REDIRECIONADA' || s.funcionarioAtual === this.funcionarioLogado?.nome
-        );
+        this.todasSolicitacoes = lista ?? [];
         this.aplicarFiltro();
       },
       error: (e) => console.error('Erro ao carregar solicitações', e)

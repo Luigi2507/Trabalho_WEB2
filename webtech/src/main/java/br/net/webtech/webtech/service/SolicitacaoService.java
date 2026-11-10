@@ -132,14 +132,25 @@ public class SolicitacaoService {
         return paraDTO(s, true);
     }
 
+    @Transactional (readOnly = true)
+    public List<SolicitacaoDTO> listar(String status) {
+        return listar(status, null);
+    }
+
     /** RF011 / RF013 */
     @Transactional(readOnly = true)
-    public List<SolicitacaoDTO> listar(String status){
-        List<Solicitacao> lista  = (status == null)
-            ? solicitacaoRepository.findAllByOrderByDataHoraAberturaAsc()
-            : solicitacaoRepository.findByStatusCodigoOrderByDataHoraAberturaAsc(status);
+    public List<SolicitacaoDTO> listar(String status, Integer funcionarioId){
+        List<Solicitacao> lista;
+            if (funcionarioId != null) {
+                lista = solicitacaoRepository.findVisiveisParaFuncionario(funcionarioId);
+            } else if (status == null) {
+                lista = solicitacaoRepository.findAllByOrderByDataHoraAberturaAsc();
+            } else {
+                lista = solicitacaoRepository.findByStatusCodigoOrderByDataHoraAberturaAsc(status);
+            }
     
-        return lista.stream().map(s -> paraDTO(s, false)).toList();
+        return lista.stream().filter(s -> status == null || status.equals(s.getStatus().getCodigo()))
+        .map(s -> paraDTO(s, false)).toList();
     }
 
     /** RF012: ABERTA -> ORCADA (registra valor, funcionário e data/hora do orçamento) */
