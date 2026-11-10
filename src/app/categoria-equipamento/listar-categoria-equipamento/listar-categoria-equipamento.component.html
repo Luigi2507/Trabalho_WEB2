@@ -13,19 +13,22 @@
                     <th class="text-center">Ações</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr *ngFor="let categoria of categorias()">
+        <tbody>
+            @for (categoria of categorias(); track categoria.id) {
+                <tr>
                     <td>{{ categoria.id }}</td>
-                    <td>{{ categoria.nome | caixaAlta}}</td>
+                    <td>{{ categoria.nome | caixaAlta }}</td>
                     <td class="text-center">
                         <a [routerLink]="['/categorias/editar', categoria.id]" class="btn-secondary">Editar</a>
                         <a href="#" (click)="remover($event, categoria)" class="link-remover">Remover</a>
                     </td>
                 </tr>
-                <tr *ngIf="categorias().length === 0">
+            } @empty {
+                <tr>
                     <td colspan="3" class="text-center linha-vazia">Nenhuma categoria cadastrada.</td>
                 </tr>
-            </tbody>
+            }
+        </tbody>
         </table>
     </div>
 </div>

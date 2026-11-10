@@ -32,7 +32,7 @@ export class ListarFuncionarioComponent implements OnInit {
   //CARREGAR SESSAO
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.funcionarioLogado = this.loginService.usuarioLogado ?? {};
+    this.funcionarioLogado = this.loginService.usuarioLogado() ?? {};
     this.carregar();
   }
   
@@ -52,12 +52,10 @@ export class ListarFuncionarioComponent implements OnInit {
     if(!confirmar) return;
 
     this.funcionarioService.remover(funcionario.id, this.funcionarioLogado.id).subscribe({
-      next: erro => {
-        if (erro) {
-          alert(erro);
+      next: () => this.carregar(),
+      error: (e) => {
+          alert("Não foi possível remover o funcionário.");
           return;
-        }
-        this.carregar();
       }
     });
   }

@@ -1,7 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Funcionario } from '../../shared/models/funcionario.model';
-import { FuncionarioService } from '../../services/funcionario.service';
 
 @Component({
   imports: [],

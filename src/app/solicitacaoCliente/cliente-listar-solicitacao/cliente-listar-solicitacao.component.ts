@@ -2,7 +2,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { SolicitacaoClienteService } from '../../services/solicitacao-cliente.service';
+import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { LoginService } from '../../services/login.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +17,7 @@ import { ModalResgatarServicoComponent } from '../modal-resgatar-servico/modal-r
 })
 
 export class ClienteListarSolicitacaoComponent implements OnInit {
-  private solicitacaoService = inject(SolicitacaoClienteService);
+  private solicitacaoService = inject(SolicitacaoService);
   private loginService = inject(LoginService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
@@ -33,7 +33,7 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
 
   //busca e mostra somente as solicitaçoes do cliente logado (o back já ordena por data/hora)
   carregarSolicitacoes(): void {
-    const clienteId = this.loginService.usuarioLogado?.id;
+    const clienteId = this.loginService.usuarioLogado()?.id;
     if (!clienteId) {
       this.router.navigate(['/login']);
       return;
@@ -116,7 +116,7 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
 
   //o back muda o estado para APROVADA e grava o passo no histórico
   confirmarResgate(solicitacao: Solicitacao): void {
-    const clienteId = this.loginService.usuarioLogado?.id;
+    const clienteId = this.loginService.usuarioLogado()?.id;
     if (!clienteId) {
       this.router.navigate(['/login']);
       return;

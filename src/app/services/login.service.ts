@@ -1,8 +1,8 @@
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, forkJoin, of, throwError } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Usuario, Login } from '../shared';
 
 const LS_CHAVE: string = 'usuarioLogado';
@@ -21,18 +21,35 @@ export class LoginService {
     private browser = isPlatformBrowser(inject(PLATFORM_ID));
     private httpClient = inject(HttpClient);
 
-    get usuarioLogado(): Usuario | null {
-        if (!this.browser) return null;
-        const usu = sessionStorage.getItem(LS_CHAVE);
-        return usu ? JSON.parse(usu) : null;
+    private readonly _usuarioLogado = signal<Usuario | null>(this.lerStorage());
+    readonly usuarioLogado = this._usuarioLogado.asReadonly();
+
+    lerStorage(): Usuario | null {
+        if(!this.browser) 
+            return null;
+        try{
+            const usu = sessionStorage.getItem(LS_CHAVE);
+            return usu ? JSON.parse(usu) : null;
+        }
+        catch{
+            sessionStorage.removeItem(LS_CHAVE);
+            return null;
+        }
     }
 
-    set usuarioLogado(usuario: Usuario) {
-        if (this.browser) sessionStorage.setItem(LS_CHAVE, JSON.stringify(usuario));
+    private definirUsuario(usuario : Usuario | null){
+        this._usuarioLogado.set(usuario);
+        if(!this.browser)
+            return;
+
+        if(usuario)
+            sessionStorage.setItem(LS_CHAVE, JSON.stringify(usuario));
+        else
+            sessionStorage.removeItem(LS_CHAVE);
     }
 
     logout() {
-        if (this.browser) sessionStorage.removeItem(LS_CHAVE);
+        this.definirUsuario(null)
     }
 
     login(login: Login): Observable<Usuario | null> {
@@ -44,6 +61,7 @@ export class LoginService {
             this.httpOptions
         ).pipe(
             map(u => new Usuario(u.id, u.nome, u.login, u.perfil, u.cpf ?? '')),
+            tap(Usuario => this.definirUsuario(Usuario)),
             catchError((erro: HttpErrorResponse) =>
                 erro.status === 401 ? of(null) : throwError(() => erro)
             )

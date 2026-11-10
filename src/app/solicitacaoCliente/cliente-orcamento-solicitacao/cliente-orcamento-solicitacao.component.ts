@@ -3,12 +3,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { SolicitacaoClienteService } from '../../services/solicitacao-cliente.service';
+import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalServicoRejeitadoComponent } from '../modal-servico-rejeitado/modal-servico-rejeitado.component';
 import { LoginService } from '../../services/login.service';
-import { Login } from '../../shared';
 
 @Component({
   selector: 'app-cliente-orcamento-solicitacao',
@@ -18,7 +17,7 @@ import { Login } from '../../shared';
 })
 
 export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
-  private solicitacaoService = inject(SolicitacaoClienteService);
+  private solicitacaoService = inject(SolicitacaoService);
   private loginService = inject(LoginService);
   private modalService = inject(NgbModal);
   private route = inject(ActivatedRoute);
@@ -33,7 +32,7 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const id = +this.route.snapshot.params['id'];
-    const clienteId = this.loginService.usuarioLogado?.id;
+    const clienteId = this.loginService.usuarioLogado()?.id;
     if (!clienteId) {
       this.router.navigate(['/login']);
       return;
@@ -51,7 +50,7 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
   // RF006: o back muda ORCADA -> APROVADA e grava no histórico
   aprovar(): void {
     const s = this.solicitacao();
-    const clienteId = this.loginService.usuarioLogado?.id;
+    const clienteId = this.loginService.usuarioLogado()?.id;
     if (!s || !clienteId) return;
 
     this.solicitacaoService.aprovar(s.id, clienteId).subscribe({
@@ -73,7 +72,7 @@ export class ClienteOrcamentoSolicitacaoComponent implements OnInit {
   // RF007: o back muda ORCADA -> REJEITADA, guarda o motivo e grava no histórico
   confirmarRejeicao(): void {
     const s = this.solicitacao();
-    const clienteId = this.loginService.usuarioLogado?.id;
+    const clienteId = this.loginService.usuarioLogado()?.id;
     if (!s || !clienteId || !this.motivoRejeicao.trim()) return;
 
     this.solicitacaoService.rejeitar(s.id, clienteId, this.motivoRejeicao.trim()).subscribe({

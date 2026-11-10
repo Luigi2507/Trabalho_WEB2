@@ -1,4 +1,4 @@
-@if (usuarioLogado) {
+@if (usuarioLogado(); as usuario) {
     <header class="cabecalho">
         <div class="logo">
             <img
@@ -7,7 +7,7 @@
                 class="logo-icone">
         </div>
 
-    <span class="usuario-menu">Olá, {{ usuarioLogado.nome }}</span>
+    <span class="usuario-menu">Olá, {{ usuario.nome}}</span>
 
     @if (temPermissao('CLIENTE')) {
         <nav class="menu">

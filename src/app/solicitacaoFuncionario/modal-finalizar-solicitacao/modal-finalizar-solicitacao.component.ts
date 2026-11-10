@@ -1,6 +1,5 @@
 import { Component, inject, Input, signal } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao } from '../../shared';
 
 @Component({

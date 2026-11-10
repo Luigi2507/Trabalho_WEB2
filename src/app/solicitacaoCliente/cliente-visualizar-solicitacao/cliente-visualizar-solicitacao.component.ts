@@ -2,7 +2,7 @@ import { CommonModule, isPlatformBrowser  } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { SolicitacaoClienteService } from '../../services/solicitacao-cliente.service';
+import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalResgatarServicoComponent } from '../modal-resgatar-servico/modal-resgatar-servico.component';
@@ -16,7 +16,7 @@ import { LoginService } from '../../services/login.service';
 })
 
 export class ClienteVisualizarSolicitacaoComponent implements OnInit{
-  private solicitacaoService = inject(SolicitacaoClienteService);
+  private solicitacaoService = inject(SolicitacaoService);
   private loginService = inject(LoginService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -29,7 +29,7 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
     if (!isPlatformBrowser(this.platformId)) return;
  
     const id = +this.route.snapshot.params['id'];
-    const clienteId = this.loginService.usuarioLogado?.id;
+    const clienteId = this.loginService.usuarioLogado()?.id;
     if (!clienteId) {
       this.router.navigate(['/login']);
       return;
@@ -86,7 +86,7 @@ export class ClienteVisualizarSolicitacaoComponent implements OnInit{
   //o back muda para APROVADA e grava no histórico; depois volta para a lista
   confirmarResgate(): void {
     const s = this.solicitacao();
-    const clienteId = this.loginService.usuarioLogado?.id;
+    const clienteId = this.loginService.usuarioLogado()?.id;
     if (!s || !clienteId) return;
 
     this.solicitacaoService.resgatar(s.id, clienteId).subscribe({

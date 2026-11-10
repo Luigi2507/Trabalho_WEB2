@@ -72,7 +72,7 @@ export class Login implements OnInit {
       return false;
     }
     if (this.senha.length < 4 || this.senha.length > 4){
-      this.erroSenha = 'Inclua ao menos 4 caracteres.';
+      this.erroSenha = 'A precisar ter 4 caracteres.';
       return false;
     }
     this.erroSenha = '';
@@ -99,7 +99,6 @@ export class Login implements OnInit {
         next: usu => {
           this.resetBtnEstado();
           if (usu) {
-            this.loginService.usuarioLogado = usu;
             this.router.navigate([usu.perfil === 'FUNCIONARIO' ? '/solicitacaoFuncionario/listar' : '/solicitacaoCliente']);
           } else {
             this.mensagemStatus = 'E-mail ou senha incorretos.';

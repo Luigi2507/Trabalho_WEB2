@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, ViewChild, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { SolicitacaoClienteService } from '../../services/solicitacao-cliente.service';
+import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { CategoriaEquipamento } from '../../shared/models/categoria-equipamento.model';
 import { CategoriaEquipamentoService } from '../../services/categoria-equipamento.service';
@@ -24,7 +24,7 @@ export class ClienteInserirSolicitacaoComponent implements OnInit {
   solicitacao : Solicitacao = new Solicitacao();
   categoriaId: number | null = null;
   private enviando = false;
-  private solicitacaoService = inject(SolicitacaoClienteService);
+  private solicitacaoService = inject(SolicitacaoService);
   private categoriaEquipamentoService = inject(CategoriaEquipamentoService);
   private router = inject(Router);
   private loginService = inject(LoginService);
@@ -44,7 +44,7 @@ export class ClienteInserirSolicitacaoComponent implements OnInit {
     if (this.enviando || !this.formulario.form.valid || this.categoriaId === null) return;
 
     //quem está logado é o cliente dono da solicitação
-    const clienteId = this.loginService.usuarioLogado?.id;
+    const clienteId = this.loginService.usuarioLogado()?.id;
     if (!clienteId) {
       this.router.navigate(['/login']);
       return;

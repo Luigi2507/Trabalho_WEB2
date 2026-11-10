@@ -48,9 +48,7 @@ export class FuncionarioService {
   remover(id: number, idLogado: number): Observable<string | null> {
     return this.httpClient.delete<void>(this.BASE_URL + "/" + id + "?idLogado=" + idLogado, this.httpOptions).pipe(
       map((): string | null => null),
-      catchError((e: HttpErrorResponse) =>
-        e.status === 409 ? of(e.error?.mensagem ?? 'Não foi possível remover o funcionário.')
-          : throwError(() => e))
+      catchError((e: HttpErrorResponse) => throwError(() => e))
     );
   }
 }
