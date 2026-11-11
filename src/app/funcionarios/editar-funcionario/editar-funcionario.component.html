@@ -19,7 +19,7 @@
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Digite o email" required [(ngModel)]="funcionario().email" #email="ngModel">
+                <input type="email" class="form-control" id="email" name="email"  required maxlength="100" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" [(ngModel)]="funcionario().email" #email="ngModel">
 
                 @if (email.invalid && email.touched) {
                     <p class="erro-etapa">Informe um e-mail válido.</p>
@@ -28,7 +28,12 @@
 
             <div class="form-group">
                 <label for="dataNascimento">Data de Nascimento:</label>
-                <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" required [(ngModel)]="funcionario().dataNascimento" #dataNascimento="ngModel">
+                <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" required
+                    [max]="dataMaxima" [(ngModel)]="funcionario().dataNascimento" #dataNascimento="ngModel">
+
+                @if (dataNascimentoInvalida()) {
+                    <p class="erro-etapa">A data de nascimento deve ser anterior a hoje.</p>
+                }
 
                 @if (dataNascimento.invalid && dataNascimento.touched) {
                     <p class="erro-etapa">Data de nascimento é obrigatória.</p>

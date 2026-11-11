@@ -10,6 +10,7 @@ import { ModalFuncionarioComponent } from '../modal-funcionario/modal-funcionari
 import { ModalRemoverFuncionarioComponent } from '../modal-remover-funcionario/modal-remover-funcionario.component';
 import { CaixaAltaPipe } from '../../shared/pipes';
 import { LoginService } from '../../services/login.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -53,10 +54,10 @@ export class ListarFuncionarioComponent implements OnInit {
 
     this.funcionarioService.remover(funcionario.id, this.funcionarioLogado.id).subscribe({
       next: () => this.carregar(),
-      error: (e) => {
-          alert("Não foi possível remover o funcionário.");
-          return;
-      }
+      error: (e: HttpErrorResponse) => alert(
+        e.status === 409 ? (e.error?.mensagem ?? 'Não foi possível remover o funcionário.')
+        : e.status === 0 ? 'Não foi possível conectar ao servidor.'
+        : 'Não foi possível remover o funcionário.')
     });
   }
 

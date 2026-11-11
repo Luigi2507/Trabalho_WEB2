@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Login as LoginModel } from '../shared/models/login.model';
 import { LoginService } from '../services/login.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PERFIL } from '../shared';
 
 
 @Component({
@@ -99,7 +100,7 @@ export class Login implements OnInit {
         next: usu => {
           this.resetBtnEstado();
           if (usu) {
-            this.router.navigate([usu.perfil === 'FUNCIONARIO' ? '/solicitacaoFuncionario/listar' : '/solicitacaoCliente']);
+            this.router.navigate([usu.perfil === PERFIL.FUNCIONARIO ? '/solicitacaoFuncionario/listar' : '/solicitacaoCliente']);
           } else {
             this.mensagemStatus = 'E-mail ou senha incorretos.';
           }

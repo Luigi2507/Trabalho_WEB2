@@ -21,6 +21,7 @@ import { ListarCategoriaEquipamentoComponent } from './categoria-equipamento/lis
 import { InserirCategoriaEquipamentoComponent } from './categoria-equipamento/inserir-categoria-equipamento/inserir-categoria-equipamento.component';
 import { EditarCategoriaEquipamentoComponent } from './categoria-equipamento/editar-categoria-equipamento/editar-categoria-equipamento.component';
 import { authGuard } from './auth';
+import { PERFIL } from './shared';
 
 export const routes: Routes = [
 
@@ -56,19 +57,19 @@ export const routes: Routes = [
     path: 'funcionarios/listar',
     component: ListarFuncionarioComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'}
+    data: { role: PERFIL.FUNCIONARIO}
   },
   {
     path: 'funcionarios/novo',
     component: InserirFuncionarioComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'}
+    data: { role: PERFIL.FUNCIONARIO}
   },
   {
     path: 'funcionarios/editar/:id',
     component: EditarFuncionarioComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'}
+    data: { role: PERFIL.FUNCIONARIO}
   },
 
   {
@@ -80,73 +81,73 @@ export const routes: Routes = [
     path: 'solicitacaoCliente/listar',
     component: ClienteListarSolicitacaoComponent,
     canActivate: [authGuard],
-    data: { role: 'CLIENTE'}
+    data: { role: PERFIL.CLIENTE}
   },
   {
     path: 'solicitacaoCliente/nova',
     component: ClienteInserirSolicitacaoComponent,
     canActivate: [authGuard],
-    data: { role: 'CLIENTE'}
+    data: { role: PERFIL.CLIENTE}
   },
   {
     path: 'solicitacaoCliente/visualizar/:id',
     component: ClienteVisualizarSolicitacaoComponent,
     canActivate: [authGuard],
-    data: { role: 'CLIENTE'}
+    data: { role: PERFIL.CLIENTE}
   },
   {
     path: 'solicitacaoCliente/orcamento/:id',
     component: ClienteOrcamentoSolicitacaoComponent,
     canActivate: [authGuard],
-    data: { role: 'CLIENTE'}
+    data: { role: PERFIL.CLIENTE}
   },
   {
     path: 'solicitacaoCliente/pagar/:id',
     component: ClientePagarSolicitacaoComponent,
     canActivate: [authGuard],
-    data: { role: 'CLIENTE'}
+    data: { role: PERFIL.CLIENTE}
   },
   {
     path: 'solicitacaoFuncionario/listar',
     component: FuncionarioListarSolicitacaoComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'}
+    data: { role: PERFIL.FUNCIONARIO}
   },
   {
     path: 'solicitacaoFuncionario/orcamento/:id',
     component: FuncionarioOrcamentoSolicitacaoComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'}
+    data: { role: PERFIL.FUNCIONARIO}
   },
   {
     path: 'solicitacaoFuncionario/manutencao/:id',
     component: FuncionarioManutencaoSolicitacaoComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'}
+    data: { role: PERFIL.FUNCIONARIO}
   },
   {
     path:'relatorios',
     component: RelatorioComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'}
+    data: { role: PERFIL.FUNCIONARIO}
   },
   { 
     path: 'categorias/listar', 
     component: ListarCategoriaEquipamentoComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'} 
+    data: { role: PERFIL.FUNCIONARIO}
   },
   { 
     path: 'categorias/novo', 
     component: InserirCategoriaEquipamentoComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'}
+    data: { role: PERFIL.FUNCIONARIO}
   },
   { 
     path: 'categorias/editar/:id', 
     component: EditarCategoriaEquipamentoComponent,
     canActivate: [authGuard],
-    data: { role: 'FUNCIONARIO'}
+    data: { role: PERFIL.FUNCIONARIO}
   },
   
 ];

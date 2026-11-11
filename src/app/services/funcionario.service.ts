@@ -45,10 +45,10 @@ export class FuncionarioService {
     );
   }
 
-  remover(id: number, idLogado: number): Observable<string | null> {
-    return this.httpClient.delete<void>(this.BASE_URL + "/" + id + "?idLogado=" + idLogado, this.httpOptions).pipe(
-      map((): string | null => null),
-      catchError((e: HttpErrorResponse) => throwError(() => e))
+  remover(id: number, idLogado: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.BASE_URL}/${id}?idLogado=${idLogado}`, this.httpOptions).pipe(
+      map(() => undefined),
+      catchError((e) => throwError(() => e))
     );
   }
 }

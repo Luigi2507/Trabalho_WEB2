@@ -2,11 +2,11 @@ import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CanActivateFn, Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
-import { FuncionarioOrcamentoSolicitacaoComponent } from '../solicitacaoFuncionario/funcionario-orcamento-solicitacao/funcionario-orcamento-solicitacao.component';
+import { PERFIL } from '../shared'
 
 const HOME_PERFIL: Record<string, string> = {
-  FUNCIONARIO: '/solicitacaoFuncionario/listar',
-  CLIENTE: '/solicitacaoCliente/listar'
+  [PERFIL.FUNCIONARIO]: '/solicitacaoFuncionario/listar',
+  [PERFIL.CLIENTE]: '/solicitacaoCliente/listar'
 };
 
 export const authGuard: CanActivateFn = (route, state) => {

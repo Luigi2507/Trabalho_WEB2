@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule, NgForm} from '@angular/forms';
 import { CategoriaEquipamento } from '../../shared/models/categoria-equipamento.model';
@@ -48,10 +49,22 @@ export class EditarCategoriaEquipamentoComponent implements OnInit {
       this.mensagem.set('Categoria inválida.');
       return;
     }
-    
+
     this.categoriaEquipamentoService.alterar(id, {nome}).subscribe({
       next: () => this.router.navigate(['/categorias/listar']),
-      error: (e) => this.mensagem.set(e.status === 404 ? 'Categoria não encontrada' : 'Erro ao alterar categoria.')
+      error: (e: HttpErrorResponse) => {
+        if (e.status === 404) {
+          this.mensagem.set('Categoria não encontrada.');
+        } else if (e.status === 409) {
+          this.mensagem.set('Já existe uma categoria com esse nome.');
+        } else if (e.status === 400) {
+          this.mensagem.set('Nome inválido.');
+        } else if (e.status === 0) {
+          this.mensagem.set('Não foi possível conectar ao servidor.');
+        } else {
+          this.mensagem.set('Erro ao alterar categoria.');
+        }
+      }
     });
   }
 }

@@ -4,7 +4,7 @@
         <form #categoriaForm="ngForm" (ngSubmit)="salvar(categoriaForm)">
             <div class="form-group">
                 <label class="form-label" for="nome">Nome</label>
-                <input type="text" id="nome" class="form-control" name="nome" required minlength="2" #nome="ngModel" [(ngModel)]="categoria().nome">
+                <input type="text" id="nome" class="form-control" name="nome" required minlength="2" maxlength="50" #nome="ngModel" [(ngModel)]="categoria().nome">
                 
                 @if (nome.invalid && nome.touched){
                     <div class="alert-danger">

@@ -4,7 +4,7 @@
     <form #formSolicitacao="ngForm">
       <div class="form-group">
         <label for="descricaoEquipamento">Descrição do Equipamento:</label>
-        <input type="text" class="form-control" id="descricaoEquipamento" name="descricaoEquipamento" [(ngModel)]="solicitacao.descricaoEquipamento" #descricaoEquipamento="ngModel" minlength="2" required>
+        <input type="text" class="form-control" id="descricaoEquipamento" maxlength="1000" name="descricaoEquipamento" [(ngModel)]="solicitacao.descricaoEquipamento" #descricaoEquipamento="ngModel" minlength="2" required>
 
         @if (descricaoEquipamento.errors && (descricaoEquipamento.dirty || descricaoEquipamento.touched)) {
           <div class="alert alert-danger">
@@ -38,7 +38,7 @@
 
       <div class="form-group">
         <label for="descricaoDefeito">Descrição do Defeito:</label>
-        <textarea class="form-control" id="descricaoDefeito" name="descricaoDefeito" [(ngModel)]="solicitacao.descricaoDefeito" #descricaoDefeito="ngModel" minlength="5" required></textarea>
+        <textarea class="form-control" id="descricaoDefeito" name="descricaoDefeito" maxlength="1000" [(ngModel)]="solicitacao.descricaoDefeito" #descricaoDefeito="ngModel" minlength="5" required></textarea>
 
         @if (descricaoDefeito.errors && (descricaoDefeito.dirty || descricaoDefeito.touched)) {
           <div class="alert alert-danger">

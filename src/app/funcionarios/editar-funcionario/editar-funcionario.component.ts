@@ -35,6 +35,7 @@ export class EditarFuncionarioComponent implements OnInit {
 
   //ATUALIZAR CADASTRO
   editar(): void {
+    if (!this.formulario.valid || this.dataNascimentoInvalida()) return;
     if (this.formulario.valid) {
       this.funcionarioService.atualizar(this.funcionario()).subscribe({
         next: () => this.router.navigate(['/funcionarios/listar']),
@@ -49,6 +50,19 @@ export class EditarFuncionarioComponent implements OnInit {
     if(e.status === 404) return 'Funcionário não encontrado.';
     if(e.status === 0) return 'Não foi possível conectar ao servidor.';
     return 'Não foi possível salvar as alterações.';
+  }
+
+  dataMaxima: string = (() => {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    const mes = String(d.getMonth() + 1).padStart(2, '0');
+    const dia = String(d.getDate()).padStart(2, '0');
+    return `${d.getFullYear()}-${mes}-${dia}`;
+  })();
+
+  dataNascimentoInvalida(): boolean {
+    const d = this.funcionario().dataNascimento
+    return !!d && d > this.dataMaxima;
   }
 
   sair($event: any): void {

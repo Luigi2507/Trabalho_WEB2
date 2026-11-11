@@ -28,7 +28,7 @@ export class FuncionarioOrcamentoSolicitacaoComponent implements OnInit {
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
  
-    this.funcionarioLogado = this.loginService.usuarioLogado;
+    this.funcionarioLogado = this.loginService.usuarioLogado();
     const id = +this.route.snapshot.params['id']
  
     this.solicitacaoService.buscarPorIDFuncionario(id).subscribe({

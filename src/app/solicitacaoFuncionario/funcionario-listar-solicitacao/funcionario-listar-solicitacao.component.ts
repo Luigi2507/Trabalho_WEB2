@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalFinalizarSolicitacaoComponent } from '../modal-finalizar-solicitacao/modal-finalizar-solicitacao.component';
+import { STATUS } from '../../shared';
 
 //tipos de filtros possiveis
 type Filtro = 'HOJE' | 'PERIODO' | 'TODAS';
@@ -120,51 +121,48 @@ export class FuncionarioListarSolicitacaoComponent implements OnInit {
     );
   }
 
-  // Cores de cada botão apartir do status
   corStatus(status: string): string {
     switch (status) {
-      case 'ABERTA': return 'cinza';
-      case 'ORCADA': return 'marrom';
-      case 'REJEITADA': return 'vermelho';
-      case 'APROVADA': return 'amarelo';
-      case 'REDIRECIONADA': return 'roxo';
-      case 'ARRUMADA': return 'azul';
-      case 'PAGA': return 'alaranjado';
-      case 'FINALIZADA': return 'verde';
-      default: return '';
-    }
-  }
-  
-  //define botao de acordo com o status
-  textoBotaoAcao(status: string): string {
-    switch (status) {
-      case 'ABERTA': return 'Efetuar Orçamento';
-      case 'APROVADA':
-      case 'REDIRECIONADA': return 'Efetuar Manutenção';
-      case 'PAGA': return 'Finalizar Solicitação';
+      case STATUS.ABERTA: return 'cinza';
+      case STATUS.ORCADA: return 'marrom';
+      case STATUS.REJEITADA: return 'vermelho';
+      case STATUS.APROVADA: return 'amarelo';
+      case STATUS.REDIRECIONADA: return 'roxo';
+      case STATUS.ARRUMADA: return 'azul';
+      case STATUS.PAGA: return 'alaranjado';
+      case STATUS.FINALIZADA: return 'verde';
       default: return '';
     }
   }
 
-  //direciona de acordo com o botao
+  textoBotaoAcao(status: string): string {
+    switch (status) {
+      case STATUS.ABERTA: return 'Efetuar Orçamento';
+      case STATUS.APROVADA:
+      case STATUS.REDIRECIONADA: return 'Efetuar Manutenção';
+      case STATUS.PAGA: return 'Finalizar Solicitação';
+      default: return '';
+    }
+  }
+
   navegarParaAcao(solicitacao: Solicitacao): void {
     switch (solicitacao.status) {
-      case 'ABERTA':
+      case STATUS.ABERTA:
         this.router.navigate(['/solicitacaoFuncionario/orcamento', solicitacao.id]);
         break;
-        case 'APROVADA':
-        case 'REDIRECIONADA':
-            this.router.navigate(['/solicitacaoFuncionario/manutencao', solicitacao.id]);
+      case STATUS.APROVADA:
+      case STATUS.REDIRECIONADA:
+        this.router.navigate(['/solicitacaoFuncionario/manutencao', solicitacao.id]);
         break;
-        case 'PAGA':
-          this.finalizar(solicitacao);
-          break;
+      case STATUS.PAGA:
+        this.finalizar(solicitacao);
+        break;
     }
   }
   
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.funcionarioLogado = this.loginService.usuarioLogado;
+    this.funcionarioLogado = this.loginService.usuarioLogado();
     this.carregar()
   }
 }

@@ -7,6 +7,13 @@ import { Solicitacao } from '../../shared/models/solicitacao.model';
 import { LoginService } from '../../services/login.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalResgatarServicoComponent } from '../modal-resgatar-servico/modal-resgatar-servico.component';
+import { STATUS } from '../../shared';
+
+const ABAS: Record<string, string[]> = {
+  PENDENTES: [STATUS.ABERTA, STATUS.ORCADA],
+  EM_ANDAMENTO: [STATUS.APROVADA, STATUS.PAGA, STATUS.ARRUMADA],
+  CONCLUIDAS: [STATUS.FINALIZADA, STATUS.REJEITADA]
+};
 
 @Component({
   selector: 'app-cliente-listar-solicitacao',
@@ -46,20 +53,10 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
   }
 
   //filtro de solicitações 
-  solicitacoesFiltradas = computed(() =>
-    this.solicitacoes().filter(s => {
-      switch (this.abaAtiva()) {
-        case 'PENDENTES':
-          return ['ABERTA', 'ORCADA'].includes(s.status);
-        case 'EM_ANDAMENTO':
-          return ['APROVADA', 'PAGA', 'ARRUMADA'].includes(s.status);
-        case 'CONCLUIDAS':
-          return ['FINALIZADA', 'REJEITADA'].includes(s.status);
-        default:
-          return true;
-      }
-    })
-  )
+  solicitacoesFiltradas = computed(() => {
+    const permitidos = ABAS[this.abaAtiva()];
+    return this.solicitacoes().filter(s => !permitidos || permitidos.includes(s.status));
+  });
 
   mudarAba(aba: string): void {
     this.abaAtiva.set(aba);
@@ -72,25 +69,22 @@ export class ClienteListarSolicitacaoComponent implements OnInit {
 
   //define qual acao o cliente pode realizar de acordo com o status da solicitacao
   textoBotaoAcao(status: string): string {
+
     switch (status) {
-      case 'ORCADA':
-        return 'Aprovar/Rejeitar Orçamento';
-      case 'REJEITADA':
-        return 'Resgatar Serviço';
-      case 'ARRUMADA':
-        return 'Pagar Serviço';
-      default:
-        return '';
+      case STATUS.ORCADA: return 'Aprovar/Rejeitar Orçamento';
+      case STATUS.REJEITADA: return 'Resgatar Serviço';
+      case STATUS.ARRUMADA: return 'Pagar Serviço';
+      default: return '';
     }
   }
 
   //direciona para a tela da acao disponivel
   navegarParaAcao(solicitacao: Solicitacao): void {
     switch (solicitacao.status) {
-      case 'ORCADA':
+      case STATUS.ORCADA:
         this.router.navigate(['/solicitacaoCliente/orcamento', solicitacao.id]);
         break;
-      case 'ARRUMADA':
+      case STATUS.ARRUMADA:
         this.router.navigate(['/solicitacaoCliente/pagar', solicitacao.id]);
         break;
       default:

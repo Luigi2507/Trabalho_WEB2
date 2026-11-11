@@ -25,21 +25,6 @@ export class Home {
   public acaoEmAndamento: boolean = false;
   public btnHomeTexto: string = 'Solicitar Orçamento';
 
-  //MÉTODOS DO BOTÃO ORÇAMENTO
-  public btnHomeAnimacao(): void{
-    this.acaoEmAndamento = true;
-    this.btnHomeTexto = 'Carregando';
-
-    setTimeout(()=> {
-      this.acaoEmAndamento = false;
-      this.btnHomeTexto = 'Solicitar Orçamento';
-    },2000);
-  }
-  
-  public resetBtnHome(): void{
-    this.acaoEmAndamento = false;
-    this.btnHomeTexto = 'Solicitar Orçamento'; 
-  }
     
   public servicos: Servico[] = [
     {

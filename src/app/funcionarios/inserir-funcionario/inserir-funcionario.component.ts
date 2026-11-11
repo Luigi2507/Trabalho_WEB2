@@ -23,6 +23,7 @@ export class InserirFuncionarioComponent {
 
   //Insere novo func
   inserir(): void {
+    if (!this.formulario.valid || this.dataNascimentoInvalida()) return;
     if (this.formulario.valid) {
       
       this.funcionarioService.inserir(this.funcionario).subscribe({
@@ -52,6 +53,19 @@ export class InserirFuncionarioComponent {
     this.exibirModalSenhaGerada.set(false);
     this.senhaGerada = '';
     this.router.navigate(["/funcionarios/listar"]);
+  }
+
+  dataMaxima: string = (() => {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    const mes = String(d.getMonth() + 1).padStart(2, '0');
+    const dia = String(d.getDate()).padStart(2, '0');
+    return `${d.getFullYear()}-${mes}-${dia}`;
+  })();
+
+  dataNascimentoInvalida(): boolean {
+    const d = this.funcionario.dataNascimento;
+    return !!d && d > this.dataMaxima;
   }
 
   sair($event: any): void {
