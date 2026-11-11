@@ -2,9 +2,7 @@ package br.net.webtech.webtech.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-
 import br.net.webtech.webtech.model.CategoriaEquipamento;
 import br.net.webtech.webtech.repository.CategoriaEquipamentoRepository;
 

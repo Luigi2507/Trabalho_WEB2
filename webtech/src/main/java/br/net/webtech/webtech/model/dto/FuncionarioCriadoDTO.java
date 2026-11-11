@@ -2,6 +2,4 @@ package br.net.webtech.webtech.model.dto;
 
 import java.time.LocalDate;
 
-public record FuncionarioCriadoDTO(Integer id, String nome, String email, LocalDate dataNascimento, String senha) {
-    
-}
+public record FuncionarioCriadoDTO(Integer id, String nome, String email, LocalDate dataNascimento, String senha) {}

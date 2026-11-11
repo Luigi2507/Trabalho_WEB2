@@ -4,10 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import br.net.webtech.webtech.model.CategoriaEquipamento;
 import br.net.webtech.webtech.model.Cliente;
 import br.net.webtech.webtech.model.Funcionario;
@@ -28,7 +26,6 @@ import br.net.webtech.webtech.repository.StatusSolicitacaoRepository;
 
 @Service
 public class SolicitacaoService {
-
     private final SolicitacaoRepository solicitacaoRepository;
     private final SolicitacaoHistoricoRepository historicoRepository;
     private final StatusSolicitacaoRepository statusRepository;
@@ -50,19 +47,18 @@ public class SolicitacaoService {
         this.funcionarioRepository = funcionarioRepository;
     }
 
-    /** RF003: lista do cliente, ordem crescente de data/hora (a lista não traz o histórico). */
     @Transactional(readOnly = true)
     public List<SolicitacaoDTO> listarPorCliente(Integer clienteId) {
         if (!clienteRepository.existsById(clienteId)) {
             throw new RecursoNaoEncontradoException("Cliente não encontrado.");
         }
+
         return solicitacaoRepository.findByClienteIdOrderByDataHoraAbertura(clienteId)
                 .stream()
                 .map(s -> paraDTO(s, false))
                 .toList();
     }
 
-    /** RF005 / RF008 / RF010: uma solicitação do cliente, com todos os dados e o histórico completo. */
     @Transactional(readOnly = true)
     public SolicitacaoDTO obterPorId(Integer id, Integer clienteId) {
         return paraDTO(buscarDoCliente(id, clienteId), true);
@@ -73,7 +69,6 @@ public class SolicitacaoService {
         return paraDTO(buscar(id), true);
     }
 
-    /** RF004: nasce no estado ABERTA, com data/hora de agora e a 1ª linha do histórico. */
     @Transactional
     public SolicitacaoDTO criar(SolicitacaoNovaDTO dto) {
         Cliente cliente = clienteRepository.findById(dto.clienteId())
@@ -94,7 +89,6 @@ public class SolicitacaoService {
         return paraDTO(s, true);
     }
 
-    /** RF006: ORCADA -> APROVADA */
     @Transactional
     public SolicitacaoDTO aprovar(Integer id, Integer clienteId) {
         Solicitacao s = buscarDoCliente(id, clienteId);
@@ -103,7 +97,6 @@ public class SolicitacaoService {
         return paraDTO(s, true);
     }
 
-    /** RF007: ORCADA -> REJEITADA (guarda o motivo) */
     @Transactional
     public SolicitacaoDTO rejeitar(Integer id, Integer clienteId, String motivo) {
         Solicitacao s = buscarDoCliente(id, clienteId);
@@ -113,7 +106,6 @@ public class SolicitacaoService {
         return paraDTO(s, true);
     }
 
-    /** RF009: REJEITADA -> APROVADA (volta para o fluxo; o histórico registra quando) */
     @Transactional
     public SolicitacaoDTO resgatar(Integer id, Integer clienteId) {
         Solicitacao s = buscarDoCliente(id, clienteId);
@@ -122,7 +114,6 @@ public class SolicitacaoService {
         return paraDTO(s, true);
     }
 
-    /** RF010: ARRUMADA -> PAGA (registra a data/hora do pagamento) */
     @Transactional
     public SolicitacaoDTO pagar(Integer id, Integer clienteId) {
         Solicitacao s = buscarDoCliente(id, clienteId);
@@ -137,7 +128,6 @@ public class SolicitacaoService {
         return listar(status, null);
     }
 
-    /** RF011 / RF013 */
     @Transactional(readOnly = true)
     public List<SolicitacaoDTO> listar(String status, Integer funcionarioId){
         List<Solicitacao> lista;
@@ -153,7 +143,6 @@ public class SolicitacaoService {
         .map(s -> paraDTO(s, false)).toList();
     }
 
-    /** RF012: ABERTA -> ORCADA (registra valor, funcionário e data/hora do orçamento) */
     @Transactional
     public SolicitacaoDTO orcar(Integer id, Integer funcionarioId, BigDecimal valor) {
         Funcionario f = buscarFuncionario(funcionarioId);
@@ -167,7 +156,6 @@ public class SolicitacaoService {
         return paraDTO(s, true);
     }
 
-    /** RF014: APROVADA ou REDIRECIONADA (para este funcionário) -> ARRUMADA */
     @Transactional
     public SolicitacaoDTO efetuarManutencao(Integer id, Integer funcionarioId, String descricao, String orientacoes) {
         Funcionario f = buscarFuncionario(funcionarioId);
@@ -184,7 +172,6 @@ public class SolicitacaoService {
         return paraDTO(s, true);
     }
 
-    /** RF015: APROVADA ou REDIRECIONADA -> REDIRECIONADA para outro funcionário (nunca para si mesmo) */
     @Transactional
     public SolicitacaoDTO redirecionar(Integer id, Integer funcionarioId, Integer destinoId) {
         Funcionario origem = buscarFuncionario(funcionarioId);
@@ -202,7 +189,6 @@ public class SolicitacaoService {
         return paraDTO(s, true);
     }
 
-    /** RF016: PAGA -> FINALIZADA (registra funcionário e data/hora da finalização) */
     @Transactional
     public SolicitacaoDTO finalizar(Integer id, Integer funcionarioId) {
         Funcionario f = buscarFuncionario(funcionarioId);
@@ -215,14 +201,12 @@ public class SolicitacaoService {
         return paraDTO(s, true);
     }
 
-    // ---------------------------------------------------------------- auxiliares
 
     private Solicitacao buscar(Integer id) {
         return solicitacaoRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Solicitação não encontrada."));
     }
 
-    //evitar que outro usuário acesse a solicitação pela URL
     private Solicitacao buscarDoCliente(Integer id, Integer clienteId) {
         Solicitacao s = buscar(id);
         if (!s.getCliente().getId().equals(clienteId)) {
@@ -241,7 +225,6 @@ public class SolicitacaoService {
                 .orElseThrow(() -> new IllegalStateException("Status " + codigo + " não existe no banco."));
     }
 
-    /** Garante que a solicitação está num dos estados permitidos antes de mudar (senão vira 409). */
     private void exigirStatus(Solicitacao s, String... permitidos) {
         String atual = s.getStatus().getCodigo();
         for (String p : permitidos) {
@@ -253,7 +236,6 @@ public class SolicitacaoService {
                 + " e não pode passar por esta ação (esperado: " + String.join(" ou ", permitidos) + ").");
     }
 
-    /** Se está REDIRECIONADA, só o funcionário de destino pode agir. */
     private void exigirResponsavel(Solicitacao s, Integer funcionarioId) {
         boolean redirecionada = "REDIRECIONADA".equals(s.getStatus().getCodigo());
         boolean ehOResponsavel = s.getFuncionarioAtual() != null
@@ -263,7 +245,6 @@ public class SolicitacaoService {
         }
     }
 
-    /** Troca o estado e já grava no histórico (quem fez: o cliente dono da solicitação). */
     private void mudarStatus(Solicitacao s, String codigoNovoStatus) {
         StatusSolicitacao novo = status(codigoNovoStatus);
         s.setStatus(novo);
@@ -271,7 +252,6 @@ public class SolicitacaoService {
         registrarHistorico(s, novo, s.getCliente().getUsuario(), null);
     }
 
-    /** Igual ao mudarStatus, mas quem fez é um funcionário (e, no redirecionamento, vai o destino). */
     private void mudarStatusPorFuncionario(Solicitacao s, String codigoNovoStatus, Funcionario autor, Funcionario destino) {
         StatusSolicitacao novo = status(codigoNovoStatus);
         s.setStatus(novo);

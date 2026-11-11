@@ -29,7 +29,6 @@ public class Cliente {
     @Column(name = "telefone", nullable = false, length = 15)
     private String telefone;
 
-    //ao salvar o cliente, o endereço é salvo junto
     @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;

@@ -18,12 +18,19 @@ public class StatusSolicitacao {
     @Column(name = "codigo", nullable = false, unique = true, length = 20)
     private String codigo;
 
-    public StatusSolicitacao() {
+    public StatusSolicitacao() {}
+
+    public Integer getId() { 
+        return id; 
+    }
+    public void setId(Integer id) { 
+        this.id = id; 
     }
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-
-    public String getCodigo() { return codigo; }
-    public void setCodigo(String codigo) { this.codigo = codigo; }
+    public String getCodigo() { 
+        return codigo; 
+    }
+    public void setCodigo(String codigo) { 
+        this.codigo = codigo; 
+    }
 }

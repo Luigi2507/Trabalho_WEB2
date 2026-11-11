@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.net.webtech.webtech.model.Funcionario;
 
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Integer> {
-
     List<Funcionario> findByUsuarioAtivoTrueOrderByIdAsc();
     Optional<Funcionario> findByIdAndUsuarioAtivoTrue(Integer id);
     long countByUsuarioAtivoTrue();
-    
 }

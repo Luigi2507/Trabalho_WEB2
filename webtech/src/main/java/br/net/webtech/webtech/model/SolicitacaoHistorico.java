@@ -31,7 +31,6 @@ public class SolicitacaoHistorico {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    // só usado em redirecionamentos (requisito do funcionário)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_destino_id")
     private Usuario usuarioDestino;
@@ -39,13 +38,11 @@ public class SolicitacaoHistorico {
     @Column(name = "data_hora", nullable = false)
     private LocalDateTime dataHora;
 
-    public SolicitacaoHistorico() {
-    }
+    public SolicitacaoHistorico() {}
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -53,7 +50,6 @@ public class SolicitacaoHistorico {
     public Solicitacao getSolicitacao() {
         return solicitacao;
     }
-
     public void setSolicitacao(Solicitacao solicitacao) {
         this.solicitacao = solicitacao;
     }
@@ -61,7 +57,6 @@ public class SolicitacaoHistorico {
     public StatusSolicitacao getStatus() {
         return status;
     }
-
     public void setStatus(StatusSolicitacao status) {
         this.status = status;
     }
@@ -69,7 +64,6 @@ public class SolicitacaoHistorico {
     public Usuario getUsuario() {
         return usuario;
     }
-
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
@@ -77,7 +71,6 @@ public class SolicitacaoHistorico {
     public Usuario getUsuarioDestino() {
         return usuarioDestino;
     }
-
     public void setUsuarioDestino(Usuario usuarioDestino) {
         this.usuarioDestino = usuarioDestino;
     }
@@ -85,7 +78,6 @@ public class SolicitacaoHistorico {
     public LocalDateTime getDataHora() {
         return dataHora;
     }
-
     public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }

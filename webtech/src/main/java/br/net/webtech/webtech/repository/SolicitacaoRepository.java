@@ -1,15 +1,13 @@
 package br.net.webtech.webtech.repository;
 
-import java.util.List;
+import br.net.webtech.webtech.model.Solicitacao;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import br.net.webtech.webtech.model.Solicitacao;
-
 public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Integer> {
-
     List<Solicitacao> findByClienteIdOrderByDataHoraAbertura(Integer clienteId);
     List<Solicitacao> findAllByOrderByDataHoraAberturaAsc();
     List<Solicitacao> findByStatusCodigoOrderByDataHoraAberturaAsc(String codigo);

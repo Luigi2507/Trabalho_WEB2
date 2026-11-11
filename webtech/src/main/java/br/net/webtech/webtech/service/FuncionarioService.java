@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.net.webtech.webtech.repository.SolicitacaoRepository;
-
 import br.net.webtech.webtech.model.Funcionario;
 import br.net.webtech.webtech.model.Perfil;
 import br.net.webtech.webtech.model.Usuario;
@@ -19,7 +18,6 @@ import br.net.webtech.webtech.seguranca.senhaUtil;
 
 @Service
 public class FuncionarioService {
-    
     private final UsuarioRepository usuarioRepository;
     private final FuncionarioRepository funcionarioRepository;
     private final PerfilRepository perfilRepository;
@@ -52,7 +50,6 @@ public class FuncionarioService {
         Perfil perfil = perfilRepository.findByCodigo("FUNCIONARIO")
                 .orElseThrow(() -> new IllegalStateException("Perfil FUNCIONARIO não existe no banco."));
 
-        // senha aleatória de 4 números + salt + hash 
         String senha = senhaUtil.gerarSenhaNumerica();
         String salt = senhaUtil.gerarSalt();
 
@@ -128,4 +125,3 @@ public class FuncionarioService {
     }
 
 }
-

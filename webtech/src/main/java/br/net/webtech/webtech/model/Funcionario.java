@@ -1,7 +1,6 @@
 package br.net.webtech.webtech.model;
 
 import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,11 +28,25 @@ public class Funcionario {
 
     public Funcionario() {}
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-    public Usuario getUsuario() { return usuario; }
-    public void setUsuario (Usuario usuario) { this.usuario = usuario; }
-    public LocalDate getDataNascimento() { return dataNascimento; }
-    public void setDataNascimento(LocalDate dataNascimento) { this.dataNascimento = dataNascimento; }
+    public Integer getId() { 
+        return id; 
+    }
+    public void setId(Integer id) { 
+        this.id = id; 
+    }
+
+    public Usuario getUsuario() { 
+        return usuario; 
+    }
+    public void setUsuario (Usuario usuario) { 
+        this.usuario = usuario; 
+    }
+
+    public LocalDate getDataNascimento() { 
+        return dataNascimento; 
+    }
+    public void setDataNascimento(LocalDate dataNascimento) { 
+        this.dataNascimento = dataNascimento; 
+    }
 
 }

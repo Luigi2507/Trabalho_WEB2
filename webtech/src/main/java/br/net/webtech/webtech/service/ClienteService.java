@@ -2,7 +2,6 @@ package br.net.webtech.webtech.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import br.net.webtech.webtech.model.Cliente;
 import br.net.webtech.webtech.model.Endereco;
 import br.net.webtech.webtech.model.Perfil;
@@ -16,7 +15,6 @@ import br.net.webtech.webtech.seguranca.senhaUtil;
 
 @Service
 public class ClienteService {
-
     private final UsuarioRepository usuarioRepository;
     private final ClienteRepository clienteRepository;
     private final PerfilRepository perfilRepository;
@@ -42,7 +40,6 @@ public class ClienteService {
         return clienteRepository.existsByCpf(cpf == null ? "" : cpf.trim());
     }
 
-    /** Tudo dentro de UMA transação: se algo falhar no meio, nada fica gravado (rollback). */
     @Transactional
     public ClienteRespostaDTO cadastrar(ClienteCadastroDTO dto) {
         String email = normalizarEmail(dto.email());
@@ -61,7 +58,6 @@ public class ClienteService {
         Perfil perfil = perfilRepository.findByCodigo("CLIENTE")
                 .orElseThrow(() -> new IllegalStateException("Perfil CLIENTE não existe no banco."));
 
-        // senha aleatória de 4 números + salt + hash (só o hash vai pro banco)
         String senha = senhaUtil.gerarSenhaNumerica();
         String salt = senhaUtil.gerarSalt();
 
@@ -78,8 +74,7 @@ public class ClienteService {
         endereco.setCep(dto.cep().trim());
         endereco.setLogradouro(dto.logradouro().trim());
         endereco.setNumero(dto.numero().trim());
-        endereco.setComplemento(
-                dto.complemento() == null || dto.complemento().isBlank() ? null : dto.complemento().trim());
+        endereco.setComplemento(dto.complemento() == null || dto.complemento().isBlank() ? null : dto.complemento().trim());
         endereco.setBairro(dto.bairro().trim());
         endereco.setCidade(dto.cidade().trim());
         endereco.setEstado(dto.estado().trim().toUpperCase());
@@ -96,12 +91,12 @@ public class ClienteService {
         return new ClienteRespostaDTO(usuario.getId(), usuario.getNome(), usuario.getEmail());
     }
 
-    /** Mesma regra do CpfValidoDirective do Angular (dígitos verificadores). */
     static boolean cpfValido(String cpfComMascara) {
         String cpf = cpfComMascara.replaceAll("\\D", "");
         if (cpf.length() != 11 || cpf.matches("(\\d)\\1{10}")) {
             return false;
         }
+        
         return digito(cpf, 9) == cpf.charAt(9) - '0' && digito(cpf, 10) == cpf.charAt(10) - '0';
     }
 
@@ -110,6 +105,7 @@ public class ClienteService {
         for (int i = 0; i < base; i++) {
             soma += (cpf.charAt(i) - '0') * (base + 1 - i);
         }
+
         int resto = (soma * 10) % 11;
         return resto == 10 ? 0 : resto;
     }

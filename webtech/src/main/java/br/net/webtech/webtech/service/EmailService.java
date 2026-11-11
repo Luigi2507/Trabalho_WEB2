@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-
     private final JavaMailSender mailSender;
     private final String remetente;
 
@@ -16,7 +15,6 @@ public class EmailService {
         this.remetente = remetente;
     }
 
-    /** Envia a senha gerada. Se falhar, lança MailException (RuntimeException). */
     public void enviarSenha(String destino, String nome, String senha) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(remetente);

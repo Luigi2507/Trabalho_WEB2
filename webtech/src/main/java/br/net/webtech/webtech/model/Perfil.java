@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
  
-/** Tabela de domínio "perfil": CLIENTE ou FUNCIONARIO. */
 @Entity
 @Table(name = "perfil")
 public class Perfil {
@@ -19,13 +18,11 @@ public class Perfil {
     @Column(name = "codigo", nullable = false, unique = true, length = 20)
     private String codigo;
  
-    public Perfil() {
-    }
+    public Perfil() {}
  
     public Integer getId() {
         return id;
     }
- 
     public void setId(Integer id) {
         this.id = id;
     }
@@ -33,7 +30,6 @@ public class Perfil {
     public String getCodigo() {
         return codigo;
     }
- 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }

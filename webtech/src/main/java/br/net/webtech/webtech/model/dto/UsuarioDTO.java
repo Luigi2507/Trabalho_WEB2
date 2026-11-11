@@ -7,8 +7,7 @@ public class UsuarioDTO {
     private String perfil;
     private String cpf;
  
-    public UsuarioDTO() {
-    }
+    public UsuarioDTO() {}
  
     public UsuarioDTO(Integer id, String nome, String login, String perfil, String cpf) {
         this.id = id;
@@ -21,7 +20,6 @@ public class UsuarioDTO {
     public Integer getId() {
         return id;
     }
- 
     public void setId(Integer id) {
         this.id = id;
     }
@@ -29,7 +27,6 @@ public class UsuarioDTO {
     public String getNome() {
         return nome;
     }
- 
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -37,7 +34,6 @@ public class UsuarioDTO {
     public String getLogin() {
         return login;
     }
- 
     public void setLogin(String login) {
         this.login = login;
     }
@@ -45,7 +41,6 @@ public class UsuarioDTO {
     public String getPerfil() {
         return perfil;
     }
- 
     public void setPerfil(String perfil) {
         this.perfil = perfil;
     }  
@@ -53,7 +48,6 @@ public class UsuarioDTO {
     public String getCpf() {
         return cpf;
     }
- 
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }

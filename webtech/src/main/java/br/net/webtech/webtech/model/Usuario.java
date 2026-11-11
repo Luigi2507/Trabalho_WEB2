@@ -1,6 +1,5 @@
 package br.net.webtech.webtech.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,13 +37,11 @@ public class Usuario {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo = true;
  
-    public Usuario() {
-    }
+    public Usuario() {}
  
     public Integer getId() {
         return id;
     }
- 
     public void setId(Integer id) {
         this.id = id;
     }
@@ -52,7 +49,6 @@ public class Usuario {
     public String getNome() {
         return nome;
     }
- 
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -60,7 +56,6 @@ public class Usuario {
     public String getEmail() {
         return email;
     }
- 
     public void setEmail(String email) {
         this.email = email;
     }
@@ -68,7 +63,6 @@ public class Usuario {
     public String getSenhaHash() {
         return senhaHash;
     }
- 
     public void setSenhaHash(String senhaHash) {
         this.senhaHash = senhaHash;
     }
@@ -76,7 +70,6 @@ public class Usuario {
     public String getSalt() {
         return salt;
     }
- 
     public void setSalt(String salt) {
         this.salt = salt;
     }
@@ -84,7 +77,6 @@ public class Usuario {
     public Perfil getPerfil() {
         return perfil;
     }
- 
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
@@ -92,9 +84,7 @@ public class Usuario {
     public Boolean getAtivo() {
         return ativo;
     }
- 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
     }
 }
- 

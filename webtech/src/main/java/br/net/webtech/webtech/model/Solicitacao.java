@@ -2,7 +2,6 @@ package br.net.webtech.webtech.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -82,63 +81,138 @@ public class Solicitacao {
     @Column(name = "data_hora_finalizacao")
     private LocalDateTime dataHoraFinalizacao;
 
-    public Solicitacao() {
+    public Solicitacao() {}
+
+    public Integer getId() { 
+        return id; 
+    }
+    public void setId(Integer id) { 
+        this.id = id; 
     }
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Cliente getCliente() { 
+        return cliente; 
+    }
+    public void setCliente(Cliente cliente) { 
+        this.cliente = cliente; 
+    }
 
-    public Cliente getCliente() { return cliente; }
-    public void setCliente(Cliente cliente) { this.cliente = cliente; }
+    public CategoriaEquipamento getCategoria() { 
+        return categoria; 
+    }
+    public void setCategoria(CategoriaEquipamento categoria) { 
+        this.categoria = categoria; 
+    }
 
-    public CategoriaEquipamento getCategoria() { return categoria; }
-    public void setCategoria(CategoriaEquipamento categoria) { this.categoria = categoria; }
+    public String getDescricaoEquipamento() { 
+        return descricaoEquipamento; 
+    }
+    public void setDescricaoEquipamento(String descricaoEquipamento) { 
+        this.descricaoEquipamento = descricaoEquipamento; 
+    }
 
-    public String getDescricaoEquipamento() { return descricaoEquipamento; }
-    public void setDescricaoEquipamento(String descricaoEquipamento) { this.descricaoEquipamento = descricaoEquipamento; }
+    public String getDescricaoDefeito() { 
+        return descricaoDefeito;
+    }
+    public void setDescricaoDefeito(String descricaoDefeito) { 
+        this.descricaoDefeito = descricaoDefeito; 
+    }
 
-    public String getDescricaoDefeito() { return descricaoDefeito; }
-    public void setDescricaoDefeito(String descricaoDefeito) { this.descricaoDefeito = descricaoDefeito; }
+    public StatusSolicitacao getStatus() { 
+        return status; 
+    }
+    public void setStatus(StatusSolicitacao status) { 
+        this.status = status; 
+    }
 
-    public StatusSolicitacao getStatus() { return status; }
-    public void setStatus(StatusSolicitacao status) { this.status = status; }
+    public LocalDateTime getDataHoraAbertura() { 
+        return dataHoraAbertura; 
+    }
+    public void setDataHoraAbertura(LocalDateTime dataHoraAbertura) { 
+        this.dataHoraAbertura = dataHoraAbertura; 
+    }
 
-    public LocalDateTime getDataHoraAbertura() { return dataHoraAbertura; }
-    public void setDataHoraAbertura(LocalDateTime dataHoraAbertura) { this.dataHoraAbertura = dataHoraAbertura; }
+    public BigDecimal getValorOrcamento() { 
+        return valorOrcamento; 
+    }
+    public void setValorOrcamento(BigDecimal valorOrcamento) { 
+        this.valorOrcamento = valorOrcamento; 
+    }
 
-    public BigDecimal getValorOrcamento() { return valorOrcamento; }
-    public void setValorOrcamento(BigDecimal valorOrcamento) { this.valorOrcamento = valorOrcamento; }
+    public Funcionario getOrcamentoFuncionario() { 
+        return orcamentoFuncionario; 
+    }
+    public void setOrcamentoFuncionario(Funcionario orcamentoFuncionario) { 
+        this.orcamentoFuncionario = orcamentoFuncionario; 
+    }
 
-    public Funcionario getOrcamentoFuncionario() { return orcamentoFuncionario; }
-    public void setOrcamentoFuncionario(Funcionario orcamentoFuncionario) { this.orcamentoFuncionario = orcamentoFuncionario; }
+    public LocalDateTime getDataHoraOrcamento() { 
+        return dataHoraOrcamento; 
+    }
+    public void setDataHoraOrcamento(LocalDateTime dataHoraOrcamento) { 
+        this.dataHoraOrcamento = dataHoraOrcamento; 
+    }
 
-    public LocalDateTime getDataHoraOrcamento() { return dataHoraOrcamento; }
-    public void setDataHoraOrcamento(LocalDateTime dataHoraOrcamento) { this.dataHoraOrcamento = dataHoraOrcamento; }
+    public String getMotivoRejeicao() { 
+        return motivoRejeicao; 
+    }
+    public void setMotivoRejeicao(String motivoRejeicao) { 
+        this.motivoRejeicao = motivoRejeicao; 
+    }
 
-    public String getMotivoRejeicao() { return motivoRejeicao; }
-    public void setMotivoRejeicao(String motivoRejeicao) { this.motivoRejeicao = motivoRejeicao; }
+    public String getDescricaoManutencao() { 
+        return descricaoManutencao; 
+    }
+    public void setDescricaoManutencao(String descricaoManutencao) { 
+        this.descricaoManutencao = descricaoManutencao; 
+    }
 
-    public String getDescricaoManutencao() { return descricaoManutencao; }
-    public void setDescricaoManutencao(String descricaoManutencao) { this.descricaoManutencao = descricaoManutencao; }
+    public String getOrientacoesCliente() { 
+        return orientacoesCliente; 
+    }
+    public void setOrientacoesCliente(String orientacoesCliente) { 
+        this.orientacoesCliente = orientacoesCliente; 
+    }
 
-    public String getOrientacoesCliente() { return orientacoesCliente; }
-    public void setOrientacoesCliente(String orientacoesCliente) { this.orientacoesCliente = orientacoesCliente; }
+    public Funcionario getManutencaoFuncionario() { 
+        return manutencaoFuncionario; 
+    }
+    public void setManutencaoFuncionario(Funcionario manutencaoFuncionario) { 
+        this.manutencaoFuncionario = manutencaoFuncionario; 
+    }
 
-    public Funcionario getManutencaoFuncionario() { return manutencaoFuncionario; }
-    public void setManutencaoFuncionario(Funcionario manutencaoFuncionario) { this.manutencaoFuncionario = manutencaoFuncionario; }
+    public LocalDateTime getDataHoraManutencao() { 
+        return dataHoraManutencao; 
+    }
+    public void setDataHoraManutencao(LocalDateTime dataHoraManutencao) { 
+        this.dataHoraManutencao = dataHoraManutencao; 
+    }
 
-    public LocalDateTime getDataHoraManutencao() { return dataHoraManutencao; }
-    public void setDataHoraManutencao(LocalDateTime dataHoraManutencao) { this.dataHoraManutencao = dataHoraManutencao; }
+    public Funcionario getFuncionarioAtual() { 
+        return funcionarioAtual; 
+    }
+    public void setFuncionarioAtual(Funcionario funcionarioAtual) { 
+        this.funcionarioAtual = funcionarioAtual; 
+    }
 
-    public Funcionario getFuncionarioAtual() { return funcionarioAtual; }
-    public void setFuncionarioAtual(Funcionario funcionarioAtual) { this.funcionarioAtual = funcionarioAtual; }
+    public LocalDateTime getDataHoraPagamento() { 
+        return dataHoraPagamento;
+    }
+    public void setDataHoraPagamento(LocalDateTime dataHoraPagamento) { 
+        this.dataHoraPagamento = dataHoraPagamento; 
+    }
 
-    public LocalDateTime getDataHoraPagamento() { return dataHoraPagamento; }
-    public void setDataHoraPagamento(LocalDateTime dataHoraPagamento) { this.dataHoraPagamento = dataHoraPagamento; }
+    public Funcionario getFinalizacaoFuncionario() { 
+        return finalizacaoFuncionario; 
+    }
+    public void setFinalizacaoFuncionario(Funcionario finalizacaoFuncionario) { 
+        this.finalizacaoFuncionario = finalizacaoFuncionario; 
+    }
 
-    public Funcionario getFinalizacaoFuncionario() { return finalizacaoFuncionario; }
-    public void setFinalizacaoFuncionario(Funcionario finalizacaoFuncionario) { this.finalizacaoFuncionario = finalizacaoFuncionario; }
-
-    public LocalDateTime getDataHoraFinalizacao() { return dataHoraFinalizacao; }
-    public void setDataHoraFinalizacao(LocalDateTime dataHoraFinalizacao) { this.dataHoraFinalizacao = dataHoraFinalizacao; }
+    public LocalDateTime getDataHoraFinalizacao() { 
+        return dataHoraFinalizacao; 
+    }
+    public void setDataHoraFinalizacao(LocalDateTime dataHoraFinalizacao) { 
+        this.dataHoraFinalizacao = dataHoraFinalizacao; 
+    }
 }
