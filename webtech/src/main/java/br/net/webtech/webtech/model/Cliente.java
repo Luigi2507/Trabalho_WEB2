@@ -11,16 +11,16 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "cliente")
+@Table(name = "cliente") // o nome da tabela no bd
 
 public class Cliente {
     @Id
-    @Column(name = "usuario_id")
+    @Column(name = "usuario_id") // atributo esta relacionado com coluna usuario_id 
     private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false) // define um relacionamento de 1/p/1 com usu., EAGER faz com que o usu. seja carregado junto com o cliet / opt é obgt
     @MapsId
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id") // define a coluna utl para realizar o relac
     private Usuario usuario;
 
     @Column(name = "cpf", nullable = false, unique = true, length = 14)
@@ -29,6 +29,7 @@ public class Cliente {
     @Column(name = "telefone", nullable = false, length = 15)
     private String telefone;
 
+    // define um relacionamento de um para um com Eend
     @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;

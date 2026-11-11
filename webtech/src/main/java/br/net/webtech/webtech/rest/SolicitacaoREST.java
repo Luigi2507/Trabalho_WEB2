@@ -34,68 +34,69 @@ public class SolicitacaoREST {
         this.solicitacaoService = solicitacaoService;
     }
 
-    /** RF003 - 200 OK | 404 cliente não existe */
+    // lista solicitacao do cliente 
     @GetMapping("/clientes/{clienteId}/solicitacoes")
     public ResponseEntity<Object> listarPorCliente(@PathVariable("clienteId") Integer clienteId) {
         return executar(() -> solicitacaoService.listarPorCliente(clienteId), HttpStatus.OK);
     }
 
-    /** RF005 / RF008 / RF010 - 200 OK | 404 NOT FOUND */
+    // busca a solicitacao especifica levando em conta o cliente tbm
     @GetMapping("/solicitacoes/{id}")
     public ResponseEntity<Object> obterPorId(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId) {
         return executar(() -> solicitacaoService.obterPorId(id, clienteId), HttpStatus.OK);
     }
 
-    /** RF004 - 201 CREATED | 400 dados inválidos | 404 cliente ou categoria não existem */
+    // cria uma solicitacao de manutencao
     @PostMapping("/solicitacoes")
     public ResponseEntity<Object> inserir(@Valid @RequestBody SolicitacaoNovaDTO dto) {
         return executar(() -> solicitacaoService.criar(dto), HttpStatus.CREATED);
     }
 
-    /** RF006 - 200 OK | 404 NOT FOUND | 409 não está ORCADA */
+    // permite ao cliente aprovar o orçamento
     @PutMapping("/solicitacoes/{id}/aprovar")
     public ResponseEntity<Object> aprovar(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId) {
         return executar(() -> solicitacaoService.aprovar(id, clienteId), HttpStatus.OK);
     }
 
-    /** RF007 - 200 OK | 400 sem motivo | 404 NOT FOUND | 409 não está ORCADA */
+    // permite ao cliente rejeitar o orçamento informando o motivo
     @PutMapping("/solicitacoes/{id}/rejeitar")
     public ResponseEntity<Object> rejeitar(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId ,@Valid @RequestBody RejeicaoDTO dto) {
         return executar(() -> solicitacaoService.rejeitar(id, clienteId, dto.motivo()), HttpStatus.OK);
     }
 
-    /** RF009 - 200 OK | 404 NOT FOUND | 409 não está REJEITADA */
+    // resgatar uma solicitação que foi rejeitada
     @PutMapping("/solicitacoes/{id}/resgatar")
     public ResponseEntity<Object> resgatar(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId) {
         return executar(() -> solicitacaoService.resgatar(id, clienteId), HttpStatus.OK);
     }
 
-    /** RF010 - 200 OK | 404 NOT FOUND | 409 não está ARRUMADA */
+     // registra o pagamento de solicitação pelo cliente
     @PutMapping("/solicitacoes/{id}/pagar")
     public ResponseEntity<Object> pagar(@PathVariable("id") Integer id, @RequestParam("clienteId") Integer clienteId ) {
         return executar(() -> solicitacaoService.pagar(id, clienteId), HttpStatus.OK);
     }
 
-    /** RF011 / RF013 - 200 OK */
+    // lista solicitações, podendo filtrar por status e func.
     @GetMapping("/solicitacoes")
     public ResponseEntity<Object> listar(@RequestParam(name = "status", required = false) String status,
             @RequestParam(name = "funcionarioId", required = false) Integer funcionarioId) {
         return executar(() -> solicitacaoService.listar(status, funcionarioId), HttpStatus.OK);
     }
-
+    
+    // Busca uma solicitação para visualização do func.
     @GetMapping("/funcionario/solicitacoes/{id}")
     public ResponseEntity<Object> obterParaFuncionario(@PathVariable("id") Integer id) {
         return executar(() -> solicitacaoService.obterParaFuncionario(id), HttpStatus.OK);
     }
 
-    /** RF012 - 200 OK | 400 valor inválido | 404 | 409 não está ABERTA */
+    // Permite ao func. registrar o valor do orçamento
     @PutMapping("/solicitacoes/{id}/orcamento")
     public ResponseEntity<Object> orcar(@PathVariable("id") Integer id,
             @RequestParam("funcionarioId") Integer funcionarioId, @Valid @RequestBody OrcamentoDTO dto) {
         return executar(() -> solicitacaoService.orcar(id, funcionarioId, dto.valor()), HttpStatus.OK);
     }
 
-    /** RF014 - 200 OK | 400 | 404 | 409 estado errado ou redirecionada para outro funcionário */
+    // Registra a execução da manutenção pelo func. / recebe a descrição do serviço e as orientações
     @PutMapping("/solicitacoes/{id}/manutencao")
     public ResponseEntity<Object> manutencao(@PathVariable("id") Integer id,
             @RequestParam("funcionarioId") Integer funcionarioId, @Valid @RequestBody ManutencaoDTO dto) {
@@ -103,14 +104,14 @@ public class SolicitacaoREST {
                 HttpStatus.OK);
     }
 
-    /** RF015 - 200 OK | 400 destino igual a si mesmo | 404 | 409 */
+    // permite que um func. redirecione a solicitação para outro
     @PutMapping("/solicitacoes/{id}/redirecionar")
     public ResponseEntity<Object> redirecionar(@PathVariable("id") Integer id,
             @RequestParam("funcionarioId") Integer funcionarioId, @Valid @RequestBody RedirecionamentoDTO dto) {
         return executar(() -> solicitacaoService.redirecionar(id, funcionarioId, dto.destinoId()), HttpStatus.OK);
     }
 
-    /** RF016 - 200 OK | 404 | 409 não está PAGA */
+    // finalizar uma solicitação 
     @PutMapping("/solicitacoes/{id}/finalizar")
     public ResponseEntity<Object> finalizar(@PathVariable("id") Integer id,
             @RequestParam("funcionarioId") Integer funcionarioId) {

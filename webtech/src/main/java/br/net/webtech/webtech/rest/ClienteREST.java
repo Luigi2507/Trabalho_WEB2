@@ -28,24 +28,25 @@ public class ClienteREST {
         this.clienteService = clienteService;
     }
 
-    /** RF001 - 201 CREATED | 400 dados inválidos | 409 CONFLICT (e-mail/CPF) */
+    // cadastro de cliente
     @PostMapping("/clientes")
     public ResponseEntity<Object> inserir(@Valid @RequestBody ClienteCadastroDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.cadastrar(dto));
-        } catch (CadastroConflitoException e) {
+        } catch (CadastroConflitoException e) { //201
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("campo", e.getCampo()));
-        } catch (DataIntegrityViolationException e) {
-            // duas pessoas cadastrando o mesmo e-mail/CPF ao mesmo tempo (a UNIQUE do banco barrou)
+        } catch (DataIntegrityViolationException e) { 
+            // duas pessoas cadastrando o mesmo e-mail/CPF ao mesmo tempo 409
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("campo", "desconhecido"));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("mensagem", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("mensagem", e.getMessage())); //400
         } catch (MailException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensagem", "Não foi possível enviar a senha. Tente novamente."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensagem", "Não foi possível enviar a senha. Tente novamente.")); //500
         }
     }
 
-    /** Usado na etapa 1 do cadastro: 200 OK com { emailCadastrado, cpfCadastrado } */
+    
+    // Verifica se o CPF e o e-mail já estão cadastrados, Utilizado na primeira etapa do cadastro
     @GetMapping("/clientes/verificar")
     public ResponseEntity<Map<String, Boolean>> verificar(@RequestParam("cpf") String cpf,
             @RequestParam("email") String email) {

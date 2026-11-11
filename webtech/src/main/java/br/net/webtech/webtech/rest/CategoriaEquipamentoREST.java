@@ -30,11 +30,13 @@ public class CategoriaEquipamentoREST {
         this.categoriaService = categoriaService;
     }
 
+    // lista todas as categorias ativas
     @GetMapping("/categorias")
     public ResponseEntity<List<CategoriaEquipamento>> listarAtivas() {
         return ResponseEntity.ok(categoriaService.listarAtivas());
     }
 
+    // busca categ. por id
     @GetMapping("/categorias/{id}")
     public ResponseEntity<CategoriaEquipamento> buscarPorId(@PathVariable("id") Integer id) {
         return categoriaService.buscarPorId(id)
@@ -42,6 +44,7 @@ public class CategoriaEquipamentoREST {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // cadastrar uma categ. nova
     @PostMapping("/categorias")
     public ResponseEntity<Object> inserir(@RequestBody CategoriaEquipamento categoria) {
         if (nomeInvalido(categoria)) {
@@ -56,6 +59,7 @@ public class CategoriaEquipamentoREST {
         }
     }
 
+    // alterar uma existente pelo id
     @PutMapping("/categorias/{id}")
     public ResponseEntity<Object> alterar(@PathVariable("id") Integer id,
             @RequestBody CategoriaEquipamento categoria) {
@@ -74,6 +78,7 @@ public class CategoriaEquipamentoREST {
         }
     }
 
+    // solicita a remocao pelo id
     @DeleteMapping("/categorias/{id}")
     public ResponseEntity<Void> remover(@PathVariable("id") Integer id) {
         return categoriaService.remover(id)

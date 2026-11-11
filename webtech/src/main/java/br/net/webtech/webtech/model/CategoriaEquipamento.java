@@ -8,18 +8,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "categoria_equipamento")
+@Table(name = "categoria_equipamento") // o nome da tabela no bd
 public class CategoriaEquipamento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // // O bd vai gerar o ID automaticamente
     private Integer id;
 
     @Column(name = "nome", nullable = false, unique = true, length = 50)
     private String nome;
 
     @Column(name = "ativo", nullable = false)
-    private Boolean ativo = true;
+    private Boolean ativo = true; //nova categoria é ativa
 
     public CategoriaEquipamento() {}
 

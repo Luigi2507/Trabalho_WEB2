@@ -23,7 +23,7 @@ public class LoginREST {
  
     private final UsuarioRepository usuarioRepository;
     private final ClienteRepository clienteRepository;
-
+    //cosntrutor 
     public LoginREST(UsuarioRepository usuarioRepository, ClienteRepository clienteRepository) {
         this.usuarioRepository = usuarioRepository;
         this.clienteRepository = clienteRepository;

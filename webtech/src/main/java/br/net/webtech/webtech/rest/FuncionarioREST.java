@@ -35,12 +35,14 @@ public class FuncionarioREST {
     public FuncionarioREST(FuncionarioService funcionarioService) {
         this.funcionarioService = funcionarioService;
     }
-
+    
+    // lista os func. cadastrados
     @GetMapping("/funcionarios")
     public ResponseEntity<List<FuncionarioRespostaDTO>> listar() {
         return ResponseEntity.ok(funcionarioService.listar());
     }
 
+    // busca um func especif por id
     @GetMapping("/funcionarios/{id}")
     public ResponseEntity<Object> buscarPorId(@PathVariable("id") Integer id) {
         Optional<FuncionarioRespostaDTO> encontrado = funcionarioService.buscarPorId(id);
@@ -50,6 +52,7 @@ public class FuncionarioREST {
         return ResponseEntity.ok(encontrado.get());
     }
 
+    // cadastra um novo func
     @PostMapping("/funcionarios")
     public ResponseEntity<Object> inserir(@Valid @RequestBody FuncionarioCadastroDTO dto) {
         try {
@@ -62,6 +65,7 @@ public class FuncionarioREST {
         }
     }
  
+    // altera um dados de um func 
     @PutMapping("/funcionarios/{id}")
     public ResponseEntity<Object> alterar(@PathVariable("id") Integer id,
             @Valid @RequestBody FuncionarioCadastroDTO dto) {
@@ -78,6 +82,7 @@ public class FuncionarioREST {
         }
     }
 
+    // deleta um func
     @DeleteMapping("/funcionarios/{id}")
     public ResponseEntity<Object> remover(@PathVariable("id") Integer id,
             @RequestParam("idLogado") Integer idLogado) {

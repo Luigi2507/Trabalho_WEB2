@@ -24,10 +24,10 @@ public class Usuario {
     @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
  
-    @Column(name = "senha_hash", nullable = false, length = 64)
+    @Column(name = "senha_hash", nullable = false, length = 64) // guarda o hash da senha e não a senha org
     private String senhaHash;
  
-    @Column(name = "salt", nullable = false, length = 32)
+    @Column(name = "salt", nullable = false, length = 32) // Armazena o salt 
     private String salt;
  
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

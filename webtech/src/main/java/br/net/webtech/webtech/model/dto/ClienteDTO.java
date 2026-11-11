@@ -18,8 +18,9 @@ public record ClienteDTO(
     String estado) {
     
     public static ClienteDTO de(Cliente c) {
-        Endereco e = c.getEndereco();
+        Endereco e = c.getEndereco(); // Pega o endereço associado ao cliente.
         
+        // Cria e retorna um novo dto preenchido
         return new ClienteDTO(
                 c.getId(),
                 c.getUsuario().getNome(),

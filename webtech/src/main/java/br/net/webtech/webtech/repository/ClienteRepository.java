@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.net.webtech.webtech.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
-    boolean existsByCpf(String cpf);
+    boolean existsByCpf(String cpf); // verifica se existe o cpf já
 }

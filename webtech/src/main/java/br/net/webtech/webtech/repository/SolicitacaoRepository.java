@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Integer> {
-    List<Solicitacao> findByClienteIdOrderByDataHoraAbertura(Integer clienteId);
-    List<Solicitacao> findAllByOrderByDataHoraAberturaAsc();
-    List<Solicitacao> findByStatusCodigoOrderByDataHoraAberturaAsc(String codigo);
+    List<Solicitacao> findByClienteIdOrderByDataHoraAbertura(Integer clienteId); //busca as solic do cliente organizado pela data de abertura
+    List<Solicitacao> findAllByOrderByDataHoraAberturaAsc(); //busca as solic organizando pela data de abertura da + anriga pra + recente
+    List<Solicitacao> findByStatusCodigoOrderByDataHoraAberturaAsc(String codigo); // busca as soli. pelo cod do status
+    long countByFuncionarioAtualIdAndStatusCodigo(Integer funcionarioId, String codigo); // conta qts solic estão assoc a um hor. especifico
 
-    long countByFuncionarioAtualIdAndStatusCodigo(Integer funcionarioId, String codigo);
-
+    // Consulta JPQL p/ buscar as solicitações visiveis para determinado func.
     @Query("""
         select s from Solicitacao s
         left join s.funcionarioAtual f
