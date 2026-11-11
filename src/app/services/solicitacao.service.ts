@@ -24,7 +24,6 @@ export class SolicitacaoService {
 
    private httpClient = inject(HttpClient);
 
-   // RF003: lista do cliente (o back já devolve em ordem crescente de data/hora)
    listarPorCliente(clienteId: number): Observable<Solicitacao[] | null> {
        return this.httpClient.get<any[]>(`${this.BASE_URL}/clientes/${clienteId}/solicitacoes`, this.httpOptions).pipe(
        map((resp: HttpResponse<any[]>) =>
@@ -33,7 +32,6 @@ export class SolicitacaoService {
        );
    }
 
-   // RF005 / RF008 / RF010: uma solicitação com o histórico completo
    buscarPorId(id: number, clienteId: number): Observable<Solicitacao | null> {
        return this.httpClient.get<any>(`${this.BASE_URL}/solicitacoes/${id}?clienteId=${clienteId}`, this.httpOptions).pipe(
        map((resp: HttpResponse<any>) =>
@@ -42,7 +40,6 @@ export class SolicitacaoService {
        );
    }
 
-   // RF004: 201 CREATED
    inserir(nova: NovaSolicitacao): Observable<Solicitacao | null> {
        return this.httpClient.post<any>(`${this.BASE_URL}/solicitacoes`, JSON.stringify(nova), this.httpOptions).pipe(
        map((resp: HttpResponse<any>) =>
@@ -51,27 +48,22 @@ export class SolicitacaoService {
        );
    }
 
-   // RF006
    aprovar(id: number, clienteId: number): Observable<Solicitacao | null> {
        return this.executarAcao(id, clienteId, 'aprovar', null);
    }
 
-   // RF007
    rejeitar(id: number, clienteId: number, motivo: string): Observable<Solicitacao | null> {
        return this.executarAcao(id, clienteId, 'rejeitar', { motivo });
    }
 
-   // RF009
    resgatar(id: number, clienteId: number): Observable<Solicitacao | null> {
        return this.executarAcao(id, clienteId, 'resgatar', null);
    }
 
-   // RF010
    pagar(id: number, clienteId: number): Observable<Solicitacao | null> {
        return this.executarAcao(id, clienteId, 'pagar', null);
    }
 
-   // PUT /solicitacoes/{id}/{acao}?clienteId=X: 200 OK | 404 | 409 (a tela trata o erro)
    private executarAcao(id: number, clienteId: number, acao: string, corpo: object | null): Observable<Solicitacao | null> {
        return this.httpClient.put<any>(
        `${this.BASE_URL}/solicitacoes/${id}/${acao}?clienteId=${clienteId}`,
