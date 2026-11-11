@@ -24,7 +24,7 @@ public class SenhaREST {
         this.recuperacaoSenhaService = recuperacaoSenhaService;
     }
  
-    // eecebe a solicitação de redefinição de senha
+    // recebe a solicitação de redefinição de senha
     @PostMapping("/senha/redefinir")
     public ResponseEntity<Object> redefinir(@Valid @RequestBody RedefinirSenhaDTO dto) {
         try {

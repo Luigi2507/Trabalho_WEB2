@@ -28,7 +28,7 @@ public class ClienteREST {
         this.clienteService = clienteService;
     }
 
-    // cadastro de cliente
+    //Cadastro de cliente
     @PostMapping("/clientes")
     public ResponseEntity<Object> inserir(@Valid @RequestBody ClienteCadastroDTO dto) {
         try {
@@ -46,7 +46,7 @@ public class ClienteREST {
     }
 
     
-    // Verifica se o CPF e o e-mail já estão cadastrados, Utilizado na primeira etapa do cadastro
+    //Verificação dos campos
     @GetMapping("/clientes/verificar")
     public ResponseEntity<Map<String, Boolean>> verificar(@RequestParam("cpf") String cpf,
             @RequestParam("email") String email) {
